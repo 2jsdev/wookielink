@@ -18,6 +18,9 @@ RUN npm install prisma --save-dev
 # Copy the rest of the application files
 COPY . .
 
+# Generate Prisma Client
+RUN npx prisma generate
+
 # Expose the port that the app will run on
 EXPOSE 3000
 
