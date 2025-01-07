@@ -52,8 +52,8 @@ The project includes a `.env.example` file, detailing all necessary environment 
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/yourusername/linktree-clone.git
-   cd linktree-clone
+   git clone https://github.com/2jsdev/wookielink.git
+   cd wookielink
    ```
 
 2. **Install Dependencies**:
