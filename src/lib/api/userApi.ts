@@ -19,24 +19,42 @@ export const usersApi = appApi.injectEndpoints({
         method: 'GET',
       }),
     }),
-    getUserProfile: build.query<User, void>({
-      query: () => ({
-        url: '/users/profile',
-        method: 'GET',
-      }),
-      providesTags: (result) => [{ type: USER }],
-    }),
     getPublicProfileByUsername: build.query<User, string>({
       query: (username) => ({
         url: `/users/${username}/profile`,
         method: 'GET',
       }),
     }),
+    getUserProfile: build.query<User, void>({
+      query: () => ({
+        url: '/users/me/profile',
+        method: 'GET',
+      }),
+      providesTags: (result) => [{ type: USER }],
+    }),
     updateUserProfile: build.mutation<User, Partial<User>>({
       query: (data) => ({
-        url: '/users/profile',
+        url: '/users/me/profile',
         method: 'PUT',
         body: data,
+      }),
+      invalidatesTags: [{ type: USER }],
+    }),
+    uploadUserProfilePhoto: build.mutation<
+      { uploadedFile: { filename: string; path: string } },
+      FormData
+    >({
+      query: (formData) => ({
+        url: '/users/me/profile/photo',
+        method: 'POST',
+        body: formData,
+      }),
+      invalidatesTags: [{ type: USER }],
+    }),
+    deleteUserProfilePhoto: build.mutation<void, void>({
+      query: () => ({
+        url: '/users/me/profile/photo',
+        method: 'DELETE',
       }),
       invalidatesTags: [{ type: USER }],
     }),
@@ -45,7 +63,9 @@ export const usersApi = appApi.injectEndpoints({
 
 export const {
   useCheckUsernameAvailabilityQuery,
-  useGetUserProfileQuery,
   useGetPublicProfileByUsernameQuery,
+  useGetUserProfileQuery,
   useUpdateUserProfileMutation,
+  useUploadUserProfilePhotoMutation,
+  useDeleteUserProfilePhotoMutation,
 } = usersApi;

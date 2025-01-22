@@ -7,7 +7,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { CropModal } from './CropModal';
 import { PreviewModal } from './PreviewModal';
@@ -17,12 +16,14 @@ interface ProfilePhotoProps {
   imageUrl?: string;
   size?: number;
   onSave?: (image: string) => void;
+  onRemove?: () => void;
 }
 
 export default function ProfilePhoto({
   imageUrl,
   size = 96,
   onSave,
+  onRemove,
 }: ProfilePhotoProps) {
   const [photo, setPhoto] = useState(imageUrl);
   const [clickPosition, setClickPosition] = useState({ x: 0, y: 0 });
@@ -48,6 +49,18 @@ export default function ProfilePhoto({
   const handleUploadPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      const allowedTypes = [
+        'image/jpeg',
+        'image/png',
+        'image/gif',
+        'image/webp',
+      ];
+
+      if (!allowedTypes.includes(file.type)) {
+        alert('Only JPG, PNG, GIF, and WEBP formats are allowed.');
+        return;
+      }
+
       const reader = new FileReader();
       reader.onload = () => {
         setCropImage(reader.result as string);
@@ -62,12 +75,16 @@ export default function ProfilePhoto({
     setIsRemoveModalOpen(true);
   };
 
-  const handleRemovePhoto = () => {
-    setPhoto('');
-    if (onSave && typeof onSave === 'function') {
-      onSave('');
+  const handleRemovePhoto = async () => {
+    try {
+      if (onRemove && typeof onRemove === 'function') {
+        await onRemove();
+      }
+      setPhoto('');
+      setIsRemoveModalOpen(false);
+    } catch (error) {
+      console.error('Error removing photo:', error);
     }
-    setIsRemoveModalOpen(false);
   };
 
   const handleCropComplete = (croppedImage: string) => {

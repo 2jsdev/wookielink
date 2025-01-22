@@ -8,19 +8,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { BadgeCheck, Bell, CreditCard, LogOut, Sparkles } from 'lucide-react';
+import { BadgeCheck, CreditCard, Sparkles, UserRound } from 'lucide-react';
 import { SignOutButton } from '@/components/SignOutButton';
-
+import { useGetUserProfileQuery } from '@/lib/api/userApi';
+import { generateAvatarFallback } from '@/lib/utils';
 export default function UserMenu() {
+  const { data: userProfile } = useGetUserProfileQuery();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar className="size-8 rounded-full">
-          <AvatarImage
-            src="https://minio-api.2jsdev.me/wookielink/1737208237762-profile-photo-1737208237733.jpg"
-            alt="shadcn ui kit"
-          />
-          <AvatarFallback className="rounded-lg">TB</AvatarFallback>
+          <AvatarImage src={userProfile?.image} alt={userProfile?.name} />
+          <AvatarFallback className="rounded-full">
+            <UserRound className="w-2/3 h-2/3 text-muted-foreground" />
+          </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -30,16 +32,17 @@ export default function UserMenu() {
         <DropdownMenuLabel className="p-0 font-normal">
           <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
             <Avatar className="h-8 w-8">
-              <AvatarImage
-                src="https://minio-api.2jsdev.me/wookielink/1737208237762-profile-photo-1737208237733.jpg"
-                alt="shadcn ui kit"
-              />
-              <AvatarFallback className="rounded-full">CN</AvatarFallback>
+              <AvatarImage src={userProfile?.image} alt={userProfile?.name} />
+              <AvatarFallback className="rounded-full">
+                {generateAvatarFallback(userProfile?.name ?? 'U')}
+              </AvatarFallback>
             </Avatar>
             <div className="grid flex-1 text-left text-sm leading-tight">
-              <span className="truncate font-semibold">Jordy Morales</span>
+              <span className="truncate font-semibold">
+                {userProfile?.name}
+              </span>
               <span className="truncate text-xs text-muted-foreground">
-                dev.morales.jordy@gmail.com
+                {userProfile?.email}
               </span>
             </div>
           </div>
@@ -60,10 +63,6 @@ export default function UserMenu() {
           <DropdownMenuItem>
             <CreditCard className="me-2 size-4" />
             Billing
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Bell className="me-2 size-4" />
-            Notifications
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />

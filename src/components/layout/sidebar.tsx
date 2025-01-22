@@ -12,26 +12,23 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { UserRound } from 'lucide-react';
 import Logo from './logo';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { page_routes } from '@/lib/routes-config';
+import { useGetUserProfileQuery } from '@/lib/api/userApi';
 
 export default function Sidebar() {
   const pathname = usePathname();
   const { toggleSidebar, isMobile } = useSidebar();
+  const { data: userProfile } = useGetUserProfileQuery();
 
   useEffect(() => {
     if (isMobile) toggleSidebar();
-  }, [pathname]);
-
-  const user = {
-    username: '@2jsdev',
-    avatar:
-      'https://minio-api.2jsdev.me/wookielink/1737208237762-profile-photo-1737208237733.jpg',
-  };
+  }, [isMobile, pathname, toggleSidebar]);
 
   return (
     <SidebarContainer collapsible="icon" className="flex flex-col h-screen">
@@ -73,11 +70,13 @@ export default function Sidebar() {
       <SidebarFooter className="p-4 border-t border-gray-200 dark:border-gray-700">
         <div className="flex items-center space-x-3 group-data-[collapsible=icon]:justify-center">
           <Avatar className="w-8 h-8 shrink-0 group-data-[collapsible=icon]:w-6 group-data-[collapsible=icon]:h-6">
-            <AvatarImage src={user.avatar} alt="User avatar" />
-            <AvatarFallback className="rounded-full">CN</AvatarFallback>
+            <AvatarImage src={userProfile?.image} alt="User avatar" />
+            <AvatarFallback className="rounded-full">
+              <UserRound className="w-2/3 h-2/3 text-muted-foreground" />
+            </AvatarFallback>
           </Avatar>
           <span className="font-medium text-sm truncate group-data-[collapsible=icon]:hidden">
-            {user.username}
+            @{userProfile?.username}
           </span>
         </div>
       </SidebarFooter>

@@ -4,10 +4,12 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Clipboard, Check, ExternalLink } from 'lucide-react';
+import { Clipboard, Check, ExternalLink, UserRound } from 'lucide-react';
 import {
+  useDeleteUserProfilePhotoMutation,
   useGetUserProfileQuery,
   useUpdateUserProfileMutation,
+  useUploadUserProfilePhotoMutation,
 } from '@/lib/api/userApi';
 import EditableInput from '@/components/admin/EditableInput';
 import ProfilePhoto from '@/components/admin/profile-photo/ProfilePhoto';
@@ -15,6 +17,8 @@ import ProfilePhoto from '@/components/admin/profile-photo/ProfilePhoto';
 export default function Header() {
   const { data: userProfile, isLoading } = useGetUserProfileQuery();
   const [updateUserProfile] = useUpdateUserProfileMutation();
+  const [uploadUserProfilePhoto] = useUploadUserProfilePhotoMutation();
+  const [deleteUserProfilePhoto] = useDeleteUserProfilePhotoMutation();
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = () => {
@@ -36,25 +40,12 @@ export default function Header() {
     try {
       const blob = await fetch(image).then((res) => res.blob());
       const formData = new FormData();
-      const uniqueFilename = `profile-photo-${Date.now()}.jpg`;
       formData.append(
         'file',
-        new File([blob], uniqueFilename, { type: blob.type })
+        blob,
+        `${userProfile?.id}.${blob.type.split('/')[1]}`
       );
-
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const result = await response.json();
-
-      if (response.ok && result.uploadedFiles) {
-        const newImageUrl = `https://minio-api.2jsdev.me/${result.uploadedFiles[0].path}`;
-        await updateUserProfile({ image: newImageUrl });
-      } else {
-        console.error('Error uploading the image:', result.message);
-      }
+      await uploadUserProfilePhoto(formData);
     } catch (error) {
       console.error('Error saving profile photo:', error);
     }
@@ -69,6 +60,14 @@ export default function Header() {
   const handleSaveUsername = (username: string) => {
     if (username !== userProfile?.username) {
       updateUserProfile({ username });
+    }
+  };
+
+  const handleRemoveProfilePhoto = async () => {
+    try {
+      await deleteUserProfilePhoto();
+    } catch (error) {
+      console.error('Error removing profile photo:', error);
     }
   };
 
@@ -98,6 +97,7 @@ export default function Header() {
           imageUrl={userProfile?.image}
           size={80}
           onSave={handleSaveProfilePhoto}
+          onRemove={handleRemoveProfilePhoto}
         />
         <div className="flex flex-col">
           <EditableInput
