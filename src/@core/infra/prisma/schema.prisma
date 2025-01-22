@@ -1,5 +1,5 @@
 generator client {
-  provider      = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -39,16 +39,18 @@ model Session {
 
 model User {
   id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  password      String?
-  username      String?   @unique
-  bio           String?
-  emailVerified DateTime? @map("email_verified")
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  links         Link[]
+  name          String? // Name of the user
+  email         String?   @unique // Unique email of the user
+  password      String? // User's hashed password
+  username      String?   @unique // Unique username
+  bio           String? // User's bio or description
+  emailVerified DateTime? @map("email_verified") // Timestamp for email verification
+  image         String? // Profile image URL
+  accounts      Account[] // Accounts linked to the user
+  sessions      Session[] // Sessions linked to the user
+  links         Link[] // Links created by the user
+  themeId       String? // Reference to the selected theme
+  theme         Theme?    @relation(fields: [themeId], references: [id], onDelete: SetNull)
 
   @@map("users")
 }
@@ -64,14 +66,109 @@ model VerificationToken {
 
 model Link {
   id        String   @id @default(cuid())
-  label     String
-  url       String
-  visible   Boolean  @default(true)
-  order     Int
-  archived  Boolean  @default(false)
-  createdAt DateTime @default(now())
-  userId    String
+  label     String // Label for the link
+  url       String // URL associated with the link
+  visible   Boolean  @default(true) // Visibility status of the link
+  order     Int // Order of the link in the list
+  archived  Boolean  @default(false) // Indicates if the link is archived
+  createdAt DateTime @default(now()) // Timestamp for link creation
+  userId    String // User ID associated with the link
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("links")
+}
+
+model Theme {
+  id            String      @id @default(cuid())
+  name          String      @unique // Name of the theme
+  description   String? // Description of the theme
+  previewUrl    String // URL to preview the theme
+  isPremium     Boolean     @default(false) // Indicates if the theme is premium
+  backgroundId  String // Reference to the background configuration
+  buttonStyleId String // Reference to the button style configuration
+  fontId        String // Reference to the font configuration
+  colorsId      String // Reference to the color configuration
+  background    Background  @relation(fields: [backgroundId], references: [id], onDelete: Cascade)
+  buttonStyle   ButtonStyle @relation(fields: [buttonStyleId], references: [id], onDelete: Cascade)
+  font          Font        @relation(fields: [fontId], references: [id], onDelete: Cascade)
+  colors        ThemeColors @relation(fields: [colorsId], references: [id], onDelete: Cascade)
+  users         User[] // Users associated with this theme
+
+  createdAt DateTime @default(now()) // Timestamp for theme creation
+  updatedAt DateTime @updatedAt // Timestamp for the last theme update
+}
+
+model Background {
+  id       String         @id @default(cuid())
+  type     BackgroundType // Enum defining the type of background (e.g., FLAT, GRADIENT)
+  color    String? // HEX code for solid colors or gradients
+  gradient String? // CSS-compatible gradient definition
+  imageUrl String? // URL for an image background
+  videoUrl String? // URL for a video background
+  pattern  PatternType? // Enum for patterns (e.g., POLKA, STRIPE)
+  Theme    Theme[] // Themes using this background configuration
+}
+
+model ButtonStyle {
+  id            String         @id @default(cuid())
+  shape         ButtonShape // Enum defining the button shape (e.g., RECTANGLE, ROUNDED)
+  shadow        ShadowStyle? // Enum defining the shadow type (e.g., NONE, SOFT, HARD)
+  specialEffect SpecialEffect? // Enum for special button effects (e.g., TORN, JIGGLY)
+  buttonColor   String? // HEX code for the button color
+  fontColor     String? // HEX code for the button text color
+  shadowColor   String? // HEX code for the button shadow color
+  Theme         Theme[] // Themes using this button style configuration
+}
+
+model Font {
+  id     String  @id @default(cuid())
+  family String // Font family name (e.g., 'DM Sans')
+  color  String // HEX code for font color
+  Theme  Theme[] // Themes using this font configuration
+}
+
+model ThemeColors {
+  id         String  @id @default(cuid())
+  primary    String // Primary color
+  secondary  String? // Secondary color
+  accent     String? // Accent color
+  background String? // Background color
+  text       String? // Text color
+  Theme      Theme[] // Themes using this color configuration
+}
+
+enum BackgroundType {
+  FLAT // Solid color
+  GRADIENT // Gradient background
+  IMAGE // Image background
+  VIDEO // Video background
+}
+
+enum PatternType {
+  NONE // No pattern
+  POLKA // Polka dot pattern
+  STRIPE // Striped pattern
+  WAVES // Wave pattern
+  ZIGZAG // Zigzag pattern
+}
+
+enum ButtonShape {
+  RECTANGLE // Rectangular button
+  ROUNDED // Button with rounded corners
+  CIRCULAR // Circular button
+}
+
+enum ShadowStyle {
+  NONE // No shadow
+  SOFT // Soft shadow
+  HARD // Hard shadow
+}
+
+enum SpecialEffect {
+  NONE // No special effect
+  TORN // Torn effect
+  JIGGLY // Jiggly effect
+  FORMAL // Formal effect
+  FROST // Frost effect
+  ALTERNATING_SHAPES // Alternating shapes effect
 }
