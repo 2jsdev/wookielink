@@ -1,8 +1,8 @@
 import { injectable } from 'inversify';
 import { User } from '@/@core/domain/entities/User';
 import { IUserRepository } from '@/@core/domain/repositories/IUserRepository';
-import { UserMapper } from '../mappers/UserMapper';
-import { prisma } from '../prisma';
+import { UserMapper } from '@/@core/infra/mappers/UserMapper';
+import { prisma } from '@/@core/infra/prisma';
 
 @injectable()
 export class PrismaUserRepository implements IUserRepository {

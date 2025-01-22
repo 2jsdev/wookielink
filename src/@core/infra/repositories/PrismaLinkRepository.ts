@@ -1,8 +1,8 @@
 import { injectable } from 'inversify';
 import { ILinkRepository } from '@/@core/domain/repositories/ILinkRepository';
 import { Link } from '@/@core/domain/entities/Link';
-import { LinkMapper } from '../mappers/LinkMapper';
-import { prisma } from '../prisma';
+import { LinkMapper } from '@/@core/infra/mappers/LinkMapper';
+import { prisma } from '@/@core/infra/prisma';
 
 @injectable()
 export class PrismaLinkRepository implements ILinkRepository {

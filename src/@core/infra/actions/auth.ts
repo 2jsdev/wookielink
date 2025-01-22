@@ -6,12 +6,10 @@ import { redirect } from 'next/navigation';
 export async function googleSignIn() {
   return await signIn('google', {
     redirect: true,
-    redirectTo: '/dashboard',
+    redirectTo: '/admin',
   });
 }
 
 export async function doSignOut() {
   return await signOut({ redirect: true, redirectTo: '/' });
-  await signOut();
-  redirect('/');
 }

@@ -1,31 +1,27 @@
-'use client';
-
 import { configureStore } from '@reduxjs/toolkit';
-import rootReducer from './reducers';
-import { appApi } from '@/@core/infra/api/app';
-import rtkQueryErrorLogger from './middleware/rtkQueryErrorLogger';
-import { setupListeners } from '@reduxjs/toolkit/query';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { appApi } from '@/lib/api/app';
+import rootReducer from '@/lib/store/reducers';
 
-const reducerList = {
-  ...rootReducer,
-  [appApi.reducerPath]: appApi.reducer,
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['themeSettings'],
 };
 
-export const createStore = (preloadedState = {}) => {
-  return configureStore({
-    reducer: reducerList,
-    devTools: process.env.NODE_ENV !== 'production',
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware()
-        .concat(appApi.middleware)
-        .concat(rtkQueryErrorLogger),
-    preloadedState,
-  });
-};
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-const store = createStore();
+const store = configureStore({
+  reducer: persistedReducer,
+  devTools: process.env.NODE_ENV !== 'production',
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(appApi.middleware),
+});
 
-setupListeners(store.dispatch);
+export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

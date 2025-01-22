@@ -1,5 +1,5 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { linksApi } from '@/@core/infra/api/linksApi';
+import { linksApi } from '@/lib/api/linksApi';
 import { RootState } from '..';
 
 export type Link = {

@@ -3,7 +3,7 @@ import {
   MiddlewareAPI,
   isRejectedWithValue,
 } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
+import { toast } from '@/hooks/use-toast';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
 function isFetchBaseQueryError(error: any): error is FetchBaseQueryError {
@@ -18,12 +18,17 @@ const rtkQueryErrorLogger: Middleware =
           (action.payload.data as { message?: string })?.message ||
           'An unexpected error occurred';
 
-        toast.error(errorMessage, {
-          autoClose: 3000,
-          position: 'bottom-right',
+        toast({
+          title: 'Error',
+          description: errorMessage,
+          variant: 'destructive',
         });
       } else {
-        toast.error('An unexpected error occurred');
+        toast({
+          title: 'Error',
+          description: 'An unexpected error occurred',
+          variant: 'destructive',
+        });
       }
     }
     return next(action);

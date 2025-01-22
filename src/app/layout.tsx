@@ -1,23 +1,41 @@
-import type { Metadata } from 'next';
-import { Inter as FontSans } from 'next/font/google';
-import { cn } from '@/lib/utils';
-import { ThemeProvider } from '@/lib/providers/theme-provider';
-import { NextAuthProvider } from '@/lib/providers/session-provider';
-import { ClientProvider } from '@/lib/providers/client-provider';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import './globals.scss';
+import {
+  Inter,
+  Roboto,
+  Montserrat,
+  Poppins,
+  Overpass_Mono,
+} from 'next/font/google';
+import { Toaster } from '@/components/ui/toaster';
+import { ThemeProvider } from 'next-themes';
+import Script from 'next/script';
+import AppProviders from '@/lib/providers/app-provider';
 
-import './globals.css';
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
-const fontSans = FontSans({
+const roboto = Roboto({
   subsets: ['latin'],
-  variable: '--font-sans',
+  weight: ['400', '500', '700'],
+  variable: '--font-roboto',
 });
 
-export const metadata: Metadata = {
-  title: 'wookielink',
-  description: 'Your one link for everything',
-};
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  weight: ['400', '600'],
+  variable: '--font-montserrat',
+});
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '600'],
+  variable: '--font-poppins',
+});
+
+const overpass_mono = Overpass_Mono({
+  subsets: ['latin'],
+  weight: ['400', '600'],
+  variable: '--font-overpass-mono',
+});
 
 export default function RootLayout({
   children,
@@ -25,24 +43,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      {process.env.NODE_ENV !== 'development' ? (
+        <Script
+          async
+          src="https://analytics.umami.is/script.js"
+          data-website-id="c37edc28-ee5f-4c62-9ce3-377fa6f600a8"
+        />
+      ) : null}
       <body
-        className={cn(
-          'min-h-screen bg-background font-sans antialiased',
-          fontSans.variable
-        )}
+        className={`${inter.className} ${inter.variable} ${roboto.variable} ${montserrat.variable} ${poppins.variable} ${overpass_mono.variable}`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <NextAuthProvider>
-            <ClientProvider>{children}</ClientProvider>
-            <ToastContainer />
-          </NextAuthProvider>
+        <ThemeProvider attribute="class" enableSystem={false}>
+          <AppProviders>{children}</AppProviders>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

@@ -1,5 +1,5 @@
 import type { Config } from 'tailwindcss';
-const { fontFamily } = require('tailwindcss/defaultTheme');
+import plugin from 'tailwindcss/plugin';
 
 const config = {
   darkMode: ['class'],
@@ -13,15 +13,18 @@ const config = {
   theme: {
     container: {
       center: true,
-      padding: '2rem',
+      padding: {
+        DEFAULT: '1rem',
+        sm: '2rem',
+        lg: '4rem',
+        xl: '5rem',
+        '2xl': '6rem',
+      },
       screens: {
         '2xl': '1400px',
       },
     },
     extend: {
-      fontFamily: {
-        sans: ['var(--font-sans)', ...fontFamily.sans],
-      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -56,6 +59,19 @@ const config = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        sidebar: {
+          DEFAULT: 'hsl(var(--sidebar-background))',
+          foreground: 'hsl(var(--sidebar-foreground))',
+          primary: 'hsl(var(--sidebar-primary))',
+          'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+          accent: 'hsl(var(--sidebar-accent))',
+          'accent-hover': 'hsl(var(--sidebar-accent-hover))',
+          'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+          'accent-foreground-hover':
+            'hsl(var(--sidebar-accent-foreground-hover))',
+          border: 'hsl(var(--sidebar-border))',
+          ring: 'hsl(var(--sidebar-ring))',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -64,21 +80,54 @@ const config = {
       },
       keyframes: {
         'accordion-down': {
-          from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
+          from: {
+            height: '0',
+          },
+          to: {
+            height: 'var(--radix-accordion-content-height)',
+          },
         },
         'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
+          from: {
+            height: 'var(--radix-accordion-content-height)',
+          },
+          to: {
+            height: '0',
+          },
+        },
+        'collapsible-down': {
+          from: {
+            height: '0',
+          },
+          to: {
+            height: 'var(--radix-collapsible-content-height)',
+          },
+        },
+        'collapsible-up': {
+          from: {
+            height: 'var(--radix-collapsible-content-height)',
+          },
+          to: {
+            height: '0',
+          },
         },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'collapsible-down': 'collapsible-down 0.2s ease-out',
+        'collapsible-up': 'collapsible-up 0.2s ease-out',
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [
+    require('tailwindcss-animate'),
+    plugin(function ({ addBase }) {
+      addBase({
+        html: { fontSize: '.938rem' },
+      });
+    }),
+  ],
 } satisfies Config;
 
 export default config;

@@ -20,7 +20,6 @@ export class GetPublicProfileByUsernameUseCase {
   async execute(
     data: GetPublicProfileByUsernameDTO
   ): Promise<PublicProfileResponseDTO> {
-    // Search for the user by username
     const user = await this.userRepository.findUserByUsername(data.username);
 
     if (!user) {
@@ -29,15 +28,12 @@ export class GetPublicProfileByUsernameUseCase {
 
     const userId = UserId.create(user.id);
 
-    // Get the visible and not archived links of the user
     const links = await this.linkRepository.findLinksByUserId(
       userId.getValue()
     );
 
-    // Filter the links that are not archived and are visible
     const visibleLinks = links.filter((link) => !link.archived && link.visible);
 
-    // Map the links to return only the necessary information
     const linkDTOs = visibleLinks.map((link) => ({
       label: link.label,
       url: link.url,
@@ -45,7 +41,6 @@ export class GetPublicProfileByUsernameUseCase {
       order: link.order,
     }));
 
-    // Create the response with the public user data and the filtered links
     const response: PublicProfileResponseDTO = {
       username: user.username!,
       name: user.name!,

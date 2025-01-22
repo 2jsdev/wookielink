@@ -6,8 +6,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { ModeToggle } from '@/components/ModeToggle';
-import { useCheckUsernameAvailabilityQuery } from '@/@core/infra/api/userApi';
+import ThemeSwitch from '@/components/layout/header/theme-switch';
+import { useCheckUsernameAvailabilityQuery } from '@/lib/api/userApi';
 import { Loader } from '@/components/ui/loader';
 
 export default function LandingPage() {
@@ -61,7 +61,7 @@ export default function LandingPage() {
             <Button variant="ghost" onClick={() => handleRedirect()}>
               Sign In
             </Button>
-            <ModeToggle />
+            <ThemeSwitch />
           </div>
         </div>
       </header>

@@ -1,30 +1,26 @@
 import { FC, ReactNode, useState, useEffect } from 'react';
-import { BatteryMedium, Signal, Wifi } from 'lucide-react';
+import { Battery, Signal, Wifi } from 'lucide-react';
 
 interface PhoneMockupProps {
   children: ReactNode;
 }
 
 export const PhoneMockup: FC<PhoneMockupProps> = ({ children }) => {
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [time, setTime] = useState(new Date());
 
   useEffect(() => {
     const updateTime = () => {
-      setCurrentTime(new Date());
+      setTime(new Date());
     };
 
     const setIntervalAtStartOfNextMinute = () => {
       const now = new Date();
       const delay = 60000 - (now.getSeconds() * 1000 + now.getMilliseconds());
-
-      updateTime(); // Update immediately
+      updateTime();
 
       setTimeout(() => {
-        updateTime(); // Update at the start of the next minute
-        // Set interval to update every minute
+        updateTime();
         const intervalId = setInterval(updateTime, 60000);
-
-        // Clean up function to clear the interval
         return () => clearInterval(intervalId);
       }, delay);
     };
@@ -41,19 +37,17 @@ export const PhoneMockup: FC<PhoneMockupProps> = ({ children }) => {
   };
 
   return (
-    <div className="bg-background w-[375px] h-[812px] rounded-[60px] shadow-xl border-8 border-gray-700 flex flex-col relative overflow-hidden">
-      {/* Status Bar */}
-      <div className="flex justify-between items-center mt-4 px-6 z-10">
-        <span className="text-sm font-semibold">{formatTime(currentTime)}</span>
-        <div className="flex items-center space-x-2">
-          <Signal size={16} />
-          <Wifi size={16} />
-          <BatteryMedium size={20} />
+    <div className=" lg:w-[290px] lg:h-[calc(100vh-360px)] xl:w-[360px] xl:h-[calc(100vh-240px)] rounded-[40px] border-4 border-gray-800 flex flex-col relative overflow-y-auto overflow-hidden">
+      <div className="flex justify-between items-center mt-4 px-8 z-10">
+        <span className="text-xs font-semibold">{formatTime(time)}</span>
+        <div className="flex items-center space-x-1">
+          <Signal size={12} color="currentColor" />
+          <Wifi size={12} color="currentColor" />
+          <Battery size={12} color="currentColor" />
         </div>
       </div>
 
-      {/* Profile Content */}
-      <div className="rounded-[60px] p-6 flex-grow flex flex-col">
+      <div className="rounded-[40px] sm:rounded-[40px] md:rounded-[50px] p-4 flex-grow flex flex-col">
         {children}
       </div>
     </div>

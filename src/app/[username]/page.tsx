@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import { useGetPublicProfileByUsernameQuery } from '@/@core/infra/api/userApi';
-import UserNotFound from '@/components/dashboard/users/UserNotFound';
-import UserInfo from '@/components/dashboard/users/UserInfo';
-import LinkList from '@/components/dashboard/users/LinkList';
+import { useGetPublicProfileByUsernameQuery } from '@/lib/api/userApi';
+import UserNotFound from '@/components/admin/users/UserNotFound';
+import UserInfo from '@/components/admin/users/UserInfo';
+import LinkList from '@/components/admin/users/LinkList';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { ExternalLink } from 'lucide-react';

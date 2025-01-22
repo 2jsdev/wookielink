@@ -50,6 +50,7 @@ export async function PUT(req: Request) {
       name: data.name,
       email: data.email,
       username: data.username,
+      image: data.image,
     });
 
     return NextResponse.json(updatedUser.toPlainObject(), { status: 200 });

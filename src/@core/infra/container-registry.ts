@@ -16,10 +16,13 @@ import { RemoveLinkUseCase } from '../application/useCases/RemoveLink/RemoveLink
 import { ArchiveLinkUseCase } from '../application/useCases/ArchiveLink/ArchiveLinkUseCase';
 import { RestoreLinkUseCase } from '../application/useCases/RestoreLink/RestoreLinkUseCase';
 import { ReorderLinksUseCase } from '../application/useCases/ReorderLinks/ReorderLinksUseCase';
+import { UploadFilesUseCase } from '../application/useCases/uploadFiles/UploadFilesUseCase';
 
 import { CheckUsernameAvailabilityUseCase } from '../application/useCases/CheckUsernameAvailability/CheckUsernameAvailabilityUseCase';
 import { UpdateUserProfileUseCase } from '../application/useCases/UpdateUserProfile/UpdateUserProfileUseCase';
 import { ViewUserProfileUseCase } from '../application/useCases/ViewUserProfile/ViewUserProfileUseCase';
+
+import { MinioFileUploader } from './services/MinioFileUploader';
 
 const container = new Container();
 
@@ -52,6 +55,8 @@ container
   .bind<ViewUserProfileUseCase>('ViewUserProfileUseCase')
   .to(ViewUserProfileUseCase);
 
+container.bind<UploadFilesUseCase>('UploadFilesUseCase').to(UploadFilesUseCase);
+
 // Link interfaces to implementations
 container
   .bind<IUserRepository>('IUserRepository')
@@ -61,5 +66,8 @@ container
   .bind<ILinkRepository>('ILinkRepository')
   .to(PrismaLinkRepository)
   .inSingletonScope();
+
+// Services
+container.bind('FileUploaderService').to(MinioFileUploader).inSingletonScope();
 
 export { container };
