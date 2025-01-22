@@ -1,5 +1,6 @@
 import type { Config } from 'tailwindcss';
 import plugin from 'tailwindcss/plugin';
+import colors from 'tailwindcss/colors';
 
 const config = {
   darkMode: ['class'],
@@ -72,6 +73,11 @@ const config = {
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))',
         },
+        lightBlue: colors.sky,
+        warmGray: colors.stone,
+        trueGray: colors.neutral,
+        coolGray: colors.gray,
+        blueGray: colors.slate,
       },
       borderRadius: {
         lg: 'var(--radius)',
