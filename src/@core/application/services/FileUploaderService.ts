@@ -12,5 +12,7 @@ export interface UploadedFileResponse {
 }
 
 export interface FileUploaderService {
-  upload: (files: File[]) => Promise<UploadedFileResponse[] | undefined>;
+  upload: (file: File) => Promise<UploadedFileResponse | undefined>;
+  bulkUpload: (files: File[]) => Promise<UploadedFileResponse[] | undefined>;
+  delete: (path: string) => Promise<void>;
 }

@@ -21,7 +21,7 @@ export class UploadFilesUseCase {
       content: file.content,
     }));
 
-    const uploadedFiles = await this.fileUploaderService.upload(files);
+    const uploadedFiles = await this.fileUploaderService.bulkUpload(files);
 
     if (!uploadedFiles) {
       return undefined;

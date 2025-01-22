@@ -7,7 +7,7 @@ export type UserProps = {
   name?: string;
   email: Email;
   username?: string;
-  image?: string;
+  image?: string | null;
   links?: Link[];
 };
 
@@ -64,6 +64,14 @@ export class User {
 
   get links() {
     return this.props.links;
+  }
+
+  public updateImage(image: string) {
+    this.props.image = image;
+  }
+
+  public deleteImage() {
+    this.props.image = null;
   }
 
   public static create(props: UserProps): User {

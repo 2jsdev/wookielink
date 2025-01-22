@@ -17,6 +17,8 @@ import { ArchiveLinkUseCase } from '../application/useCases/ArchiveLink/ArchiveL
 import { RestoreLinkUseCase } from '../application/useCases/RestoreLink/RestoreLinkUseCase';
 import { ReorderLinksUseCase } from '../application/useCases/ReorderLinks/ReorderLinksUseCase';
 import { UploadFilesUseCase } from '../application/useCases/uploadFiles/UploadFilesUseCase';
+import { UploadUserProfilePhotoUseCase } from '../application/useCases/UploadUserProfilePhoto/UploadUserProfilePhotoUseCase';
+import { DeleteUserProfilePhotoUseCase } from '../application/useCases/DeleteUserProfilePhoto/DeleteUserProfilePhotoUseCase';
 
 import { CheckUsernameAvailabilityUseCase } from '../application/useCases/CheckUsernameAvailability/CheckUsernameAvailabilityUseCase';
 import { UpdateUserProfileUseCase } from '../application/useCases/UpdateUserProfile/UpdateUserProfileUseCase';
@@ -56,6 +58,14 @@ container
   .to(ViewUserProfileUseCase);
 
 container.bind<UploadFilesUseCase>('UploadFilesUseCase').to(UploadFilesUseCase);
+
+container
+  .bind<UploadUserProfilePhotoUseCase>('UploadUserProfilePhotoUseCase')
+  .to(UploadUserProfilePhotoUseCase);
+
+container
+  .bind<DeleteUserProfilePhotoUseCase>('DeleteUserProfilePhotoUseCase')
+  .to(DeleteUserProfilePhotoUseCase);
 
 // Link interfaces to implementations
 container
