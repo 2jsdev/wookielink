@@ -1,28 +1,21 @@
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 import AuthForm from '@/components/auth/AuthForm';
 
-interface AuthWrapperProps {
-  setIsSignup: (isSignup: boolean) => void;
-}
-
-function AuthWrapper({ setIsSignup }: AuthWrapperProps) {
+export default function Login() {
   const searchParams = useSearchParams();
+  const [isSignup, setIsSignup] = useState(
+    searchParams.get('state') === 'signup'
+  );
 
   useEffect(() => {
     const state = searchParams.get('state');
     setIsSignup(state === 'signup');
-  }, [searchParams, setIsSignup]);
-
-  return null;
-}
-
-export default function Login() {
-  const [isSignup, setIsSignup] = useState(false);
+  }, [searchParams]);
 
   return (
     <div className="flex min-h-screen">
@@ -34,9 +27,6 @@ export default function Login() {
         </div>
 
         <div className="flex flex-grow items-center justify-center p-8 lg:p-12">
-          <Suspense fallback={<div>Loading...</div>}>
-            <AuthWrapper setIsSignup={setIsSignup} />
-          </Suspense>
           <AuthForm isSignup={isSignup} />
         </div>
       </div>

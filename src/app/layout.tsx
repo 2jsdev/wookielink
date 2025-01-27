@@ -1,4 +1,4 @@
-import './globals.scss';
+import '@/app/globals.scss';
 import {
   Inter,
   Roboto,
