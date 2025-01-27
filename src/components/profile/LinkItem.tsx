@@ -3,7 +3,6 @@
 import { useRegisterLinkClickMutation } from '@/lib/api/linksApi';
 
 export default function LinkItem({ user, link }: { user: any; link: any }) {
-  console.log('link', link);
   const [registerLinkClick] = useRegisterLinkClickMutation();
 
   const handleClick = async () => {

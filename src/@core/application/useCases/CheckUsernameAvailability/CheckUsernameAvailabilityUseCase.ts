@@ -15,10 +15,6 @@ export class CheckUsernameAvailabilityUseCase {
       data.username
     );
 
-    if (existingUser) {
-      throw new ValidationError('Username is already taken.');
-    }
-
-    return true;
+    return !existingUser;
   }
 }

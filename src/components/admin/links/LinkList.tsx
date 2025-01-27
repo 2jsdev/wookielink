@@ -38,18 +38,17 @@ const LinkList = () => {
     <div>
       {viewArchived ? (
         <div>
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center mb-4 relative">
             <button
               onClick={() => setViewArchived(false)}
               className="flex items-center space-x-2 text-sm sm:text-base md:text-lg"
             >
-              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+              <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5" />
               <span>Back</span>
             </button>
-            <h2 className="text-center flex-1 text-sm sm:text-base md:text-lg font-semibold">
+            <h2 className="absolute left-1/2 transform -translate-x-1/2 text-sm sm:text-base md:text-lg font-semibold">
               Archived Links
             </h2>
-            <div className="w-20"></div>
           </div>
           <div className="space-y-4">
             {archivedLinks.map((link) => (
@@ -59,18 +58,19 @@ const LinkList = () => {
         </div>
       ) : (
         <div>
-          <div className="flex justify-between items-center mb-4">
-            <div className="w-20"></div>
-            <h2 className="text-center flex-1 text-sm sm:text-base md:text-lg font-semibold">
+          <div className="flex items-center justify-between mb-4 relative">
+            <h2 className="absolute left-1/2 transform -translate-x-1/2 text-sm sm:text-base md:text-lg font-semibold">
               Your Links
             </h2>
             <button
               onClick={() => setViewArchived(true)}
-              className="self-end flex items-center justify-center space-x-1 sm:space-x-2 text-sm sm:text-base md:text-lg"
+              className="ml-auto flex items-center space-x-1 sm:space-x-2 text-sm sm:text-base md:text-lg"
             >
-              <Archive className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
-              <span>View Archived</span>
-              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+              <Archive className="hidden sm:block w-4 h-4 md:w-5 md:h-5" />
+              <span className="text-sm sm:text-base md:text-lg">
+                View Archived
+              </span>
+              <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5" />
             </button>
           </div>
 

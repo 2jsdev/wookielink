@@ -1,7 +1,6 @@
 import LinkItem from './LinkItem';
 
 export default function LinkList({ links }: { links: any[] }) {
-  console.log('links', links);
   return (
     <div className="space-y-3 w-full">
       {links.map((link) => (

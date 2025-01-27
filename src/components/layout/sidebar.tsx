@@ -1,5 +1,3 @@
-'use client';
-
 import Icon from '@/components/icon';
 import {
   Sidebar as SidebarContainer,
@@ -9,26 +7,19 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from '@/components/ui/sidebar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { UserRound } from 'lucide-react';
 import Logo from './logo';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { page_routes } from '@/lib/routes-config';
 import { useGetUserProfileQuery } from '@/lib/api/userApi';
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const { toggleSidebar, isMobile } = useSidebar();
   const { data: userProfile } = useGetUserProfileQuery();
-
-  useEffect(() => {
-    if (isMobile) toggleSidebar();
-  }, [isMobile, pathname, toggleSidebar]);
 
   return (
     <SidebarContainer collapsible="icon" className="flex flex-col h-screen">
