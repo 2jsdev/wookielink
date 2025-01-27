@@ -11,7 +11,6 @@ export class GetUserLifetimeMetricsUseCase {
   ) {}
 
   async execute(userId: string): Promise<GetUserLifetimeMetricsResponse> {
-    console.log('GetUserLifetimeMetricsUseCase', userId);
     const userIdValue = UserId.create(userId);
 
     const metrics = await this.userRepository.getLifetimeMetrics(

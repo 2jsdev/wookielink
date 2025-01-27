@@ -62,7 +62,6 @@ export class PrismaUserRepository implements IUserRepository {
       const metrics = await prisma.userMetrics.findUnique({
         where: { userId },
       });
-      console.log('metrics', metrics);
 
       if (!metrics) {
         return { views: 0, clicks: 0, clickRate: 0 };

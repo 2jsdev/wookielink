@@ -45,7 +45,10 @@ export default function MobilePreview() {
                 @{userProfile?.username}
               </h2>
               <div className="w-full space-y-2">
-                <LinkList links={visibleLinks || []} />
+                <LinkList
+                  links={visibleLinks || []}
+                  userProfile={userProfile}
+                />
               </div>
             </>
           )}

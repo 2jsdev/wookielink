@@ -40,7 +40,7 @@ export default function UserPublicProfilePage({
     <>
       <div className="flex flex-col items-center w-full max-w-md mx-auto pt-12 px-4 pb-32">
         <UserInfo userProfile={userProfile} />
-        <LinkList links={userProfile.links || []} />
+        <LinkList links={userProfile.links || []} userProfile={userProfile} />
       </div>
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background via-background/80 to-transparent">
         <div className="max-w-md mx-auto flex flex-col items-center">
