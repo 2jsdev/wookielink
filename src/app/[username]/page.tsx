@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { useGetPublicProfileByUsernameQuery } from '@/lib/api/userApi';
-import UserNotFound from '@/components/admin/users/UserNotFound';
-import UserInfo from '@/components/admin/users/UserInfo';
-import LinkList from '@/components/admin/users/LinkList';
+import UserNotFound from '@/components/profile/UserNotFound';
+import UserInfo from '@/components/profile/UserInfo';
+import LinkList from '@/components/profile/LinkList';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { ExternalLink } from 'lucide-react';

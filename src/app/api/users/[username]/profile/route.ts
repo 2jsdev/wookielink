@@ -18,6 +18,19 @@ export async function GET(
       );
     }
 
+    const getPublicProfileByUsernameUseCase =
+      container.get<GetPublicProfileByUsernameUseCase>(
+        'GetPublicProfileByUsernameUseCase'
+      );
+
+    const profile = await getPublicProfileByUsernameUseCase.execute({
+      username,
+    });
+
+    if (!profile) {
+      return NextResponse.json({ message: 'User not found' }, { status: 404 });
+    }
+
     const userIP =
       request.headers.get('X-User-IP') || request.ip || '127.0.0.1';
     const userScreenResolution = request.headers.get(
@@ -28,15 +41,6 @@ export async function GET(
     console.log(geoData);
 
     const user = userAgent(request);
-
-    const getPublicProfileByUsernameUseCase =
-      container.get<GetPublicProfileByUsernameUseCase>(
-        'GetPublicProfileByUsernameUseCase'
-      );
-
-    const profile = await getPublicProfileByUsernameUseCase.execute({
-      username,
-    });
 
     const registerPageViewUseCase = container.get<RegisterPageViewUseCase>(
       'RegisterPageViewUseCase'
