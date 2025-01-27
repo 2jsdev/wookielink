@@ -23,11 +23,11 @@ export default function SimpleLayout({
         height={2}
         shadow="none"
       />
-      <div className="flex h-screen bg-base-200">
+      <div className="flex h-screen">
         <Sidebar />
         <div className="flex flex-1 flex-col">
           <Header />
-          <div className="flex flex-1 overflow-hidden">
+          <div className="flex flex-1 overflow-y-auto scrollbar-hidden">
             <main className="flex-1 p-4">
               <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div

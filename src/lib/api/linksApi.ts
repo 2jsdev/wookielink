@@ -66,6 +66,15 @@ export const linksApi = appApi.injectEndpoints({
       }),
       invalidatesTags: [LINK],
     }),
+    registerLinkClick: build.mutation<void, { linkId: string; userId: string }>(
+      {
+        query: ({ linkId, userId }) => ({
+          url: `/links/${linkId}/click`,
+          method: 'POST',
+          body: { userId },
+        }),
+      }
+    ),
   }),
 });
 
@@ -77,4 +86,5 @@ export const {
   useArchiveLinkMutation,
   useRestoreLinkMutation,
   useReorderLinksMutation,
+  useRegisterLinkClickMutation,
 } = linksApi;

@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["views"]
 }
 
 datasource db {
@@ -13,15 +14,14 @@ model Account {
   type              String
   provider          String
   providerAccountId String  @map("provider_account_id")
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@map("accounts")
@@ -38,19 +38,21 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String? // Name of the user
-  email         String?   @unique // Unique email of the user
-  password      String? // User's hashed password
-  username      String?   @unique // Unique username
-  bio           String? // User's bio or description
-  emailVerified DateTime? @map("email_verified") // Timestamp for email verification
-  image         String? // Profile image URL
-  accounts      Account[] // Accounts linked to the user
-  sessions      Session[] // Sessions linked to the user
-  links         Link[] // Links created by the user
-  themeId       String? // Reference to the selected theme
-  theme         Theme?    @relation(fields: [themeId], references: [id], onDelete: SetNull)
+  id               String            @id @default(cuid())
+  name             String?
+  email            String?           @unique
+  password         String?
+  username         String?           @unique
+  emailVerified    DateTime?         @map("email_verified")
+  image            String?
+  bio              String?
+  themeId          String?
+  accounts         Account[]
+  linkInteractions LinkInteraction[]
+  links            Link[]
+  pageViews        PageView[]
+  sessions         Session[]
+  theme            Theme?            @relation(fields: [themeId], references: [id])
 
   @@map("users")
 }
@@ -65,110 +67,165 @@ model VerificationToken {
 }
 
 model Link {
-  id        String   @id @default(cuid())
-  label     String // Label for the link
-  url       String // URL associated with the link
-  visible   Boolean  @default(true) // Visibility status of the link
-  order     Int // Order of the link in the list
-  archived  Boolean  @default(false) // Indicates if the link is archived
-  createdAt DateTime @default(now()) // Timestamp for link creation
-  userId    String // User ID associated with the link
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id               String            @id @default(cuid())
+  label            String
+  url              String
+  visible          Boolean           @default(true)
+  order            Int
+  archived         Boolean           @default(false)
+  createdAt        DateTime          @default(now())
+  userId           String
+  linkInteractions LinkInteraction[]
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("links")
 }
 
+model PageView {
+  id        String   @id @default(cuid())
+  userId    String
+  ip        String
+  city      String?
+  region    String?
+  country   String?
+  userAgent String
+  os        String?
+  browser   String?
+  screen    String?
+  viewedAt  DateTime @default(now())
+  loc       String?
+  org       String?
+  referrer  String?
+  timezone  String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("page_views")
+}
+
+model LinkInteraction {
+  id           String   @id @default(cuid())
+  linkId       String
+  userId       String
+  ip           String
+  city         String?
+  region       String?
+  country      String?
+  userAgent    String
+  os           String?
+  browser      String?
+  screen       String?
+  interactedAt DateTime @default(now())
+  loc          String?
+  org          String?
+  timezone     String?
+  link         Link     @relation(fields: [linkId], references: [id], onDelete: Cascade)
+  User         User     @relation(fields: [userId], references: [id])
+
+  @@map("link_interactions")
+}
+
 model Theme {
   id            String      @id @default(cuid())
-  name          String      @unique // Name of the theme
-  description   String? // Description of the theme
-  previewUrl    String // URL to preview the theme
-  isPremium     Boolean     @default(false) // Indicates if the theme is premium
-  backgroundId  String // Reference to the background configuration
-  buttonStyleId String // Reference to the button style configuration
-  fontId        String // Reference to the font configuration
-  colorsId      String // Reference to the color configuration
+  name          String      @unique
+  description   String?
+  previewUrl    String
+  isPremium     Boolean     @default(false)
+  backgroundId  String
+  buttonStyleId String
+  fontId        String
+  colorsId      String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
   background    Background  @relation(fields: [backgroundId], references: [id], onDelete: Cascade)
   buttonStyle   ButtonStyle @relation(fields: [buttonStyleId], references: [id], onDelete: Cascade)
-  font          Font        @relation(fields: [fontId], references: [id], onDelete: Cascade)
   colors        ThemeColors @relation(fields: [colorsId], references: [id], onDelete: Cascade)
-  users         User[] // Users associated with this theme
-
-  createdAt DateTime @default(now()) // Timestamp for theme creation
-  updatedAt DateTime @updatedAt // Timestamp for the last theme update
+  font          Font        @relation(fields: [fontId], references: [id], onDelete: Cascade)
+  users         User[]
 }
 
 model Background {
   id       String         @id @default(cuid())
-  type     BackgroundType // Enum defining the type of background (e.g., FLAT, GRADIENT)
-  color    String? // HEX code for solid colors or gradients
-  gradient String? // CSS-compatible gradient definition
-  imageUrl String? // URL for an image background
-  videoUrl String? // URL for a video background
-  pattern  PatternType? // Enum for patterns (e.g., POLKA, STRIPE)
-  Theme    Theme[] // Themes using this background configuration
+  type     BackgroundType
+  color    String?
+  gradient String?
+  imageUrl String?
+  videoUrl String?
+  pattern  PatternType?
+  Theme    Theme[]
 }
 
 model ButtonStyle {
   id            String         @id @default(cuid())
-  shape         ButtonShape // Enum defining the button shape (e.g., RECTANGLE, ROUNDED)
-  shadow        ShadowStyle? // Enum defining the shadow type (e.g., NONE, SOFT, HARD)
-  specialEffect SpecialEffect? // Enum for special button effects (e.g., TORN, JIGGLY)
-  buttonColor   String? // HEX code for the button color
-  fontColor     String? // HEX code for the button text color
-  shadowColor   String? // HEX code for the button shadow color
-  Theme         Theme[] // Themes using this button style configuration
+  shape         ButtonShape
+  shadow        ShadowStyle?
+  specialEffect SpecialEffect?
+  buttonColor   String?
+  fontColor     String?
+  shadowColor   String?
+  Theme         Theme[]
 }
 
 model Font {
   id     String  @id @default(cuid())
-  family String // Font family name (e.g., 'DM Sans')
-  color  String // HEX code for font color
-  Theme  Theme[] // Themes using this font configuration
+  family String
+  color  String
+  Theme  Theme[]
 }
 
 model ThemeColors {
   id         String  @id @default(cuid())
-  primary    String // Primary color
-  secondary  String? // Secondary color
-  accent     String? // Accent color
-  background String? // Background color
-  text       String? // Text color
-  Theme      Theme[] // Themes using this color configuration
+  primary    String
+  secondary  String?
+  accent     String?
+  background String?
+  text       String?
+  Theme      Theme[]
+}
+
+/// The underlying view does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+view UserMetrics {
+  userId    String @map("user_id")
+  views     Int
+  clicks    Int
+  clickRate Float @map("click_rate")
+
+  @@unique([userId])
+
+  @@map("user_metrics")
 }
 
 enum BackgroundType {
-  FLAT // Solid color
-  GRADIENT // Gradient background
-  IMAGE // Image background
-  VIDEO // Video background
+  FLAT
+  GRADIENT
+  IMAGE
+  VIDEO
 }
 
 enum PatternType {
-  NONE // No pattern
-  POLKA // Polka dot pattern
-  STRIPE // Striped pattern
-  WAVES // Wave pattern
-  ZIGZAG // Zigzag pattern
+  NONE
+  POLKA
+  STRIPE
+  WAVES
+  ZIGZAG
 }
 
 enum ButtonShape {
-  RECTANGLE // Rectangular button
-  ROUNDED // Button with rounded corners
-  CIRCULAR // Circular button
+  RECTANGLE
+  ROUNDED
+  CIRCULAR
 }
 
 enum ShadowStyle {
-  NONE // No shadow
-  SOFT // Soft shadow
-  HARD // Hard shadow
+  NONE
+  SOFT
+  HARD
 }
 
 enum SpecialEffect {
-  NONE // No special effect
-  TORN // Torn effect
-  JIGGLY // Jiggly effect
-  FORMAL // Formal effect
-  FROST // Frost effect
-  ALTERNATING_SHAPES // Alternating shapes effect
+  NONE
+  TORN
+  JIGGLY
+  FORMAL
+  FROST
+  ALTERNATING_SHAPES
 }

@@ -1,10 +1,11 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse, userAgent } from 'next/server';
 import { container } from '@/@core/infra/container-registry';
 import { GetPublicProfileByUsernameUseCase } from '@/@core/application/useCases/GetPublicProfileByUsername/GetPublicProfileByUsernameUseCase';
+import { RegisterPageViewUseCase } from '@/@core/application/useCases/RegisterPageView/RegisterPageViewUseCase';
 import { ValidationError } from '@/@core/domain/errors/ValidationError';
 
 export async function GET(
-  req: Request,
+  request: NextRequest,
   { params }: { params: { username: string } }
 ) {
   try {
@@ -17,6 +18,17 @@ export async function GET(
       );
     }
 
+    const userIP =
+      request.headers.get('X-User-IP') || request.ip || '127.0.0.1';
+    const userScreenResolution = request.headers.get(
+      'X-User-Screen-Resolution'
+    );
+    const geoDataResponse = await fetch(`https://ipinfo.io/${userIP}/json`);
+    const geoData = await geoDataResponse.json();
+    console.log(geoData);
+
+    const user = userAgent(request);
+
     const getPublicProfileByUsernameUseCase =
       container.get<GetPublicProfileByUsernameUseCase>(
         'GetPublicProfileByUsernameUseCase'
@@ -26,6 +38,22 @@ export async function GET(
       username,
     });
 
+    const registerPageViewUseCase = container.get<RegisterPageViewUseCase>(
+      'RegisterPageViewUseCase'
+    );
+
+    await registerPageViewUseCase.execute({
+      userId: profile.id,
+      ip: userIP,
+      city: geoData.city || 'Unknown',
+      region: geoData.region || 'Unknown',
+      country: geoData.country || 'Unknown',
+      userAgent: user.ua || 'Unknown',
+      os: user.os.name || 'Unknown',
+      browser: user.browser.name || 'Unknown',
+      screen: userScreenResolution || 'Unknown',
+    });
+
     return NextResponse.json(profile, { status: 200 });
   } catch (error) {
     if (error instanceof ValidationError) {
@@ -33,7 +61,7 @@ export async function GET(
     }
 
     return NextResponse.json(
-      { message: 'Failed to fetch user profile' },
+      { message: 'Failed to fetch user profile or create page view' },
       { status: 500 }
     );
   }

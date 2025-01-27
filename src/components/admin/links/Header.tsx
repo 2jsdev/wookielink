@@ -43,7 +43,7 @@ export default function Header() {
       formData.append(
         'file',
         blob,
-        `${userProfile?.id}.${blob.type.split('/')[1]}`
+        `${Date.now()}-${userProfile?.id}.${blob.type.split('/')[1]}`
       );
       await uploadUserProfilePhoto(formData);
     } catch (error) {

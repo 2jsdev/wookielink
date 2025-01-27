@@ -58,6 +58,34 @@ export const usersApi = appApi.injectEndpoints({
       }),
       invalidatesTags: [{ type: USER }],
     }),
+    getAnalyticsByTab: build.query<
+      {
+        country?: string;
+        city?: string;
+        pageViews: number;
+        clicks: number;
+        clickRate: string;
+      }[],
+      { tab: 'country' | 'city' }
+    >({
+      query: ({ tab }) => ({
+        url: `/users/me/analytics?tab=${tab}`,
+        method: 'GET',
+      }),
+      providesTags: (result, error, { tab }) => [
+        { type: USER, id: `Analytics-${tab}` },
+      ],
+    }),
+    getUserLifetimeMetrics: build.query<
+      { views: number; clicks: number; clickRate: string },
+      void
+    >({
+      query: () => ({
+        url: '/users/me/metrics',
+        method: 'GET',
+      }),
+      providesTags: (result) => [{ type: USER, id: 'LifetimeMetrics' }],
+    }),
   }),
 });
 
@@ -68,4 +96,6 @@ export const {
   useUpdateUserProfileMutation,
   useUploadUserProfilePhotoMutation,
   useDeleteUserProfilePhotoMutation,
+  useGetAnalyticsByTabQuery,
+  useGetUserLifetimeMetricsQuery,
 } = usersApi;

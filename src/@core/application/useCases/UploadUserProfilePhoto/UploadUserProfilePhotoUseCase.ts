@@ -35,11 +35,18 @@ export class UploadUserProfilePhotoUseCase {
 
     // Check if the user already has a profile photo
     if (existingUser.props.image) {
-      try {
-        await this.fileUploaderService.delete(existingUser.props.image);
-      } catch (error) {
-        console.error('Failed to delete existing profile photo:', error);
-        throw new ValidationError('Failed to delete existing profile photo.');
+      const isFromMinIO = existingUser.props.image.startsWith(
+        process.env.MINIO_SERVER_URL || ''
+      );
+
+      if (isFromMinIO) {
+        try {
+          // Delete the existing photo from MinIO
+          await this.fileUploaderService.delete(existingUser.props.image);
+        } catch (error) {
+          console.error('Failed to delete existing profile photo:', error);
+          throw new ValidationError('Failed to delete existing profile photo.');
+        }
       }
     }
 

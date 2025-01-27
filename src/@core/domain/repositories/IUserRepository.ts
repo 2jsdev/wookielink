@@ -7,4 +7,9 @@ export interface IUserRepository {
   createUser(user: User): Promise<User>;
   updateUser(user: User): Promise<User>;
   deleteUser(user: User): Promise<void>;
+  getLifetimeMetrics(userId: string): Promise<{
+    views: number;
+    clicks: number;
+    clickRate: number;
+  }>;
 }

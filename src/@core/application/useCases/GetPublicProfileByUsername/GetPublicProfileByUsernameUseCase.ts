@@ -35,6 +35,7 @@ export class GetPublicProfileByUsernameUseCase {
     const visibleLinks = links.filter((link) => !link.archived && link.visible);
 
     const linkDTOs = visibleLinks.map((link) => ({
+      id: link.id || '',
       label: link.label,
       url: link.url,
       visible: link.visible,
@@ -42,6 +43,7 @@ export class GetPublicProfileByUsernameUseCase {
     }));
 
     const response: PublicProfileResponseDTO = {
+      id: userId.getValue(),
       username: user.username!,
       name: user.name!,
       image: user.image!,
