@@ -37,7 +37,7 @@ export const PhoneMockup: FC<PhoneMockupProps> = ({ children }) => {
   };
 
   return (
-    <div className=" lg:w-[290px] lg:h-[calc(100vh-360px)] xl:w-[360px] xl:h-[calc(100vh-240px)] rounded-[40px] border-4 border-gray-800 flex flex-col relative overflow-y-auto overflow-hidden">
+    <div className="relative p-2 shadow-[0_2.75rem_5.5rem_-3.5rem_rgb(45_55_75_/_20%),_0_2rem_4rem_-2rem_rgb(45_55_75_/_30%),_inset_0_-0.1875rem_0.3125rem_0_rgb(45_55_75_/_20%)] dark:shadow-[0_2.75rem_5.5rem_-3.5rem_rgb(0_0_0_/_20%),_0_2rem_4rem_-2rem_rgb(0_0_0_/_30%),_inset_0_-0.1875rem_0.3125rem_0_rgb(0_0_0_/_20%)] rounded-[2.5rem] border dark:border-gray-700 overflow-hidden w-[320px] h-[600px] mx-auto">
       <div className="flex justify-between items-center mt-4 px-8 z-10">
         <span className="text-xs font-semibold">{formatTime(time)}</span>
         <div className="flex items-center space-x-1">
@@ -46,10 +46,7 @@ export const PhoneMockup: FC<PhoneMockupProps> = ({ children }) => {
           <Battery size={12} color="currentColor" />
         </div>
       </div>
-
-      <div className="rounded-[40px] sm:rounded-[40px] md:rounded-[50px] p-4 flex-grow flex flex-col">
-        {children}
-      </div>
+      <div className="p-4">{children}</div>
     </div>
   );
 };

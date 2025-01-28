@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 type LogoProps = {
@@ -7,15 +8,19 @@ type LogoProps = {
 export default function Logo({ className }: LogoProps) {
   return (
     <Link href="/" className={className}>
-      <img
+      <Image
         src="/wookie.png"
         className="hidden w-6 dark:block"
         alt="wookieLink light logo"
+        width={24}
+        height={34}
       />
-      <img
+      <Image
         src="/wookie.png"
         className="block w-6 dark:hidden"
         alt="wookieLink logo"
+        width={24}
+        height={34}
       />
     </Link>
   );

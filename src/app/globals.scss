@@ -115,3 +115,7 @@
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--primary-foreground));
 }
+
+html {
+  scroll-behavior: smooth;
+}
