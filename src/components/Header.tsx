@@ -9,6 +9,7 @@ import ThemeSwitch from '@/components/layout/header/theme-switch';
 import { useRouter } from 'next/navigation';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Menu } from 'lucide-react';
+import { homeSections } from '@/config/homeSections';
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -40,7 +41,7 @@ export function Header() {
   };
 
   const handleScrollToSection = (id: string) => {
-    const section = document.querySelector(id);
+    const section = document.querySelector(`#${id}`);
     if (section) {
       const yOffset = -80;
       const yPosition =
@@ -52,24 +53,17 @@ export function Header() {
 
   const NavItems = () => (
     <>
-      <button
-        onClick={() => handleScrollToSection('#features')}
-        className="text-sm sm:text-base font-medium hover:text-purple-500 transition-colors"
-      >
-        Features
-      </button>
-      <button
-        onClick={() => handleScrollToSection('#pricing')}
-        className="text-sm sm:text-base font-medium hover:text-purple-500 transition-colors"
-      >
-        Pricing
-      </button>
-      <button
-        onClick={() => handleScrollToSection('#faq')}
-        className="text-sm sm:text-base font-medium hover:text-purple-500 transition-colors"
-      >
-        FAQ
-      </button>
+      {homeSections
+        .filter((section) => section.showInNav)
+        .map((section) => (
+          <button
+            key={section.id}
+            onClick={() => handleScrollToSection(section.id)}
+            className="text-sm sm:text-base font-medium hover:text-purple-500 transition-colors"
+          >
+            {section.label}
+          </button>
+        ))}
     </>
   );
 

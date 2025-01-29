@@ -54,7 +54,10 @@ export function Hero() {
     !data?.isAvailable || isLoading || isError || !username;
 
   return (
-    <section className="flex flex-col justify-center items-center h-screen px-6 text-center relative">
+    <section
+      id="hero"
+      className="flex flex-col justify-center items-center h-screen px-6 text-center relative"
+    >
       <div className="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center gap-12">
         <DynamicMockPhone />
 
@@ -120,9 +123,9 @@ export function Hero() {
                   </div>
                   {username && !isLoading && data && (
                     <p
-                      className={`absolute top-full mt-1 text-sm ${
-                        data.isAvailable ? 'text-green-400' : 'text-red-400'
-                      }`}
+                      className={`absolute top-full mt-1 text-sm
+                        ${data.isAvailable ? 'text-green-400' : 'text-red-400'}
+                      `}
                     >
                       {data.isAvailable
                         ? 'Username is available'
