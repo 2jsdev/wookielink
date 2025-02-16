@@ -1,7 +1,8 @@
 import { cookies } from 'next/headers';
-
-import PreviewLayout from '@/components/preview-layout';
 import { SidebarProvider } from '@/components/ui/sidebar';
+import Sidebar from '@/components/admin/sidebar';
+import Header from '@/components/admin/header';
+import PreviewLayout from '@/components/preview-layout';
 
 export default async function AuthLayout({
   children,
@@ -15,7 +16,13 @@ export default async function AuthLayout({
     <SidebarProvider
       defaultOpen={cookieStoreValue ? JSON.parse(cookieStoreValue) : true}
     >
-      <PreviewLayout>{children}</PreviewLayout>
+      <div className="flex h-screen w-full">
+        <Sidebar />
+        <div className="flex flex-1 flex-col min-w-0">
+          <Header />
+          <PreviewLayout>{children}</PreviewLayout>
+        </div>
+      </div>
     </SidebarProvider>
   );
 }

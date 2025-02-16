@@ -28,7 +28,7 @@ export function generateMeta({
     description: description,
     metadataBase: new URL(`${process.env.BASE_URL}`),
     alternates: {
-      canonical: `/admin${canonical}`,
+      canonical: `/dashboard${canonical}`,
     },
     openGraph: {
       images: [`${process.env.DASHBOARD_BASE_URL}/seo.jpg`],

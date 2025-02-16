@@ -1,20 +1,15 @@
 'use client';
 
-import {
-  selectInitialThemeSettings,
-  themeColors,
-} from '@/lib/store/slices/themeSettingsSlice';
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import useThemeSettingsStore, { themeColors } from '@/store/themeSettingsStore';
 
 export default function ThemeSettingsProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { themeColor, fontFamily, roundedCorner, direction } = useSelector(
-    selectInitialThemeSettings
-  );
+  const { themeColor, fontFamily, roundedCorner, direction } =
+    useThemeSettingsStore();
 
   useEffect(() => {
     if (themeColor === 'default') {

@@ -1,8 +1,5 @@
-import NextAuth from 'next-auth';
+import { auth } from '@core/shared/infrastructure/services/auth';
 import { NextResponse } from 'next/server';
-import { authConfig } from '@/@core/infra/auth';
-
-const { auth } = NextAuth(authConfig);
 
 export const LOGIN_ROUTE = '/login';
 export const ADMIN_DASHBOARD = '/admin';

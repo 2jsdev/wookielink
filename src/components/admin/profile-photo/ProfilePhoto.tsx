@@ -13,7 +13,7 @@ import { PreviewModal } from './PreviewModal';
 import { RemoveModal } from './RemoveModal';
 
 interface ProfilePhotoProps {
-  imageUrl?: string;
+  imageUrl?: string | null;
   size?: number;
   onSave?: (image: string) => void;
   onRemove?: () => void;
@@ -31,12 +31,13 @@ export default function ProfilePhoto({
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
   const [cropImage, setCropImage] = useState<string | null>(null);
+  const [isCropModalOpen, setIsCropModalOpen] = useState(false);
 
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     setClickPosition({
-      x: e.clientX - rect.left - 90,
-      y: e.clientY - rect.top - 200,
+      x: e.clientX - rect.left - 40,
+      y: e.clientY - rect.top - 80,
     });
     setIsOpen(true);
   };
@@ -64,6 +65,7 @@ export default function ProfilePhoto({
       const reader = new FileReader();
       reader.onload = () => {
         setCropImage(reader.result as string);
+        setIsCropModalOpen(true);
       };
       reader.readAsDataURL(file);
     }
@@ -80,7 +82,7 @@ export default function ProfilePhoto({
       if (onRemove && typeof onRemove === 'function') {
         await onRemove();
       }
-      setPhoto('');
+      setPhoto(null);
       setIsRemoveModalOpen(false);
     } catch (error) {
       console.error('Error removing photo:', error);
@@ -105,7 +107,7 @@ export default function ProfilePhoto({
             onClick={handleClick}
           >
             <Avatar className="w-full h-full bg-muted">
-              <AvatarImage src={photo} alt="Profile photo" />
+              <AvatarImage src={photo || undefined} alt="Profile photo" />
               <AvatarFallback>
                 <UserRound className="w-2/3 h-2/3 text-muted-foreground" />
               </AvatarFallback>
@@ -130,6 +132,7 @@ export default function ProfilePhoto({
             position: 'absolute',
             left: `${clickPosition.x}px`,
             top: `${clickPosition.y}px`,
+            transform: 'translateY(0)',
             zIndex: 50,
           }}
         >
@@ -172,7 +175,8 @@ export default function ProfilePhoto({
 
       {isRemoveModalOpen && (
         <RemoveModal
-          onClose={() => setIsRemoveModalOpen(false)}
+          open={isRemoveModalOpen}
+          onOpenChange={setIsRemoveModalOpen}
           onConfirm={handleRemovePhoto}
         />
       )}
@@ -180,8 +184,16 @@ export default function ProfilePhoto({
       {cropImage && (
         <CropModal
           image={cropImage}
-          onClose={() => setCropImage(null)}
-          onCropComplete={handleCropComplete}
+          isOpen={isCropModalOpen}
+          onClose={() => {
+            setCropImage(null);
+            setIsCropModalOpen(false);
+          }}
+          onCropComplete={(croppedImage) => {
+            handleCropComplete(croppedImage);
+            setCropImage(null);
+            setIsCropModalOpen(false);
+          }}
         />
       )}
     </>

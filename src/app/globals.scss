@@ -91,6 +91,8 @@
 
 @layer base {
   * {
+    scroll-behavior: smooth;
+
     @apply border-border;
   }
   body {
@@ -113,9 +115,19 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary-foreground));
+  background: hsl(var(--primary));
 }
 
-html {
-  scroll-behavior: smooth;
+@keyframes flashError {
+  0%,
+  100% {
+    color: hsl(var(--destructive-foreground));
+  }
+  50% {
+    color: hsl(var(--destructive));
+  }
+}
+
+.flash-error {
+  animation: flashError 2s infinite;
 }

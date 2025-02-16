@@ -1,45 +1,57 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { useCreateLinkMutation } from '@/lib/api/linksApi';
-import { selectLinks } from '@/lib/store/slices/linksSlice';
 import { X } from 'lucide-react';
+import { addUserLink } from '@/actions/addUserLink';
+import useLinkStore from '@/store/linkStore';
+import { useToast } from '@/hooks/use-toast';
 
 interface CreateLinkFormProps {
   onClose: () => void;
 }
 
 const CreateLinkForm: React.FC<CreateLinkFormProps> = ({ onClose }) => {
-  const [createLink] = useCreateLinkMutation();
-
-  const [label, setLabel] = useState('');
+  const [title, setTitle] = useState('');
   const [url, setUrl] = useState('');
-
-  const links = useSelector(selectLinks);
-  const order = links.length;
+  const [isLoading, setIsLoading] = useState(false);
+  const { addLink } = useLinkStore();
+  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
-      await createLink({
-        label,
-        url,
-        visible: false,
-        archived: false,
-        order,
-      }).unwrap();
+      const response = await addUserLink({ title, url });
 
-      setLabel('');
-      setUrl('');
-      onClose();
+      if (!response.ok) {
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: response.message,
+        });
+        return;
+      }
+
+      if (response.data) {
+        addLink(response.data);
+        setTitle('');
+        setUrl('');
+        onClose();
+      }
     } catch (error) {
       console.error('Failed to create link:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Unexpected Error',
+        description: 'An unexpected error occurred.',
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -47,7 +59,12 @@ const CreateLinkForm: React.FC<CreateLinkFormProps> = ({ onClose }) => {
     <Card className="mb-6 w-full transition-all duration-300 ease-in-out transform">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-2xl font-bold">Add link</CardTitle>
-        <Button variant="ghost" size="icon" onClick={onClose}>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onClose}
+          disabled={isLoading}
+        >
           <X className="h-4 w-4" />
         </Button>
       </CardHeader>
@@ -60,9 +77,10 @@ const CreateLinkForm: React.FC<CreateLinkFormProps> = ({ onClose }) => {
             <Input
               id="label"
               placeholder="Enter label"
-              value={label}
-              onChange={(e) => setLabel(e.target.value)}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               required
+              disabled={isLoading}
             />
           </div>
           <div className="space-y-2">
@@ -75,6 +93,7 @@ const CreateLinkForm: React.FC<CreateLinkFormProps> = ({ onClose }) => {
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               required
+              disabled={isLoading}
             />
           </div>
           <div className="flex justify-between pt-4">
@@ -83,11 +102,12 @@ const CreateLinkForm: React.FC<CreateLinkFormProps> = ({ onClose }) => {
               onClick={onClose}
               variant="outline"
               className="w-[48%]"
+              disabled={isLoading}
             >
               Cancel
             </Button>
-            <Button type="submit" className="w-[48%]">
-              + Add link
+            <Button type="submit" className="w-[48%]" disabled={isLoading}>
+              {isLoading ? 'Adding...' : '+ Add link'}
             </Button>
           </div>
         </form>

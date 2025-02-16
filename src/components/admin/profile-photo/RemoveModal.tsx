@@ -1,36 +1,41 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogTitle,
+} from '@/components/ui/dialog';
+
 interface RemoveModalProps {
-  onClose: () => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
   onConfirm: () => void;
 }
 
-export function RemoveModal({ onClose, onConfirm }: RemoveModalProps) {
+export function RemoveModal({
+  open,
+  onOpenChange,
+  onConfirm,
+}: RemoveModalProps) {
   return (
-    <div
-      className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50"
-      onClick={onClose}
-    >
-      <div
-        className="bg-card p-6 rounded-md text-center text-card-foreground max-w-sm w-full"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <p className="mb-4">Remove your profile photo?</p>
-        <div className="flex justify-center gap-4">
-          <button
-            className="px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/90"
-            onClick={onClose}
-          >
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogTitle>Remove profile photo</DialogTitle>
+        <DialogDescription>
+          Are you sure you want to remove your profile photo?
+        </DialogDescription>
+        <DialogFooter>
+          <Button variant="secondary" onClick={() => onOpenChange(false)}>
             Cancel
-          </button>
-          <button
-            className="px-4 py-2 bg-destructive text-destructive-foreground rounded-md hover:bg-destructive/90"
-            onClick={onConfirm}
-          >
+          </Button>
+          <Button variant="destructive" onClick={onConfirm}>
             Remove
-          </button>
-        </div>
-      </div>
-    </div>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

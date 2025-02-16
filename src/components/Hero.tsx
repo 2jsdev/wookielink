@@ -1,40 +1,25 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { useCheckUsernameAvailabilityQuery } from '@/lib/api/userApi';
-import { Loader } from '@/components/ui/loader';
-import { ArrowRight, Check, X, ChevronDown } from 'lucide-react';
+import { ArrowRight, ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { DynamicMockPhone } from './ui/custom/DynamicMockPhone';
+import { DynamicMockPhone } from '@/components/custom/DynamicMockPhone';
+import { UsernameInput } from './custom/UsernameInput';
 
 export function Hero() {
   const router = useRouter();
   const [username, setUsername] = useState('');
-  const [debouncedUsername, setDebouncedUsername] = useState('');
-
-  const { data, isLoading, isError } = useCheckUsernameAvailabilityQuery(
-    debouncedUsername,
-    {
-      skip: !debouncedUsername,
-    }
-  );
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedUsername(username);
-    }, 500);
-    return () => clearTimeout(handler);
-  }, [username]);
+  const [usernameAvailability, setUsernameAvailability] = useState<
+    boolean | null
+  >(null);
 
   const handleRedirect = (state?: 'signup') => {
     const queryParams = new URLSearchParams();
     if (state) queryParams.append('state', state);
     if (username) document.cookie = `username=${username}; path=/`;
-
     const url = `/login${queryParams.toString() ? `?${queryParams}` : ''}`;
     router.push(url);
   };
@@ -42,16 +27,15 @@ export function Hero() {
   const handleScrollToSection = (id: string) => {
     const section = document.querySelector(id);
     if (section) {
-      const yOffset = -80; // Altura de compensación
+      const yOffset = -80;
       const yPosition =
         section.getBoundingClientRect().top + window.pageYOffset + yOffset;
-
       window.scrollTo({ top: yPosition, behavior: 'smooth' });
     }
   };
 
-  const isButtonDisabled =
-    !data?.isAvailable || isLoading || isError || !username;
+  // El botón se deshabilita si no hay username o si el username no está disponible (availability !== true)
+  const isButtonDisabled = !username || usernameAvailability !== true;
 
   return (
     <section
@@ -60,7 +44,6 @@ export function Hero() {
     >
       <div className="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center gap-12">
         <DynamicMockPhone />
-
         <div className="flex flex-col gap-12 flex-1">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -87,7 +70,6 @@ export function Hero() {
               share their content.
             </p>
           </motion.div>
-
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -96,44 +78,11 @@ export function Hero() {
           >
             <div className="space-y-6">
               <div className="relative flex items-center gap-3">
-                <div className="relative flex-1">
-                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
-                    wookiel.ink/
-                  </div>
-                  <Input
-                    type="text"
-                    placeholder="yourname"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    className="pl-[100px] pr-10"
-                    aria-label="Enter your desired username"
-                    autoComplete="off"
-                  />
-                  <div className="absolute top-1/2 right-0 flex items-center pr-3 -translate-y-1/2">
-                    {isLoading ? (
-                      <Loader className="h-5 w-5" />
-                    ) : (
-                      username &&
-                      (!!data?.isAvailable ? (
-                        <Check className="h-5 w-5 text-green-500" />
-                      ) : (
-                        <X className="h-5 w-5 text-red-500" />
-                      ))
-                    )}
-                  </div>
-                  {username && !isLoading && data && (
-                    <p
-                      className={`absolute top-full mt-1 text-sm
-                        ${data.isAvailable ? 'text-green-400' : 'text-red-400'}
-                      `}
-                    >
-                      {data.isAvailable
-                        ? 'Username is available'
-                        : 'Username is not available'}
-                    </p>
-                  )}
-                </div>
-
+                <UsernameInput
+                  value={username}
+                  onChange={setUsername}
+                  onAvailabilityChange={setUsernameAvailability}
+                />
                 <Button
                   className="bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90"
                   size="lg"
@@ -148,7 +97,6 @@ export function Hero() {
           </motion.div>
         </div>
       </div>
-
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}

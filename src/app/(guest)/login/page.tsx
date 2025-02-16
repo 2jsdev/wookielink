@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import AuthForm from '@/components/auth/AuthForm';
+import AuthForm from './ui/AuthForm';
 
 export default function Login() {
   const searchParams = useSearchParams();

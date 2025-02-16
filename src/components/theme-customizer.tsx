@@ -1,6 +1,5 @@
 'use client';
 
-import { useDispatch, useSelector } from 'react-redux';
 import { Settings } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
@@ -20,27 +19,30 @@ import {
 } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
-import {
-  ContentLayout,
-  FontFamily,
-  resetTheme,
-  selectInitialThemeSettings,
-  setContentLayout,
-  setDirection,
-  setFontFamily,
-  setRoundedCorner,
-  setThemeColor,
-  themeColors,
+import useSettingsStore, {
   ThemeDirection,
+  FontFamily,
+  themeColors,
   themeSettings,
-} from '@/lib/store/slices/themeSettingsSlice';
+  ContentLayout,
+} from '@/store/themeSettingsStore';
 import { Label } from './ui/label';
 
 function ThemeCustomizer() {
-  const dispatch = useDispatch();
   const { theme, setTheme } = useTheme();
-  const { themeColor, fontFamily, direction, roundedCorner, contentLayout } =
-    useSelector(selectInitialThemeSettings);
+  const {
+    themeColor,
+    setThemeColor,
+    resetTheme,
+    fontFamily,
+    setFontFamily,
+    direction,
+    setDirection,
+    roundedCorner,
+    setRoundedCorner,
+    contentLayout,
+    setContentLayout,
+  } = useSettingsStore((state) => state);
 
   return (
     <>
@@ -63,9 +65,7 @@ function ThemeCustomizer() {
               <Label>Font Family</Label>
               <Select
                 value={fontFamily}
-                onValueChange={(value: FontFamily) =>
-                  dispatch(setFontFamily(value))
-                }
+                onValueChange={(value: FontFamily) => setFontFamily(value)}
               >
                 <SelectTrigger className="col-span-3">
                   <SelectValue placeholder="Select primary color" />
@@ -86,15 +86,13 @@ function ThemeCustomizer() {
               <Label>Primary Color</Label>
               <Select
                 value={String(themeColor === 'default' ? '' : themeColor)}
-                onValueChange={(value: string) =>
-                  dispatch(setThemeColor(value))
-                }
+                onValueChange={(value: string) => setThemeColor(value)}
               >
                 <SelectTrigger className="col-span-3">
                   <SelectValue placeholder="Select primary color" />
                 </SelectTrigger>
                 <SelectContent>
-                  {Object.keys(themeColors).map((key, value) => {
+                  {Object.keys(themeColors).map((key) => {
                     return (
                       <SelectItem key={key} value={key}>
                         <div className="flex items-center gap-3 capitalize">
@@ -120,7 +118,7 @@ function ThemeCustomizer() {
                 max={1.5}
                 step={0.3}
                 value={[roundedCorner]}
-                onValueChange={([value]) => dispatch(setRoundedCorner(value))}
+                onValueChange={([value]) => setRoundedCorner(value)}
                 className="col-span-3"
               />
             </div>
@@ -191,9 +189,7 @@ function ThemeCustomizer() {
               <Label>Direction</Label>
               <RadioGroup
                 value={direction}
-                onValueChange={(value: ThemeDirection) =>
-                  dispatch(setDirection(value))
-                }
+                onValueChange={(value: ThemeDirection) => setDirection(value)}
                 className="grid grid-cols-2 gap-4"
               >
                 <div>
@@ -232,7 +228,7 @@ function ThemeCustomizer() {
               <RadioGroup
                 value={contentLayout}
                 onValueChange={(value: ContentLayout) =>
-                  dispatch(setContentLayout(value))
+                  setContentLayout(value)
                 }
                 className="grid grid-cols-2 gap-4"
               >
@@ -272,7 +268,7 @@ function ThemeCustomizer() {
               variant="destructive"
               className="w-full"
               onClick={() => {
-                dispatch(resetTheme());
+                resetTheme();
                 setTheme('light');
               }}
             >
