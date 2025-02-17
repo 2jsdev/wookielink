@@ -1,4 +1,4 @@
-import { extractOpenGraph } from '@devmehq/open-graph-extractor';
+import ogs from 'open-graph-scraper';
 import { injectable } from 'inversify';
 import {
   OpenGraphService,
@@ -7,6 +7,8 @@ import {
 
 @injectable()
 export class OpenGraphScraperService implements OpenGraphService {
+  private readonly openGraphApiKey = process.env.OPEN_GRAPH_API_KEY;
+  private readonly openGraphApiUrl = process.env.OPEN_GRAPH_API_URL;
   private readonly cache = new Map<
     string,
     { data: OpenGraph; expiresAt: number }
@@ -14,6 +16,25 @@ export class OpenGraphScraperService implements OpenGraphService {
   private readonly cacheTTL = 24 * 60 * 60 * 1000;
 
   async scrape(url: string): Promise<OpenGraph | undefined> {
+    try {
+      const options = { url, timeout: 10000 };
+      const { error, result } = await ogs(options);
+
+      if (!error && result.ogTitle) {
+        return result as OpenGraph;
+      }
+
+      console.warn('Falling back to OpenGraph.io for:', url);
+      return await this.scrapeFromOpenGraphIo(url);
+    } catch (err) {
+      console.error('Unexpected error in OpenGraphScraperService:', err);
+      return undefined;
+    }
+  }
+
+  private async scrapeFromOpenGraphIo(
+    url: string
+  ): Promise<OpenGraph | undefined> {
     try {
       if (this.cache.has(url)) {
         const cachedData = this.cache.get(url)!;
@@ -24,18 +45,36 @@ export class OpenGraphScraperService implements OpenGraphService {
         this.cache.delete(url);
       }
 
-      const response = await fetch(url);
+      const apiUrl = `${this.openGraphApiUrl}${encodeURIComponent(url)}?app_id=${this.openGraphApiKey}`;
+      const response = await fetch(apiUrl);
       if (!response.ok) {
-        console.error('Failed to fetch HTML from:', url);
+        console.error(
+          'Failed to fetch from OpenGraph.io:',
+          response.statusText
+        );
         return undefined;
       }
-      const html = await response.text();
 
-      const openGraphData = extractOpenGraph(html) as OpenGraph;
-      if (!openGraphData.ogTitle) {
-        console.warn('No OpenGraph data found for:', url);
+      const data = await response.json();
+      if (!data.openGraph) {
+        console.warn('No OpenGraph data found in OpenGraph.io response');
         return undefined;
       }
+
+      const openGraphData: OpenGraph = {
+        ogTitle: data.openGraph.title,
+        ogType: data.openGraph.type,
+        ogUrl: data.openGraph.url,
+        ogDescription: data.openGraph.description,
+        ogImage: data.openGraph.image
+          ? [{ url: data.openGraph.image.url }]
+          : undefined,
+        charset:
+          data.requestInfo?.responseContentType?.split('charset=')[1] ||
+          'utf-8',
+        requestUrl: data.url,
+        success: true,
+      };
 
       this.cache.set(url, {
         data: openGraphData,
@@ -43,8 +82,8 @@ export class OpenGraphScraperService implements OpenGraphService {
       });
 
       return openGraphData;
-    } catch (err) {
-      console.error('Unexpected error in OpenGraphScraperService:', err);
+    } catch (error) {
+      console.error('Error fetching OpenGraph data from OpenGraph.io:', error);
       return undefined;
     }
   }
