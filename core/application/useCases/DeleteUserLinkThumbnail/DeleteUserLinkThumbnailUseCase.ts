@@ -4,7 +4,7 @@ import { DeleteUserLinkThumbnailResponse } from '@core/application/useCases/Dele
 import { DeleteUserLinkThumbnailErrors } from '@core/application/useCases/DeleteUserLinkThumbnail/DeleteUserLinkThumbnailErrors';
 import { TYPES } from '@core/infrastructure/constants/types';
 import { ILinkRepository } from '@core/domain/repositories/ILinkRepository';
-import { FileUploaderService } from '@core/application/services/FileUploaderService';
+import { IFileUploaderService } from '@core/application/services/IFileUploaderService';
 import { left, Result, right } from '@core/shared/core/Result';
 import { AppError } from '@core/shared/core/AppError';
 import { UniqueEntityID } from '@core/shared/domain/UniqueEntityID';
@@ -14,7 +14,7 @@ export class DeleteUserLinkThumbnailUseCase {
   constructor(
     @inject(TYPES.LinkRepository) private linkRepository: ILinkRepository,
     @inject(TYPES.FileUploaderService)
-    private fileUploaderService: FileUploaderService
+    private fileUploaderService: IFileUploaderService
   ) {}
 
   async execute(

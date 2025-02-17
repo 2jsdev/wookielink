@@ -17,6 +17,6 @@ export interface OpenGraph {
   success: boolean;
 }
 
-export interface OpenGraphService {
+export interface IOpenGraphService {
   scrape(url: string): Promise<OpenGraph | undefined>;
 }

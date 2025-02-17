@@ -1,12 +1,12 @@
 import ogs from 'open-graph-scraper';
 import { injectable } from 'inversify';
 import {
-  OpenGraphService,
+  IOpenGraphService,
   OpenGraph,
-} from '@core/application/services/OpenGraphService';
+} from '@core/application/services/IOpenGraphService';
 
 @injectable()
-export class OpenGraphScraperService implements OpenGraphService {
+export class OpenGraphService implements IOpenGraphService {
   private readonly openGraphApiKey = process.env.OPEN_GRAPH_API_KEY;
   private readonly openGraphApiUrl = process.env.OPEN_GRAPH_API_URL;
   private readonly cache = new Map<

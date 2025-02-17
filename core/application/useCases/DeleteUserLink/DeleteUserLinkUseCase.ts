@@ -6,7 +6,7 @@ import { TYPES } from '@core/infrastructure/constants/types';
 import { ILinkRepository } from '@core/domain/repositories/ILinkRepository';
 import { left, Result, right } from '@core/shared/core/Result';
 import { AppError } from '@core/shared/core/AppError';
-import { FileUploaderService } from '@core/application/services/FileUploaderService';
+import { IFileUploaderService } from '@core/application/services/IFileUploaderService';
 
 @injectable()
 export class DeleteUserLinkUseCase {
@@ -14,7 +14,7 @@ export class DeleteUserLinkUseCase {
     @inject(TYPES.LinkRepository)
     private linkRepository: ILinkRepository,
     @inject(TYPES.FileUploaderService)
-    private fileUploaderService: FileUploaderService
+    private fileUploaderService: IFileUploaderService
   ) {}
 
   async execute(request: DeleteUserLinkDTO): Promise<DeleteUserLinkResponse> {

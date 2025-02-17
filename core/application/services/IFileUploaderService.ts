@@ -11,7 +11,7 @@ export interface UploadedFileResponse {
   path: string;
 }
 
-export interface FileUploaderService {
+export interface IFileUploaderService {
   upload: (
     file: File,
     path?: string

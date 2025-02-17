@@ -4,7 +4,7 @@ import { UploadUserProfilePhotoResponse } from '@core/application/useCases/Uploa
 import { UploadUserProfilePhotoErrors } from '@core/application/useCases/UploadUserProfilePhoto/UploadUserProfilePhotoErrors';
 import { TYPES } from '@core/infrastructure/constants/types';
 import { IUserRepository } from '@core/domain/repositories/IUserRepository';
-import { FileUploaderService } from '@core/application/services/FileUploaderService';
+import { IFileUploaderService } from '@core/application/services/IFileUploaderService';
 import { left, Result, right } from '@core/shared/core/Result';
 import { AppError } from '@core/shared/core/AppError';
 import { User } from '@core/domain/entities/User';
@@ -15,7 +15,7 @@ export class UploadUserProfilePhotoUseCase {
   constructor(
     @inject(TYPES.UserRepository) private userRepository: IUserRepository,
     @inject(TYPES.FileUploaderService)
-    private fileUploaderService: FileUploaderService
+    private fileUploaderService: IFileUploaderService
   ) {}
 
   async execute(

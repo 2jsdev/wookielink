@@ -19,7 +19,7 @@ import { LinkRepository } from '@core/infrastructure/persistence/LinkRepository'
 
 // Services
 import { MinioFileUploader } from '@core/infrastructure/services/MinioFileUploader';
-import { OpenGraphScraperService } from '@core/infrastructure/services/OpenGraphScraperService';
+import { OpenGraphService } from '@core/infrastructure/services/OpenGraphScraperService';
 
 import { TYPES } from '@core/infrastructure/constants/types';
 
@@ -74,9 +74,6 @@ container
   .to(MinioFileUploader)
   .inSingletonScope();
 
-container
-  .bind(TYPES.OpenGraphService)
-  .to(OpenGraphScraperService)
-  .inSingletonScope();
+container.bind(TYPES.OpenGraphService).to(OpenGraphService).inSingletonScope();
 
 export { container };

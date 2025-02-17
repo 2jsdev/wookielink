@@ -4,7 +4,7 @@ import { GetPublicProfileResponse } from '@core/application/useCases/GetPublicPr
 import { GetPublicProfileErrors } from '@core/application/useCases/GetPublicProfile/GetPublicProfileErrors';
 import { TYPES } from '@core/infrastructure/constants/types';
 import { IUserRepository } from '@core/domain/repositories/IUserRepository';
-import { OpenGraphService } from '@core/application/services/OpenGraphService';
+import { IOpenGraphService } from '@core/application/services/IOpenGraphService';
 import { left, Result, right } from '@core/shared/core/Result';
 import { AppError } from '@core/shared/core/AppError';
 
@@ -12,7 +12,7 @@ import { AppError } from '@core/shared/core/AppError';
 export class GetPublicProfileUseCase {
   constructor(
     @inject(TYPES.UserRepository) private userRepository: IUserRepository,
-    @inject(TYPES.OpenGraphService) private openGraphService: OpenGraphService
+    @inject(TYPES.OpenGraphService) private openGraphService: IOpenGraphService
   ) {}
 
   async execute(
@@ -34,7 +34,6 @@ export class GetPublicProfileUseCase {
                 const ogData = await this.openGraphService.scrape(
                   link.url.value
                 );
-                console.log('ogData', ogData);
                 if (ogData) {
                   link.updateOpenGraph(ogData);
                 }

@@ -4,7 +4,7 @@ import { UploadUserLinkThumbnailResponse } from '@core/application/useCases/Uplo
 import { UploadUserLinkThumbnailErrors } from '@core/application/useCases/UploadUserLinkThumbnail/UploadUserLinkThumbnailErrors';
 import { TYPES } from '@core/infrastructure/constants/types';
 import { ILinkRepository } from '@core/domain/repositories/ILinkRepository';
-import { FileUploaderService } from '@core/application/services/FileUploaderService';
+import { IFileUploaderService } from '@core/application/services/IFileUploaderService';
 import { left, Result, right } from '@core/shared/core/Result';
 import { AppError } from '@core/shared/core/AppError';
 import { Link } from '@core/domain/entities/Link';
@@ -14,7 +14,7 @@ export class UploadUserLinkThumbnailUseCase {
   constructor(
     @inject(TYPES.LinkRepository) private linkRepository: ILinkRepository,
     @inject(TYPES.FileUploaderService)
-    private fileUploaderService: FileUploaderService
+    private fileUploaderService: IFileUploaderService
   ) {}
 
   async execute(

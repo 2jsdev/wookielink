@@ -2,12 +2,12 @@ import { injectable } from 'inversify';
 import { Client } from 'minio';
 import {
   File,
-  FileUploaderService,
+  IFileUploaderService,
   UploadedFileResponse,
-} from '@core/application/services/FileUploaderService';
+} from '@core/application/services/IFileUploaderService';
 
 @injectable()
-export class MinioFileUploader implements FileUploaderService {
+export class MinioFileUploader implements IFileUploaderService {
   private client: Client;
   private bucketName: string;
 

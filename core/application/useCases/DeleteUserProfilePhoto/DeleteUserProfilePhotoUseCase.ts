@@ -4,7 +4,7 @@ import { DeleteUserProfilePhotoResponse } from '@core/application/useCases/Delet
 import { DeleteUserProfilePhotoErrors } from '@core/application/useCases/DeleteUserProfilePhoto/DeleteUserProfilePhotoErrors';
 import { TYPES } from '@core/infrastructure/constants/types';
 import { IUserRepository } from '@core/domain/repositories/IUserRepository';
-import { FileUploaderService } from '@core/application/services/FileUploaderService';
+import { IFileUploaderService } from '@core/application/services/IFileUploaderService';
 import { left, Result, right } from '@core/shared/core/Result';
 import { AppError } from '@core/shared/core/AppError';
 import { UniqueEntityID } from '@core/shared/domain/UniqueEntityID';
@@ -14,7 +14,7 @@ export class DeleteUserProfilePhotoUseCase {
   constructor(
     @inject(TYPES.UserRepository) private userRepository: IUserRepository,
     @inject(TYPES.FileUploaderService)
-    private fileUploaderService: FileUploaderService
+    private fileUploaderService: IFileUploaderService
   ) {}
 
   async execute(
