@@ -47,16 +47,16 @@ export default function PublicProfileContent({ user, highlightedLink }: Props) {
         })}
       </div>
 
-        <div className="max-w-md mx-auto flex flex-col items-center my-8">
-          <Link
-            href="/"
-            className="w-auto px-6 py-4 bg-primary text-primary-foreground dark:bg-primary-foreground dark:text-primary border-none rounded-full shadow-lg flex items-center space-x-2 hover:bg-primary-foreground hover:text-primary dark:hover:bg-primary dark:hover:text-primary-foreground transition-all duration-300"
-          >
-            <span className="text-sm font-semibold">
-              Join {user.username} on Wookielink
-            </span>
-          </Link>
-        </div>
+      <div className="max-w-md mx-auto flex flex-col items-center my-8">
+        <Link
+          href="/"
+          className="w-auto px-6 py-4 bg-primary text-primary-foreground dark:bg-primary-foreground dark:text-primary border-none rounded-full shadow-lg flex items-center space-x-2 hover:bg-primary-foreground hover:text-primary dark:hover:bg-primary dark:hover:text-primary-foreground transition-all duration-300"
+        >
+          <span className="text-sm font-semibold">
+            Join {user.username} on Wookielink
+          </span>
+        </Link>
+      </div>
     </div>
   );
 }

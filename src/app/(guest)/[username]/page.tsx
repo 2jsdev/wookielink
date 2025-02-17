@@ -8,12 +8,10 @@ import { auth } from '@core/shared/infrastructure/services/auth';
 
 interface Props {
   params: Promise<{ username: string }>;
-  searchParams: Promise<{ [key: string]: string | undefined }>
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 }
 
-export async function generateMetadata(
-  { params }: Props,
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const username = (await params).username;
   const user = await getPublicProfile({ username: username });
 
@@ -34,7 +32,6 @@ export default async function PublicProfilePage({
 }: Props) {
   const username = (await params).username;
   const share_link = (await searchParams).share_link;
-
 
   const user = await getPublicProfile({ username });
 
