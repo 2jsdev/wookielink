@@ -18,6 +18,9 @@ export interface Link {
   thumbnail?: string | null;
   title?: string;
   url?: string;
+  shortCode?: string;
+  fullShortUrl?: string;
+  visits?: number;
   position: number;
   active?: boolean;
   archived?: boolean;

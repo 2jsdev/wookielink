@@ -1,5 +1,6 @@
 import { Link } from '@core/domain/entities/Link';
 import { LinkUrl } from '@core/domain/value-objects/LinkUrl';
+import { ShortUrl } from '@core/domain/value-objects/ShortUrl';
 import { UniqueEntityID } from '@core/shared/domain/UniqueEntityID';
 
 export class LinkMapper {
@@ -14,6 +15,10 @@ export class LinkMapper {
         ...(plain.thumbnail && { thumbnail: plain.thumbnail }),
         title: plain.title,
         url: LinkUrl.create(plain.url),
+        shortCode: plain.shortCode
+          ? ShortUrl.create(plain.shortCode)
+          : ShortUrl.create(),
+        visits: plain.visits,
         position: plain.position,
         active: plain.active,
         archived: plain.archived,
@@ -24,10 +29,13 @@ export class LinkMapper {
       new UniqueEntityID(plain.id)
     );
 
-    linkOrError.isFailure ? console.log(linkOrError.getErrorValue()) : '';
+    if (linkOrError.isFailure) {
+      console.error('Error al mapear a dominio:', linkOrError.getErrorValue());
+    }
 
     return linkOrError.getValue();
   }
+
   static toPersistence(link: Link): any {
     return {
       id: link.id.toString(),
@@ -37,6 +45,8 @@ export class LinkMapper {
       thumbnail: link.thumbnail ?? null,
       title: link.title,
       url: link.url?.value,
+      shortCode: link.shortCode?.value,
+      visits: link.visits,
       position: link.position,
       active: link.active,
       archived: link.archived,

@@ -82,4 +82,22 @@ export class LinkRepository implements ILinkRepository {
       throw error;
     }
   }
+
+  async findByShortCode(shortCode: string): Promise<string | null> {
+    try {
+      const link = await prisma.link.findFirst({
+        where: { shortCode },
+        select: {
+          user: {
+            select: {
+              username: true,
+            },
+          },
+        },
+      });
+      return link ? link.user.username : null;
+    } catch (error) {
+      throw error;
+    }
+  }
 }

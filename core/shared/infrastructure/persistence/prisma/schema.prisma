@@ -97,6 +97,8 @@ model Link {
     thumbnail    String?
     title        String?
     url          String?     @db.Text
+    shortCode    String?     @unique
+    visits       Int         @default(0)
     position     Int
     userId       String      @map("user_id")
     collectionId String?

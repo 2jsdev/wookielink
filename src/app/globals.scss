@@ -129,5 +129,20 @@
 }
 
 .flash-error {
-  animation: flashError 2s infinite;
+  animation: flashError 3s infinite;
+}
+
+.blurred-content {
+  filter: blur(5px);
+  pointer-events: none;
+  transition: filter 0.3s ease-in-out;
+}
+
+.highlighted-content {
+  filter: none !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transition:
+    filter 0.3s ease-in-out,
+    opacity 0.3s ease-in-out;
 }

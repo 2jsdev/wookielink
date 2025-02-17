@@ -3,7 +3,8 @@ import { Result } from '@core/shared/core/Result';
 import { AggregateRoot } from '@core/shared/domain/AggregateRoot';
 import { UniqueEntityID } from '@core/shared/domain/UniqueEntityID';
 import { LinkUrl } from '@core/domain/value-objects/LinkUrl';
-import { OpenGraph } from '@core/application/services/OpenGraphService';
+import { ShortUrl } from '@core/domain/value-objects/ShortUrl';
+import { OpenGraph } from '@core/application/services/IOpenGraphService';
 
 export enum LinkType {
   Link = 'Link',
@@ -22,6 +23,8 @@ export interface LinkProps {
   thumbnail?: string | null;
   title?: string;
   url?: LinkUrl;
+  shortCode?: ShortUrl;
+  visits?: number;
   position: number;
   active?: boolean;
   archived?: boolean;
@@ -49,6 +52,8 @@ export class Link extends AggregateRoot<LinkProps> {
       type: props.type || LinkType.Link,
       layout: props.layout || LinkLayout.Classic,
       url: props.url || LinkUrl.create(''),
+      shortCode: props.shortCode || ShortUrl.create(),
+      visits: props.visits || 0,
       active: props.active || false,
       archived: props.archived || false,
       prioritize: props.prioritize || false,
@@ -89,6 +94,18 @@ export class Link extends AggregateRoot<LinkProps> {
     return this.props.url;
   }
 
+  public get shortCode() {
+    return this.props.shortCode;
+  }
+
+  public get visits() {
+    return this.props.visits;
+  }
+
+  public get fullShortUrl() {
+    return this.props.shortCode ? this.props.shortCode.fullUrl : undefined;
+  }
+
   public get position() {
     return this.props.position;
   }
@@ -123,6 +140,20 @@ export class Link extends AggregateRoot<LinkProps> {
 
   public updateUrl(url: string) {
     this.props.url = LinkUrl.create(url);
+  }
+
+  public updateShortCode() {
+    this.props.shortCode = ShortUrl.create();
+  }
+
+  public updateVisits(visits: number) {
+    this.props.visits = visits;
+  }
+
+  public incrementVisits() {
+    if (this.props.visits !== undefined) {
+      this.props.visits += 1;
+    }
   }
 
   public updateIcon(icon: string) {
@@ -214,6 +245,9 @@ export class Link extends AggregateRoot<LinkProps> {
       thumbnail: this.props.thumbnail,
       title: this.props.title,
       url: this.props.url?.value,
+      shortCode: this.props.shortCode?.value,
+      visits: this.props.visits,
+      fullShortUrl: this.fullShortUrl,
       position: this.props.position,
       active: this.props.active,
       archived: this.props.archived,

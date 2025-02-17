@@ -22,7 +22,6 @@ import {
   EmailShareButton,
   EmailIcon,
 } from 'react-share';
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Link as LinkIcon, MoreHorizontal } from 'lucide-react';
@@ -56,7 +55,7 @@ export default function ShareLinkModal({
 
   const handleCopyLink = async () => {
     try {
-      await navigator.clipboard.writeText(link.url!);
+      await navigator.clipboard.writeText(link.fullShortUrl!);
       setCopiedLink(true);
     } catch (err) {
       console.error('Failed to copy link:', err);
@@ -67,8 +66,8 @@ export default function ShareLinkModal({
     if (navigator.share) {
       try {
         await navigator.share({
-          title: link.ogData?.ogTitle,
-          url: link.url!,
+          title: link.title,
+          url: link.fullShortUrl!,
         });
       } catch (error) {
         console.error('Error sharing:', error);

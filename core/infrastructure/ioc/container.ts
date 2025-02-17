@@ -12,6 +12,7 @@ import { DeleteUserLinkUseCase } from '@core/application/useCases/DeleteUserLink
 import { ReorderUserLinksUseCase } from '@core/application/useCases/ReorderUserLinks/ReorderUserLinksUseCase';
 import { UploadUserLinkThumbnailUseCase } from '@core/application/useCases/UploadUserLinkThumbnail/UploadUserLinkThumbnailUseCase';
 import { DeleteUserLinkThumbnailUseCase } from '@core/application/useCases/DeleteUserLinkThumbnail/DeleteUserLinkThumbnailUseCase';
+import { GetUsernameByShortCodeUseCase } from '@core/application/useCases/GetUsernameByShortCode/GetUsernameByShortCodeUseCase';
 
 // Repositories
 import { UserRepository } from '@core/infrastructure/persistence/UserRepository';
@@ -63,6 +64,9 @@ container
 container
   .bind<DeleteUserLinkThumbnailUseCase>(TYPES.DeleteUserLinkThumbnailUseCase)
   .to(DeleteUserLinkThumbnailUseCase);
+container
+  .bind<GetUsernameByShortCodeUseCase>(TYPES.GetUsernameByShortCodeUseCase)
+  .to(GetUsernameByShortCodeUseCase);
 
 // Repositories
 container.bind(TYPES.UserRepository).to(UserRepository).inSingletonScope();

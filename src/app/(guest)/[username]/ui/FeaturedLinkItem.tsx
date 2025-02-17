@@ -7,13 +7,27 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import ShareLinkModal from '@/components/custom/ShareLinkModal';
 import { Button } from '@/components/ui/button';
+import useUiStore from '@/store/uiStore';
 
-export default function FeaturedLinkItem({ link }: { link: Link }) {
+interface Props {
+  link: Link;
+}
+
+export default function FeaturedLinkItem({ link }: Props) {
+  const { isBlurred, highlightedLink } = useUiStore();
+  const isHighlighted = highlightedLink === link.shortCode;
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      <div className="relative bg-gray-800 block w-full h-80 rounded-lg overflow-hidden transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg cursor-pointer">
+      <div
+        id={`link-${link.shortCode}`}
+        className={cn(
+          'relative bg-gray-800 block w-full h-80 rounded-lg overflow-hidden transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg cursor-pointer',
+          { 'highlighted-content': isHighlighted },
+          { 'blurred-content': isBlurred }
+        )}
+      >
         <a
           href={link.url}
           target="_blank"

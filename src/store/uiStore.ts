@@ -27,6 +27,9 @@ interface UIStore {
   errorMessage: string | null;
   setErrorMessage: (msg: string | null) => void;
   triggerError: (msg: string) => void;
+  isBlurred: boolean;
+  highlightedLink: string | null;
+  setHighlightedLink: (linkId: string | null) => void;
 }
 
 const uiStore: StateCreator<UIStore> = (set, get) => ({
@@ -47,6 +50,24 @@ const uiStore: StateCreator<UIStore> = (set, get) => ({
     setTimeout(() => {
       set({ errorMessage: null });
     }, 3000);
+  },
+  isBlurred: false,
+  highlightedLink: null,
+  setHighlightedLink: (linkId: string | null) => {
+    set({ highlightedLink: linkId, isBlurred: !!linkId });
+
+    if (linkId) {
+      setTimeout(() => {
+        const element = document.getElementById(`link-${linkId}`);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 300);
+
+      setTimeout(() => {
+        set({ isBlurred: false });
+      }, 2000);
+    }
   },
 });
 

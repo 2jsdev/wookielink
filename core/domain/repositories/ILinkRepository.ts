@@ -8,4 +8,5 @@ export interface ILinkRepository {
   getMaxPositionByUser(userId: string): Promise<number>;
   updateUserLink(link: Link): Promise<Link>;
   deleteUserLink(id: string): Promise<void>;
+  findByShortCode(shortCode: string): Promise<string | null>;
 }

@@ -17,6 +17,7 @@ export const TYPES = {
   ReorderUserLinksUseCase: Symbol.for('ReorderUserLinksUseCase'),
   UploadUserLinkThumbnailUseCase: Symbol.for('UploadUserLinkThumbnailUseCase'),
   DeleteUserLinkThumbnailUseCase: Symbol.for('DeleteUserLinkThumbnailUseCase'),
+  GetUsernameByShortCodeUseCase: Symbol.for('GetUsernameByShortCodeUseCase'),
 
   GetPublicProfileUseCase: Symbol.for('GetPublicProfileUseCase'),
 
