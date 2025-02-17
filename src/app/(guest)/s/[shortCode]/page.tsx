@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { getUsernameByShortCode } from '@/actions/getUsernameByShortCode';
 
 interface Props {
-  params: { shortCode: string };
+  params: Promise<{ shortCode: string }>;
 }
 
 export default async function ShortCodeRedirectPage({ params }: Props) {

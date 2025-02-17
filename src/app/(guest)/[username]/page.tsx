@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, ResolvingMetadata } from 'next';
 import { getPublicProfile } from '@/actions/getPublicProfile';
 import { notFound } from 'next/navigation';
 import PublicProfileContent from './ui/PublicProfileContent';
@@ -7,13 +7,15 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { auth } from '@core/shared/infrastructure/services/auth';
 
 interface Props {
-  params: { username: string };
-  searchParams: { share_link?: string };
+  params: Promise<{ username: string }>;
+  searchParams: Promise<{ [key: string]: string | undefined }>
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: Props,
+): Promise<Metadata> {
   const username = (await params).username;
-  const user = await getPublicProfile({ username });
+  const user = await getPublicProfile({ username: username });
 
   return {
     title: `${username} | WookieLink`,
@@ -31,7 +33,8 @@ export default async function PublicProfilePage({
   searchParams,
 }: Props) {
   const username = (await params).username;
-  const highlightedLink = (await searchParams).share_link;
+  const share_link = (await searchParams).share_link;
+
 
   const user = await getPublicProfile({ username });
 
@@ -55,7 +58,7 @@ export default async function PublicProfilePage({
         </Alert>
       )}
 
-      <PublicProfileContent user={user} highlightedLink={highlightedLink} />
+      <PublicProfileContent user={user} highlightedLink={share_link} />
     </main>
   );
 }
