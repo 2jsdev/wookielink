@@ -24,6 +24,7 @@ export function ImagePreview({
         </Button>
       </div>
       <div className="relative max-h-[400px] overflow-hidden rounded-lg">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={image || undefined}
           alt="Preview"

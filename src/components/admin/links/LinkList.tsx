@@ -59,9 +59,8 @@ export default function LinkList() {
               <Archive className="w-20 h-20" />
 
               <p className="text-center text-md mt-8 font-medium">
-                Keep your link admin clean and focused by.
-                <br />
-                archiving links you're not currently using.
+                {`Keep your link admin clean and focused by.
+                archiving links you're not currently using.`}
               </p>
             </div>
           )}

@@ -44,7 +44,7 @@ export default function UserProvider({
     setLinks(active);
     setArchivedLinks(archived);
     setLinksLoading(false);
-  }, [links, setLinks]);
+  }, [links, setLinks, setArchivedLinks, setUserLoading, setLinksLoading]);
 
   return <>{children}</>;
 }

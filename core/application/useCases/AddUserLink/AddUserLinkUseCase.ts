@@ -35,11 +35,7 @@ export class AddUserLinkUseCase {
       );
 
       if (linkOrError.isFailure) {
-        return left(
-          new AddUserLinkErrors.InvalidLinkDataError(
-            linkOrError.getErrorValue()
-          )
-        );
+        return left(new AddUserLinkErrors.InvalidLinkDataError());
       }
 
       const newLink = linkOrError.getValue();
