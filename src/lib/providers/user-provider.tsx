@@ -23,7 +23,7 @@ export default function UserProvider({
   useEffect(() => {
     setUser(user);
     setUserLoading(false);
-  }, [user, setUser]);
+  }, [user, setUser, setUserLoading]);
 
   useEffect(() => {
     const { active, archived } = links.reduce<{

@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "npm run format && next build",
+    "build": "npm run format && npm run prisma:generate && next build",
     "start": "next start",
     "lint": "next lint --dir src",
     "format": "prettier --write .",
     "prepare": "if [ \"$NODE_ENV\" != \"production\" ]; then husky install; fi",
-    "prisma:deploy": "npx prisma migrate deploy && prisma generate"
+    "prisma:generate": "prisma generate"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",

@@ -12,7 +12,7 @@ export class LinkRepository implements ILinkRepository {
         where: { userId },
         orderBy: { position: 'asc' },
       });
-      return links.map((link) => LinkMapper.toDomain(link));
+      return links.map((link: any) => LinkMapper.toDomain(link));
     } catch (error) {
       throw error;
     }
