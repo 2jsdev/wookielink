@@ -24,7 +24,7 @@ export default function PublicProfileContent({ user, highlightedLink }: Props) {
   }, [highlightedLink, setHighlightedLink]);
 
   return (
-    <div className="relative flex flex-col items-center w-full max-w-xl mx-auto pt-12">
+    <div className="relative flex flex-col items-center w-full max-w-xl mx-auto pt-20">
       <Avatar className="w-24 h-24">
         <AvatarImage src={user?.image || undefined} alt="Profile photo" />
         <AvatarFallback>
@@ -37,7 +37,7 @@ export default function PublicProfileContent({ user, highlightedLink }: Props) {
         <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-10 transition-opacity duration-500" />
       )}
 
-      <div className="w-full space-y-6 mt-14 relative z-20">
+      <div className="w-full min-h-[300px] space-y-6 mt-14 relative z-20 flex flex-col items-center justify-center">
         {user.links?.map((link) => {
           return link.layout === 'Classic' ? (
             <ClassicLinkItem key={link.id} link={link} />
