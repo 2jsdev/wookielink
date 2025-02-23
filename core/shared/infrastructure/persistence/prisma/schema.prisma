@@ -129,8 +129,18 @@ model Activity {
     type      ActivityType @default(View)
     userId    String       @map("user_id")
     linkId    String       @map("link_id")
-    metadata  Json?
+    ip        String
+    city      String?
+    region    String?
+    country   String?
+    userAgent String
+    os        String?
+    browser   String?
+    screen    String?
     timestamp DateTime     @default(now())
+    loc       String?
+    org       String?
+    timezone  String?
     user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
     link      Link         @relation(fields: [linkId], references: [id], onDelete: Cascade)
 
@@ -170,22 +180,33 @@ enum BackgroundType {
 }
 
 enum PatternType {
-    NONE
-    POLKA
-    STRIPE
-    WAVES
-    ZIGZAG
+    polka
+    stripe
+    waves
+    zigzag
+}
+
+enum GradientDirection {
+    TO_TOP
+    TO_RIGHT
+    TO_BOTTOM
+    TO_LEFT
+    TO_TOP_RIGHT
+    TO_TOP_LEFT
+    TO_BOTTOM_RIGHT
+    TO_BOTTOM_LEFT
 }
 
 model Background {
-    id       String         @id @default(cuid())
-    type     BackgroundType
-    color    String?
-    gradient String?
-    imageUrl String?
-    videoUrl String?
-    pattern  PatternType?
-    theme    Theme[]
+    id        String         @id @default(cuid())
+    type      BackgroundType
+    color     String?
+    gradient  String?
+    direction GradientDirection?
+    imageUrl  String?
+    videoUrl  String?
+    pattern   PatternType?
+    theme     Theme[]
 }
 
 enum ButtonShape {

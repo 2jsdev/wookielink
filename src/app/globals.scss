@@ -5,7 +5,7 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 20 14.3% 4.1%;
+    --foreground: 50 14.3% 4.1%;
     --card: 0 0% 100%;
     --card-foreground: 20 14.3% 4.1%;
     --popover: 0 0% 100%;
@@ -145,4 +145,71 @@
   transition:
     filter 0.3s ease-in-out,
     opacity 0.3s ease-in-out;
+}
+
+@keyframes stripeBackground {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 96px;
+  }
+}
+
+.pattern-stripe {
+  background-color: var(--pattern-color, currentColor);
+
+  opacity: 1;
+  background-size: 96px 96px;
+  background-image: linear-gradient(
+    45deg,
+    var(--pattern-color, currentColor) 25%,
+    color-mix(in srgb, var(--pattern-color, currentColor) 60%, white 40%) 25%,
+    color-mix(in srgb, var(--pattern-color, currentColor) 60%, white 40%) 50%,
+    var(--pattern-color, currentColor) 50%,
+    var(--pattern-color, currentColor) 75%,
+    color-mix(in srgb, var(--pattern-color, currentColor) 60%, white 40%) 75%,
+    color-mix(in srgb, var(--pattern-color, currentColor) 60%, white 40%) 100%
+  );
+  animation: stripeBackground 4s linear infinite;
+}
+
+@keyframes zigzagAnimation {
+  0% {
+    background-position:
+      0 0,
+      calc(var(--s) / 2) 0,
+      0 0;
+  }
+  100% {
+    background-position:
+      0 var(--s),
+      calc(var(--s) / 2) var(--s),
+      0 0;
+  }
+}
+
+.pattern-zigzag {
+  opacity: 1;
+  --s: 96px;
+  --c1: var(--pattern-color, currentColor);
+  --c2: color-mix(in srgb, var(--pattern-color, currentColor) 60%, white 40%);
+
+  --_g: var(--c1) 90deg, #0000 90.5deg;
+
+  background:
+    conic-gradient(from -45deg, var(--_g)),
+    conic-gradient(from 135deg, var(--_g)) calc(var(--s) / 2) 0,
+    var(--c2);
+  background-size: var(--s) var(--s);
+
+  animation: zigzagAnimation 4s linear infinite;
+}
+
+.pattern-color {
+  color: rgba(0, 0, 0, 0.1);
+}
+
+.dark .pattern-color {
+  color: rgba(255, 255, 255, 0.1);
 }

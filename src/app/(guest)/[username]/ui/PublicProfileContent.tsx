@@ -1,21 +1,33 @@
 'use client';
 
-import { useEffect } from 'react';
+import { CSSProperties, useEffect } from 'react';
 import { User } from '@/interfaces/User';
-import Link from 'next/link';
+import NextLink from 'next/link';
 import { UserRound } from 'lucide-react';
 import ClassicLinkItem from './ClassicLinkItem';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import FeaturedLinkItem from './FeaturedLinkItem';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { cn, generateLighterColor, generateLighterHexColor } from '@/lib/utils';
 import useUiStore from '@/store/uiStore';
+import useThemeStore from '@/store/theme-store';
+import { backgroundStyles } from '@/interfaces/theme';
+import { PolkaSVG } from '@/components/custom/PolkaSVG';
+import { WaveSVG } from '@/components/custom/WaveSVG';
 
 interface Props {
+  isOwner: boolean;
   user: User;
   highlightedLink?: string | null;
 }
 
-export default function PublicProfileContent({ user, highlightedLink }: Props) {
-  const { isBlurred, setHighlightedLink } = useUiStore();
+export default function PublicProfileContent({
+  isOwner,
+  user,
+  highlightedLink,
+}: Props) {
+  const { theme, customTheme } = useThemeStore();
+  const { setHighlightedLink } = useUiStore();
 
   useEffect(() => {
     if (highlightedLink) {
@@ -23,40 +35,140 @@ export default function PublicProfileContent({ user, highlightedLink }: Props) {
     }
   }, [highlightedLink, setHighlightedLink]);
 
-  return (
-    <div className="relative flex flex-col items-center w-full max-w-xl mx-auto pt-20">
-      <Avatar className="w-24 h-24">
-        <AvatarImage src={user?.image || undefined} alt="Profile photo" />
-        <AvatarFallback>
-          <UserRound className="w-2/3 h-2/3 text-muted-foreground" />
-        </AvatarFallback>
-      </Avatar>
-      <h2 className="mt-5 text-lg font-semibold">@{user?.username}</h2>
+  const activeTheme = theme?.id === 'custom' ? customTheme : theme;
 
-      {isBlurred && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-10 transition-opacity duration-500" />
+  const fontFamily = activeTheme?.fontStyle?.fontFamily || 'sans-serif';
+  const fontColor = activeTheme?.fontStyle?.color || '#000000';
+
+  let backgroundClass = '';
+  let backgroundStyle: CSSProperties = {};
+
+  if (activeTheme?.background?.style === backgroundStyles.POLKA) {
+    const lighterHexColor = generateLighterHexColor(
+      activeTheme.background.color!
+    );
+    backgroundStyle = { backgroundColor: activeTheme.background.color };
+    return (
+      <main
+        className="relative min-h-screen w-full flex flex-col items-center"
+        style={{ fontFamily, color: fontColor, ...backgroundStyle }}
+      >
+        <div className="absolute w-full h-full">
+          <PolkaSVG style={{ color: lighterHexColor }} />
+        </div>
+        <Content user={user} isOwner={isOwner} />
+      </main>
+    );
+  }
+  if (activeTheme?.background?.style === backgroundStyles.WAVES) {
+    const lighterHexColor = generateLighterHexColor(
+      activeTheme.background.color!
+    );
+    backgroundStyle = { backgroundColor: lighterHexColor };
+    return (
+      <main
+        className="relative min-h-screen w-full flex flex-col items-center"
+        style={{ fontFamily, color: fontColor, ...backgroundStyle }}
+      >
+        <div className="absolute w-full h-full">
+          <WaveSVG style={{ color: activeTheme.background.color }} />
+        </div>
+        <Content user={user} isOwner={isOwner} />
+      </main>
+    );
+  }
+
+  switch (activeTheme?.background?.style) {
+    case backgroundStyles.FLAT:
+      backgroundStyle.backgroundColor = activeTheme.background.color;
+      break;
+    case backgroundStyles.COLORUP:
+      backgroundStyle.background = `linear-gradient(to top, ${activeTheme.background.color}, ${generateLighterColor(activeTheme.background.color!)})`;
+      break;
+    case backgroundStyles.COLORDOWN:
+      backgroundStyle.background = `linear-gradient(to bottom, ${activeTheme.background.color}, ${generateLighterColor(activeTheme.background.color!)})`;
+      break;
+    case backgroundStyles.STRIPE:
+      backgroundClass = 'pattern-stripe';
+      backgroundStyle = {
+        ...backgroundStyle,
+        '--pattern-color': activeTheme.background.color,
+      } as CSSProperties;
+      break;
+    case backgroundStyles.ZIGZAG:
+      backgroundClass = 'pattern-zigzag';
+      backgroundStyle = {
+        ...backgroundStyle,
+        '--pattern-color': activeTheme.background.color,
+      } as CSSProperties;
+      break;
+    default:
+      backgroundClass = 'bg-gray-100';
+  }
+
+  return (
+    <main
+      className={cn(
+        'min-h-screen w-full flex flex-col items-center',
+        backgroundClass
+      )}
+      style={{ ...backgroundStyle, fontFamily, color: fontColor }}
+    >
+      <Content user={user} isOwner={isOwner} />
+    </main>
+  );
+}
+
+function Content({ user, isOwner }: { user: User; isOwner: boolean }) {
+  const { isBlurred } = useUiStore();
+
+  return (
+    <>
+      {isOwner && (
+        <Alert className="rounded-none border-0 bg-primary py-5 px-12 text-primary-foreground dark:bg-primary-foreground dark:text-primary">
+          <AlertDescription className="flex justify-between w-full">
+            <p>✨ This is your WookieLink.</p>
+            <NextLink href="/admin" className="font-semibold hover:underline">
+              Edit
+            </NextLink>
+          </AlertDescription>
+        </Alert>
       )}
 
-      <div className="w-full min-h-[300px] space-y-6 mt-14 relative z-20 flex flex-col items-center justify-center">
-        {user.links?.map((link) => {
-          return link.layout === 'Classic' ? (
-            <ClassicLinkItem key={link.id} link={link} />
-          ) : (
-            <FeaturedLinkItem key={link.id} link={link} />
-          );
-        })}
-      </div>
+      <div className="relative flex flex-col items-center w-full max-w-xl mx-auto pt-20">
+        <Avatar className="w-24 h-24">
+          <AvatarImage src={user?.image || undefined} alt="Profile photo" />
+          <AvatarFallback>
+            <UserRound className="w-2/3 h-2/3 text-muted-foreground" />
+          </AvatarFallback>
+        </Avatar>
+        <h2 className="mt-5 text-lg font-semibold">@{user?.username}</h2>
 
-      <div className="max-w-md mx-auto flex flex-col items-center my-8">
-        <Link
-          href="/"
-          className="w-auto px-6 py-4 bg-primary text-primary-foreground dark:bg-primary-foreground dark:text-primary border-none rounded-full shadow-lg flex items-center space-x-2 hover:bg-primary-foreground hover:text-primary dark:hover:bg-primary dark:hover:text-primary-foreground transition-all duration-300"
-        >
-          <span className="text-sm font-semibold">
-            Join {user.username} on Wookielink
-          </span>
-        </Link>
+        {isBlurred && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-10 transition-opacity duration-500" />
+        )}
+
+        <div className="w-full min-h-[300px] space-y-6 mt-14 relative z-20 flex flex-col items-center justify-center">
+          {user.links?.map((link) =>
+            link.layout === 'Classic' ? (
+              <ClassicLinkItem key={link.id} link={link} />
+            ) : (
+              <FeaturedLinkItem key={link.id} link={link} />
+            )
+          )}
+        </div>
+
+        <div className="max-w-md mx-auto flex flex-col items-center my-8">
+          <NextLink
+            href="/"
+            className="w-auto px-6 py-4 bg-primary text-primary-foreground dark:bg-primary-foreground dark:text-primary border-none rounded-full shadow-lg flex items-center space-x-2 hover:bg-primary-foreground hover:text-primary dark:hover:bg-primary dark:hover:text-primary-foreground transition-all duration-300"
+          >
+            <span className="text-sm font-semibold">
+              Join {user.username} on Wookielink
+            </span>
+          </NextLink>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
