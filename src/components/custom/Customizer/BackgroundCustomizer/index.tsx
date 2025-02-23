@@ -211,7 +211,7 @@ export function BackgroundCustomizer() {
             <div className="space-y-2">
               <Label>Color</Label>
               <ColorSelector
-                value={customTheme?.background.color || '#d21414'}
+                value={customTheme?.background?.color || '#d21414'}
                 onChange={(newColor) => setBackgroundColor(newColor)}
                 placeholder="#d21414"
               />

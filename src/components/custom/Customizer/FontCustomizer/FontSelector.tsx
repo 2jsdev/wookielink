@@ -42,7 +42,7 @@ export function FontSelector() {
       <div className="space-y-2">
         <Label>Color</Label>
         <ColorSelector
-          value={customTheme?.fontStyle.color || '#000000'}
+          value={customTheme?.fontStyle?.color || '#000000'}
           onChange={(newColor) => setFontColor(newColor)}
           placeholder="#000000"
         />
