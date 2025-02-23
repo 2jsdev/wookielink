@@ -32,7 +32,7 @@ export default function FeaturedLinkItem({ link }: { link: Link }) {
   } = getButtonStyleProps(customTheme);
 
   const buttonStyleClass = getFeaturedLinkPreviewClass(
-    customTheme.buttonStyle?.type
+    customTheme?.buttonStyle?.type
   );
 
   let dynamicStyle: React.CSSProperties = {};
@@ -80,7 +80,7 @@ export default function FeaturedLinkItem({ link }: { link: Link }) {
         id={`link-${link.shortCode}`}
         className={cn(
           'relative block w-full h-80 rounded-lg overflow-hidden transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg cursor-pointer',
-          customTheme.buttonStyle,
+          customTheme?.buttonStyle,
           buttonStyleClass,
           { 'highlighted-content': isHighlighted },
           { 'blurred-content': isBlurred }
