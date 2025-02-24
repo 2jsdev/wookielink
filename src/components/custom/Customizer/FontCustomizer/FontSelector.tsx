@@ -1,6 +1,5 @@
 'use client';
 
-import { useTransition } from 'react';
 import useThemeStore from '@/store/theme-store';
 import { Label } from '@/components/ui/label';
 import {
@@ -10,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { FontFamily, fonts } from '@/interfaces/theme';
+import { FontFamily, fonts } from '@/interfaces/Theme';
 import { ColorSelector } from '../ColorSelector';
 import { useToast } from '@/hooks/use-toast';
 import { updateTheme } from '@/actions/updateTheme';

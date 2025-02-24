@@ -1,4 +1,4 @@
-import { ButtonType, buttonTypes, Theme } from '@/interfaces/theme';
+import { ButtonType, buttonTypes, Theme } from '@/interfaces/Theme';
 
 export interface ButtonStyleProps {
   isOutline: boolean;

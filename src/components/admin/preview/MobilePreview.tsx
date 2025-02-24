@@ -10,7 +10,7 @@ import useUserStore from '@/store/userStore';
 import useLinkStore from '@/store/linkStore';
 import { Link } from '@/interfaces/Link';
 import useThemeStore from '@/store/theme-store';
-import { backgroundStyles } from '@/interfaces/theme';
+import { backgroundStyles } from '@/interfaces/Theme';
 import { generateLighterColor, generateLighterHexColor } from '@/lib/utils';
 import { PolkaSVG } from '@/components/custom/PolkaSVG';
 import { WaveSVG } from '@/components/custom/WaveSVG';

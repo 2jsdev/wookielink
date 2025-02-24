@@ -3,7 +3,7 @@
 import { container } from '@core/infrastructure/ioc/container';
 import { auth } from '@core/shared/infrastructure/services/auth';
 import { GetUserThemeUseCase } from '@core/application/useCases/GetUserTheme/GetUserThemeUseCase';
-import { Theme } from '@/interfaces/theme';
+import { Theme } from '@/interfaces/Theme';
 
 export async function getUserTheme(): Promise<Theme> {
   try {

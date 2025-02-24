@@ -1,12 +1,14 @@
 import { User } from '@core/domain/entities/User';
 import { LinkMapper } from '@core/infrastructure/mappers/LinkMapper';
 import { UniqueEntityID } from '@core/shared/domain/UniqueEntityID';
+import { ThemeMapper } from '@core/infrastructure/mappers/ThemeMapper';
 
 export class UserMapper {
   static toDomain(raw: any): User {
     const plain = JSON.parse(JSON.stringify(raw));
 
     const links = plain.links?.map((link: any) => LinkMapper.toDomain(link));
+    const theme = plain.theme ? ThemeMapper.toDomain(plain.theme) : undefined;
 
     const userOrError = User.create(
       {
@@ -17,6 +19,7 @@ export class UserMapper {
         ...(plain.image && { image: plain.image }),
         ...(plain.bio && { bio: plain.bio }),
         ...(plain.themeId && { themeId: plain.themeId }),
+        ...(theme && { theme }),
         ...(links && links.length > 0 && { links }),
       },
       new UniqueEntityID(plain.id)

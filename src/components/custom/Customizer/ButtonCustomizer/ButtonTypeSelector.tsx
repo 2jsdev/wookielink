@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { ButtonType, buttonTypes } from '@/interfaces/theme';
+import { ButtonType, buttonTypes } from '@/interfaces/Theme';
 import { Label } from '@/components/ui/label';
 import { ColorSelector } from '@/components/custom/Customizer/ColorSelector';
 import useThemeStore from '@/store/theme-store';
@@ -231,15 +231,15 @@ export function ButtonTypeSelector() {
         customTheme?.buttonStyle?.type === buttonTypes.HARDSHADOW ||
         customTheme?.buttonStyle?.type === buttonTypes.HARDSHADOW_ROUNDED ||
         customTheme?.buttonStyle?.type === buttonTypes.HARDSHADOW_CIRCULAR) && (
-        <div className="space-y-2">
-          <Label>Shadow Color</Label>
-          <ColorSelector
-            value={customTheme?.buttonStyle?.shadowColor || '#d21414'}
-            onChange={(newColor) => debouncedHandleShadowColorChange(newColor)}
-            placeholder="#d21414"
-          />
-        </div>
-      )}
+          <div className="space-y-2">
+            <Label>Shadow Color</Label>
+            <ColorSelector
+              value={customTheme?.buttonStyle?.shadowColor || '#d21414'}
+              onChange={(newColor) => debouncedHandleShadowColorChange(newColor)}
+              placeholder="#d21414"
+            />
+          </div>
+        )}
       <div className="space-y-2">
         <Label>Button font color</Label>
         <ColorSelector

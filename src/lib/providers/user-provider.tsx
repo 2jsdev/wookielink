@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { User } from '@/interfaces/User';
 import { Link } from '@/interfaces/Link';
-import { Theme } from '@/interfaces/theme';
+import { Theme } from '@/interfaces/Theme';
 import useUserStore from '@/store/userStore';
 import useLinkStore from '@/store/linkStore';
 import useThemeStore from '@/store/theme-store';

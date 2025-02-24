@@ -20,6 +20,13 @@ export class UserRepository implements IUserRepository {
               position: 'asc',
             },
           },
+          theme: {
+            include: {
+              background: true,
+              buttonStyle: true,
+              fontStyle: true,
+            },
+          },
         },
       });
 

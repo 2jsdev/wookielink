@@ -1,4 +1,5 @@
 import { Link } from '@/interfaces/Link';
+import { Theme } from '@/interfaces/Theme';
 
 export enum ProfileLayout {
   Classic = 'Classic',
@@ -15,4 +16,5 @@ export interface User {
   layout?: ProfileLayout;
   themeId?: string;
   links?: Link[];
+  theme?: Theme;
 }

@@ -143,6 +143,7 @@ export class User extends AggregateRoot<UserProps> {
       layout: this.props.layout,
       themeId: this.props.themeId,
       links: this.props.links?.map((link) => link.toJSON()),
+      theme: this.props.theme?.toJSON(),
     };
   }
 }

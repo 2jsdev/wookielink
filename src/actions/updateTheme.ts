@@ -9,7 +9,7 @@ import {
   ButtonType,
   FontFamily,
   Theme,
-} from '@/interfaces/theme';
+} from '@/interfaces/Theme';
 
 export interface UpdateThemeProps {
   id: string;

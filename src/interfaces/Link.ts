@@ -1,4 +1,4 @@
-import { OpenGraph } from './OpenGraph';
+import { OpenGraph } from '@/interfaces/OpenGraph';
 
 export enum LinkType {
   Link = 'Link',

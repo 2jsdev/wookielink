@@ -1,8 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-import { cn } from '@/lib/utils';
-import { ButtonType } from '@/interfaces/theme';
 import { Card } from '@/components/ui/card';
 import { ButtonTypeSelector } from './ButtonTypeSelector';
 

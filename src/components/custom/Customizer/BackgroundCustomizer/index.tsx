@@ -12,7 +12,7 @@ import {
   BackgroundType,
   backgroundTypes,
   gradientDirections,
-} from '@/interfaces/theme';
+} from '@/interfaces/Theme';
 import { Image, Zap } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
@@ -291,17 +291,17 @@ export function BackgroundCustomizer() {
 
           {(customTheme?.background?.type === backgroundTypes.COLOR ||
             customTheme?.background?.type === backgroundTypes.ANIMATED) && (
-            <div className="space-y-2">
-              <Label>Color</Label>
-              <ColorSelector
-                value={customTheme?.background?.color || '#d21414'}
-                onChange={(newColor) => {
-                  debouncedHandleBackgroundColorChange(newColor);
-                }}
-                placeholder="#d21414"
-              />
-            </div>
-          )}
+              <div className="space-y-2">
+                <Label>Color</Label>
+                <ColorSelector
+                  value={customTheme?.background?.color || '#d21414'}
+                  onChange={(newColor) => {
+                    debouncedHandleBackgroundColorChange(newColor);
+                  }}
+                  placeholder="#d21414"
+                />
+              </div>
+            )}
         </div>
       </Card>
     </div>
