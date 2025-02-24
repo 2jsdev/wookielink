@@ -6,7 +6,7 @@ export function Pricing() {
     {
       name: 'Padawan',
       price: 'Free',
-      features: ['1 WookieLink', 'Basic analytics', 'Standard support'],
+      features: ['1 Wookielink', 'Basic analytics', 'Standard support'],
       cta: 'Start for Free',
       isPopular: false,
     },
@@ -14,7 +14,7 @@ export function Pricing() {
       name: 'Jedi Knight',
       price: '$9.99/mo',
       features: [
-        '5 WookieLinks',
+        '5 Wookielinks',
         'Advanced analytics',
         'Priority support',
         'Custom domains',
@@ -26,7 +26,7 @@ export function Pricing() {
       name: 'Jedi Master',
       price: '$19.99/mo',
       features: [
-        'Unlimited WookieLinks',
+        'Unlimited Wookielinks',
         'Premium analytics',
         '24/7 support',
         'API access',
@@ -47,11 +47,10 @@ export function Pricing() {
           {plans.map((plan, index) => (
             <div
               key={index}
-              className={`relative flex flex-col items-center p-8 rounded-2xl shadow-lg transition-all duration-300 transform hover:scale-105 ${
-                plan.isPopular
+              className={`relative flex flex-col items-center p-8 rounded-2xl shadow-lg transition-all duration-300 transform hover:scale-105 ${plan.isPopular
                   ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
                   : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-white'
-              }`}
+                }`}
             >
               {plan.isPopular && (
                 <div className="absolute top-0 right-0 bg-yellow-400 text-black text-xs font-bold py-1 px-3 rounded-tr-lg rounded-bl-lg">
@@ -64,9 +63,8 @@ export function Pricing() {
                 {plan.features.map((feature, i) => (
                   <li key={i} className="flex items-center space-x-2 text-lg">
                     <Check
-                      className={`h-6 w-6 ${
-                        plan.isPopular ? 'text-white' : 'text-green-500'
-                      }`}
+                      className={`h-6 w-6 ${plan.isPopular ? 'text-white' : 'text-green-500'
+                        }`}
                     />
                     <span>{feature}</span>
                   </li>
@@ -74,11 +72,10 @@ export function Pricing() {
               </ul>
               <div className="mt-auto w-full">
                 <Button
-                  className={`w-full py-3 rounded-lg font-bold ${
-                    plan.isPopular
+                  className={`w-full py-3 rounded-lg font-bold ${plan.isPopular
                       ? 'bg-white text-purple-500 hover:bg-gray-100'
                       : 'bg-primary hover:bg-primary-dark'
-                  }`}
+                    }`}
                 >
                   {plan.cta}
                 </Button>

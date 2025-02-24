@@ -229,9 +229,9 @@ export default function ShareLinkModal({
         </ScrollArea>
 
         <div className="mt-6 text-center space-y-4">
-          <h3 className="font-semibold">Join on WookieLink</h3>
+          <h3 className="font-semibold">Join on Wookielink</h3>
           <p className="text-sm text-gray-500">
-            Get your own free WookieLink. The only link in bio trusted by 50M+
+            Get your own free Wookielink. The only link in bio trusted by 50M+
             people.
           </p>
           <Link

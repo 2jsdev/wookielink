@@ -9,7 +9,7 @@ export default function NotFoundPage() {
           <div>
             <Image
               src="/wookie.png"
-              alt="WookieLink Logo"
+              alt="Wookielink Logo"
               width={48}
               height={52}
               priority
@@ -30,7 +30,7 @@ export default function NotFoundPage() {
             }}
             className="text-primary hover:underline font-medium"
           >
-            Create your WookieLink now.
+            Create your Wookielink now.
           </Link>
         </p>
       </div>
@@ -40,7 +40,7 @@ export default function NotFoundPage() {
         <div>
           <Image
             src="/wookie.png"
-            alt="WookieLink Logo"
+            alt="Wookielink Logo"
             width={16}
             height={16}
           />

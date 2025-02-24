@@ -6,7 +6,7 @@ export function Footer() {
       <div className="container flex flex-col md:flex-row justify-between items-center">
         <div className="mb-4 md:mb-0">
           <span className="text-sm text-muted-foreground">
-            © 2025 WookieLink. All rights reserved.
+            © 2025 Wookielink. All rights reserved.
           </span>
         </div>
         <nav className="flex space-x-4 text-sm">

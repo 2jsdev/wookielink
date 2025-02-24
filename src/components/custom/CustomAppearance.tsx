@@ -5,7 +5,7 @@ export default function CustomAppearance() {
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-6">Custom appearance</h1>
       <p className="mb-6 text-gray-600">
-        Completely customize your WookieLink profile. Change your background
+        Completely customize your Wookielink profile. Change your background
         with colors, gradients and images. Choose a button style, change the
         typeface and more.
       </p>

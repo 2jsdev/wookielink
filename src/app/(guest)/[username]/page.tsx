@@ -14,11 +14,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const user = await getPublicProfile({ username: username });
 
   return {
-    title: `${username} | WookieLink`,
-    description: 'WookieLink. Make your link do more.',
+    title: `${username} | Wookielink`,
+    description: 'Wookielink. Make your link do more.',
     openGraph: {
-      title: `${username} | WookieLink`,
-      description: 'WookieLink. Make your link do more.',
+      title: `${username} | Wookielink`,
+      description: 'Wookielink. Make your link do more.',
       images: user?.image ? [user.image] : [],
     },
   };

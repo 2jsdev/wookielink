@@ -31,7 +31,7 @@ export default function Sidebar() {
             <SidebarMenuButton className="h-12 flex items-center justify-center gap-2 group-data-[collapsible=icon]:justify-center">
               <Logo className="me-2 group-data-[collapsible=icon]:me-0" />
               <div className="truncate font-semibold text-lg group-data-[collapsible=icon]:hidden">
-                WookieLink
+                Wookielink
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>

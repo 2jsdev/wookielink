@@ -12,7 +12,7 @@ export function Features() {
       icon: <Rocket className="h-10 w-10 text-primary" />,
       title: 'Lightning Fast',
       description:
-        'Create your WookieLink in seconds and start sharing immediately.',
+        'Create your Wookielink in seconds and start sharing immediately.',
     },
     {
       icon: <Link className="h-10 w-10 text-primary" />,
@@ -58,7 +58,7 @@ export function Features() {
         >
           Why Choose{' '}
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-purple-500">
-            WookieLink
+            Wookielink
           </span>
           ?
         </motion.h2>

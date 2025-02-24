@@ -11,19 +11,19 @@ import { motion } from 'framer-motion';
 export function FAQ() {
   const faqs = [
     {
-      question: 'What is WookieLink?',
+      question: 'What is Wookielink?',
       answer:
-        'WookieLink is a platform that allows you to create a personalized landing page with all your important links in one place, making it easy to share your online presence.',
+        'Wookielink is a platform that allows you to create a personalized landing page with all your important links in one place, making it easy to share your online presence.',
     },
     {
-      question: 'How do I create my WookieLink?',
+      question: 'How do I create my Wookielink?',
       answer:
         "Simply sign up, choose your unique username, and start adding your links. It's that easy!",
     },
     {
-      question: 'Can I customize my WookieLink?',
+      question: 'Can I customize my Wookielink?',
       answer:
-        'Yes! You can customize your WookieLink with different themes, colors, and even add your own branding.',
+        'Yes! You can customize your Wookielink with different themes, colors, and even add your own branding.',
     },
     {
       question: 'Is there a limit to how many links I can add?',
