@@ -43,7 +43,7 @@ export const themeSettings = {
     roboto: 'Roboto',
     montserrat: 'Montserrat',
     poppins: 'Poppins',
-    'overpass-mono': 'Overpass Mono',
+    'overpass_mono': 'Overpass Mono',
   },
 } as const;
 

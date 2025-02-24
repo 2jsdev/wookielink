@@ -6,7 +6,7 @@ export const fonts = {
   roboto: 'Roboto',
   montserrat: 'Montserrat',
   poppins: 'Poppins',
-  'overpass-mono': 'Overpass Mono',
+  'overpass_mono': 'Overpass Mono',
 } as const;
 
 export type FontFamily = keyof typeof fonts;
