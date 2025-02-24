@@ -47,7 +47,6 @@ export class GetPublicProfileUseCase {
 
       return right(Result.ok(user));
     } catch (error) {
-      console.log('GetPublicProfileUseCase error', error);
       const err = error instanceof Error ? error : new Error(String(error));
       return left(new AppError.UnexpectedError(err));
     }

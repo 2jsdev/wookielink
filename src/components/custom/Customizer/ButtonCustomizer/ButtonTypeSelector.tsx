@@ -5,6 +5,10 @@ import { ButtonType, buttonTypes } from '@/interfaces/theme';
 import { Label } from '@/components/ui/label';
 import { ColorSelector } from '@/components/custom/Customizer/ColorSelector';
 import useThemeStore from '@/store/theme-store';
+import { useTransition } from 'react';
+import { useToast } from '@/hooks/use-toast';
+import { updateTheme } from '@/actions/updateTheme';
+import { Loader } from '@/components/ui/loader';
 
 export function ButtonTypeSelector() {
   const {
@@ -13,10 +17,101 @@ export function ButtonTypeSelector() {
     setButtonColor,
     setButtonShadowColor,
     setButtonTextColor,
+    setCustomTheme,
   } = useThemeStore();
+  const [isPending, startTransition] = useTransition();
+  const { toast } = useToast();
 
-  const handleSelect = (type: ButtonType) => {
-    setButtonType(type);
+  const handleSelect = async (type: ButtonType) => {
+    if (!customTheme) return;
+    const previousType = customTheme.buttonStyle?.type;
+    try {
+      setButtonType(type);
+      const updatedTheme = await updateTheme({
+        id: customTheme.id,
+        buttonStyle: {
+          ...customTheme.buttonStyle,
+          type,
+        },
+      });
+      setCustomTheme(updatedTheme);
+    } catch (error) {
+      setButtonType(previousType);
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Failed to update button type',
+      });
+    }
+  };
+
+  const handleButtonColorChange = async (newColor: string) => {
+    if (!customTheme) return;
+    const previousColor = customTheme.buttonStyle?.backgroundColor;
+    try {
+      setButtonColor(newColor);
+      const updatedTheme = await updateTheme({
+        id: customTheme.id,
+        buttonStyle: {
+          ...customTheme.buttonStyle,
+          backgroundColor: newColor,
+        },
+      });
+      setCustomTheme(updatedTheme);
+    } catch (error) {
+      setButtonColor(previousColor);
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Failed to update button color',
+      });
+    }
+  };
+
+  const handleShadowColorChange = async (newColor: string) => {
+    if (!customTheme) return;
+    const previousColor = customTheme.buttonStyle?.shadowColor;
+    try {
+      setButtonShadowColor(newColor);
+      const updatedTheme = await updateTheme({
+        id: customTheme.id,
+        buttonStyle: {
+          ...customTheme.buttonStyle,
+          shadowColor: newColor,
+        },
+      });
+      setCustomTheme(updatedTheme);
+    } catch (error) {
+      setButtonShadowColor(previousColor);
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Failed to update shadow color',
+      });
+    }
+  };
+
+  const handleTextColorChange = async (newColor: string) => {
+    if (!customTheme) return;
+    const previousColor = customTheme.buttonStyle?.textColor;
+    try {
+      setButtonTextColor(newColor);
+      const updatedTheme = await updateTheme({
+        id: customTheme.id,
+        buttonStyle: {
+          ...customTheme.buttonStyle,
+          textColor: newColor,
+        },
+      });
+      setCustomTheme(updatedTheme);
+    } catch (error) {
+      setButtonTextColor(previousColor);
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Failed to update button text color',
+      });
+    }
   };
 
   const renderButtonPreview = (type: ButtonType) => {
@@ -83,6 +178,11 @@ export function ButtonTypeSelector() {
 
   return (
     <div className="w-full space-y-6">
+      {isPending && (
+        <div className="flex justify-center">
+          <Loader className="h-5 w-5" />
+        </div>
+      )}
       {categories.map((category) => (
         <div key={category.title} className="space-y-2">
           <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -92,13 +192,14 @@ export function ButtonTypeSelector() {
             {category.types.map((type) => (
               <button
                 key={type}
-                onClick={() => handleSelect(type)}
+                onClick={() => startTransition(() => handleSelect(type))}
                 className={cn(
                   'relative h-12 w-full cursor-pointer rounded-lg p-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
                   customTheme?.buttonStyle?.type === type
                     ? 'ring-2 ring-primary'
                     : 'ring-1 ring-transparent'
                 )}
+                disabled={isPending}
               >
                 <div
                   className={cn('h-full w-full', renderButtonPreview(type))}
@@ -113,8 +214,11 @@ export function ButtonTypeSelector() {
         <Label>Button color</Label>
         <ColorSelector
           value={customTheme?.buttonStyle?.backgroundColor || '#d21414'}
-          onChange={(newColor) => setButtonColor(newColor)}
+          onChange={(newColor) =>
+            startTransition(() => handleButtonColorChange(newColor))
+          }
           placeholder="#d21414"
+          disabled={isPending}
         />
       </div>
       {(customTheme?.buttonStyle?.type === buttonTypes.SOFTSHADOW ||
@@ -127,8 +231,11 @@ export function ButtonTypeSelector() {
           <Label>Shadow Color</Label>
           <ColorSelector
             value={customTheme?.buttonStyle?.shadowColor || '#d21414'}
-            onChange={(newColor) => setButtonShadowColor(newColor)}
+            onChange={(newColor) =>
+              startTransition(() => handleShadowColorChange(newColor))
+            }
             placeholder="#d21414"
+            disabled={isPending}
           />
         </div>
       )}
@@ -136,8 +243,11 @@ export function ButtonTypeSelector() {
         <Label>Button font color</Label>
         <ColorSelector
           value={customTheme?.buttonStyle?.textColor || '#d21414'}
-          onChange={(newColor) => setButtonTextColor(newColor)}
+          onChange={(newColor) =>
+            startTransition(() => handleTextColorChange(newColor))
+          }
           placeholder="#d21414"
+          disabled={isPending}
         />
       </div>
     </div>

@@ -27,8 +27,9 @@ export const gradientDirections = {
 export type GradientDirection = keyof typeof gradientDirections;
 
 export interface Background {
-  type: BackgroundType; // COLOR | IMAGE | ANIMATED
-  style?: BackgroundStyleType; // FLAT | COLORUP | COLORDOWN
+  id: string;
+  type: BackgroundType;
+  style?: BackgroundStyleType;
   color: string;
   imageUrl?: string;
   videoUrl?: string;
@@ -52,6 +53,7 @@ export const buttonTypes = {
 export type ButtonType = keyof typeof buttonTypes;
 
 export interface ButtonStyle {
+  id?: string;
   type: ButtonType;
   backgroundColor: string;
   shadowColor: string;
@@ -77,6 +79,8 @@ export interface Theme {
   id: string;
   name: string;
   premium: boolean;
+  isCustom: boolean;
+  ownerId?: string;
   background: Background;
   buttonStyle: ButtonStyle;
   fontStyle: FontStyle;

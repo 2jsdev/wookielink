@@ -38,11 +38,9 @@ export class UserMapper {
       layout: user.layout,
       image: user.image ?? null,
       bio: user.bio ?? null,
+      themeId: user.themeId ?? null,
     };
 
-    if (user.themeId && user.themeId.trim() !== '') {
-      payload.themeId = user.themeId;
-    }
     if (user.links && user.links.length > 0) {
       payload.links = user.links.map((link) => LinkMapper.toPersistence(link));
     }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useTransition } from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import useThemeStore from '@/store/theme-store';
@@ -9,11 +9,14 @@ import BackgroundCard from '@/components/custom/Customizer/BackgroundCustomizer/
 import {
   backgroundStyles,
   BackgroundStyleType,
+  BackgroundType,
   backgroundTypes,
   gradientDirections,
 } from '@/interfaces/theme';
 import { Image, Zap } from 'lucide-react';
 import { Card } from '@/components/ui/card';
+import { useToast } from '@/hooks/use-toast';
+import { updateTheme } from '@/actions/updateTheme';
 
 export function BackgroundCustomizer() {
   const {
@@ -23,7 +26,67 @@ export function BackgroundCustomizer() {
     removeBackgroundStyle,
     setBackgroundColor,
     setBackgroundImageUrl,
+    setCustomTheme,
   } = useThemeStore();
+  const [isPending, startTransition] = useTransition();
+  const { toast } = useToast();
+
+  const handleBackgroundCardClick = async (
+    type: BackgroundType,
+    style?: BackgroundStyleType
+  ) => {
+    if (!customTheme) return;
+    const previousType = customTheme.background?.type;
+    const previousStyle = customTheme.background?.style!;
+    try {
+      setBackgroundType(type);
+      if (style) {
+        setBackgroundStyle(style);
+      } else {
+        removeBackgroundStyle();
+      }
+      const updatedTheme = await updateTheme({
+        id: customTheme.id,
+        background: {
+          ...customTheme.background,
+          type,
+          style,
+        },
+      });
+      setCustomTheme(updatedTheme);
+    } catch (error) {
+      setBackgroundType(previousType);
+      setBackgroundStyle(previousStyle);
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Failed to update background',
+      });
+    }
+  };
+
+  const handleBackgroundColorChange = async (newColor: string) => {
+    if (!customTheme) return;
+    const previousColor = customTheme.background?.color;
+    try {
+      setBackgroundColor(newColor);
+      const updatedTheme = await updateTheme({
+        id: customTheme.id,
+        background: {
+          ...customTheme.background,
+          color: newColor,
+        },
+      });
+      setCustomTheme(updatedTheme);
+    } catch (error) {
+      setBackgroundColor(previousColor);
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Failed to update background color',
+      });
+    }
+  };
 
   const handleFileUpload = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,8 +110,12 @@ export function BackgroundCustomizer() {
           <BackgroundCard
             selected={customTheme?.background?.style === backgroundStyles.FLAT}
             onClick={() => {
-              setBackgroundType(backgroundTypes.COLOR);
-              setBackgroundStyle(backgroundStyles.FLAT);
+              startTransition(() =>
+                handleBackgroundCardClick(
+                  backgroundTypes.COLOR,
+                  backgroundStyles.FLAT
+                )
+              );
             }}
             label="Flat Colour"
             isPro={false}
@@ -62,8 +129,12 @@ export function BackgroundCustomizer() {
               customTheme?.background?.style === backgroundStyles.COLORDOWN
             }
             onClick={() => {
-              setBackgroundType(backgroundTypes.COLOR);
-              setBackgroundStyle(backgroundStyles.COLORUP);
+              startTransition(() =>
+                handleBackgroundCardClick(
+                  backgroundTypes.COLOR,
+                  backgroundStyles.COLORUP
+                )
+              );
             }}
             label="Gradient"
             isPro={false}
@@ -80,7 +151,9 @@ export function BackgroundCustomizer() {
           <BackgroundCard
             selected={customTheme?.background?.type === backgroundTypes.IMAGE}
             onClick={() => {
-              setBackgroundType(backgroundTypes.IMAGE);
+              startTransition(() =>
+                handleBackgroundCardClick(backgroundTypes.IMAGE)
+              );
               removeBackgroundStyle();
             }}
             label="Image"
@@ -95,7 +168,9 @@ export function BackgroundCustomizer() {
           <BackgroundCard
             selected={customTheme?.background?.type === backgroundTypes.VIDEO}
             onClick={() => {
-              setBackgroundType(backgroundTypes.VIDEO);
+              startTransition(() =>
+                handleBackgroundCardClick(backgroundTypes.VIDEO)
+              );
               removeBackgroundStyle();
             }}
             label="Video"
@@ -110,8 +185,12 @@ export function BackgroundCustomizer() {
           <BackgroundCard
             selected={customTheme?.background?.style === backgroundStyles.POLKA}
             onClick={() => {
-              setBackgroundType(backgroundTypes.ANIMATED);
-              setBackgroundStyle(backgroundStyles.POLKA);
+              startTransition(() =>
+                handleBackgroundCardClick(
+                  backgroundTypes.ANIMATED,
+                  backgroundStyles.POLKA
+                )
+              );
             }}
             label="Polka"
             isPro={true}
@@ -130,8 +209,12 @@ export function BackgroundCustomizer() {
               customTheme?.background?.style === backgroundStyles.STRIPE
             }
             onClick={() => {
-              setBackgroundType(backgroundTypes.ANIMATED);
-              setBackgroundStyle(backgroundStyles.STRIPE);
+              startTransition(() =>
+                handleBackgroundCardClick(
+                  backgroundTypes.ANIMATED,
+                  backgroundStyles.STRIPE
+                )
+              );
             }}
             label="Stripe"
             isPro={true}
@@ -148,8 +231,12 @@ export function BackgroundCustomizer() {
           <BackgroundCard
             selected={customTheme?.background?.style === backgroundStyles.WAVES}
             onClick={() => {
-              setBackgroundType(backgroundTypes.ANIMATED);
-              setBackgroundStyle(backgroundStyles.WAVES);
+              startTransition(() =>
+                handleBackgroundCardClick(
+                  backgroundTypes.ANIMATED,
+                  backgroundStyles.WAVES
+                )
+              );
             }}
             label="Waves"
             isPro={true}
@@ -168,8 +255,12 @@ export function BackgroundCustomizer() {
               customTheme?.background?.style === backgroundStyles.ZIGZAG
             }
             onClick={() => {
-              setBackgroundType(backgroundTypes.ANIMATED);
-              setBackgroundStyle(backgroundStyles.ZIGZAG);
+              startTransition(() =>
+                handleBackgroundCardClick(
+                  backgroundTypes.ANIMATED,
+                  backgroundStyles.ZIGZAG
+                )
+              );
             }}
             label="Zig Zag"
             isPro={true}
@@ -192,7 +283,12 @@ export function BackgroundCustomizer() {
                 <RadioGroup
                   value={customTheme?.background?.style}
                   onValueChange={(value) =>
-                    setBackgroundStyle(value as BackgroundStyleType)
+                    startTransition(() =>
+                      handleBackgroundCardClick(
+                        backgroundTypes.COLOR,
+                        value as BackgroundStyleType
+                      )
+                    )
                   }
                   className="grid grid-cols-2 md:grid-cols-4 gap-4"
                 >
@@ -212,7 +308,9 @@ export function BackgroundCustomizer() {
               <Label>Color</Label>
               <ColorSelector
                 value={customTheme?.background?.color || '#d21414'}
-                onChange={(newColor) => setBackgroundColor(newColor)}
+                onChange={(newColor) => {
+                  startTransition(() => handleBackgroundColorChange(newColor));
+                }}
                 placeholder="#d21414"
               />
             </div>

@@ -23,7 +23,6 @@ export async function getPublicProfile({
     const user = result.value.getValue();
     return user.toJSON();
   } catch (error) {
-    console.log('getPublicProfile error', error);
     throw error;
   }
 }

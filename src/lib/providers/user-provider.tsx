@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import { User } from '@/interfaces/User';
 import { Link } from '@/interfaces/Link';
+import { Theme } from '@/interfaces/theme';
 import useUserStore from '@/store/userStore';
 import useLinkStore from '@/store/linkStore';
 import useThemeStore from '@/store/theme-store';
@@ -10,45 +11,24 @@ import useThemeStore from '@/store/theme-store';
 interface UserProviderProps {
   user: User;
   links: Link[];
+  theme: Theme;
   children: React.ReactNode;
 }
 
 export default function UserProvider({
   user,
   links,
+  theme,
   children,
 }: UserProviderProps) {
   const { setUser, setUserLoading } = useUserStore();
   const { setLinks, setLinksLoading, setArchivedLinks } = useLinkStore();
-  const { setTheme } = useThemeStore();
+  const { setCustomTheme, setCustomThemeLoading } = useThemeStore();
 
   useEffect(() => {
     setUser(user);
     setUserLoading(false);
   }, [user, setUser, setUserLoading]);
-
-  useEffect(() => {
-    setTheme({
-      id: 'custom',
-      name: 'Custom',
-      premium: false,
-      background: {
-        type: 'COLOR',
-        style: 'FLAT',
-        color: '#f3f4f6',
-      },
-      buttonStyle: {
-        type: 'FILL',
-        backgroundColor: '#f3f4f6',
-        shadowColor: '#f3f4f6',
-        textColor: '#000000',
-      },
-      fontStyle: {
-        fontFamily: 'inter',
-        color: '#000000',
-      },
-    });
-  }, [setTheme]);
 
   useEffect(() => {
     const { active, archived } = links.reduce<{
@@ -70,6 +50,11 @@ export default function UserProvider({
     setArchivedLinks(archived);
     setLinksLoading(false);
   }, [links, setLinks, setArchivedLinks, setUserLoading, setLinksLoading]);
+
+  useEffect(() => {
+    setCustomTheme(theme);
+    setCustomThemeLoading(false);
+  }, [theme, setCustomTheme, setCustomThemeLoading]);
 
   return <>{children}</>;
 }

@@ -2,6 +2,7 @@ export const TYPES = {
   // Repositories
   UserRepository: Symbol.for('UserRepository'),
   LinkRepository: Symbol.for('LinkRepository'),
+  ThemeRepository: Symbol.for('ThemeRepository'),
 
   // Use cases
   CheckUsernameAvailabilityUseCase: Symbol.for(
@@ -20,6 +21,13 @@ export const TYPES = {
   GetUsernameByShortCodeUseCase: Symbol.for('GetUsernameByShortCodeUseCase'),
 
   GetPublicProfileUseCase: Symbol.for('GetPublicProfileUseCase'),
+
+  CreateDefaultThemeUseCase: Symbol.for('CreateDefaultThemeUseCase'),
+  UpdateThemeUseCase: Symbol.for('UpdateThemeUseCase'),
+  GetUserThemeUseCase: Symbol.for('GetUserThemeUseCase'),
+  UpdateUserThemeSelectionUseCase: Symbol.for(
+    'UpdateUserThemeSelectionUseCase'
+  ),
 
   // Services
   FileUploaderService: Symbol.for('FileUploaderService'),

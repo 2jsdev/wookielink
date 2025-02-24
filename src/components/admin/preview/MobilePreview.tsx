@@ -18,7 +18,7 @@ import { WaveSVG } from '@/components/custom/WaveSVG';
 export default function MobilePreview() {
   const { theme, customTheme } = useThemeStore();
 
-  const activeTheme = theme?.id === 'custom' ? customTheme : theme;
+  const activeTheme = theme || customTheme;
 
   const fontFamily = activeTheme?.fontStyle?.fontFamily || 'sans-serif';
   const fontColor = activeTheme?.fontStyle?.color || '#000000';

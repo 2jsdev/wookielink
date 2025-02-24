@@ -12,7 +12,12 @@ import type {
 interface ThemeStore {
   theme?: Theme;
   setTheme: (theme: Theme) => void;
+
   customTheme: Theme;
+  setCustomTheme: (theme: Theme) => void;
+  customThemeLoading: boolean;
+  setCustomThemeLoading: (value: boolean) => void;
+
   // Background
   setBackgroundType: (type: BackgroundType) => void;
 
@@ -33,9 +38,13 @@ interface ThemeStore {
 }
 
 const themeStore: StateCreator<ThemeStore> = (set) => ({
-  theme: themes[0],
+  theme: undefined,
   setTheme: (theme) => set({ theme }),
+
   customTheme: themes[0],
+  setCustomTheme: (theme) => set({ customTheme: theme }),
+  customThemeLoading: true,
+  setCustomThemeLoading: (value) => set({ customThemeLoading: value }),
 
   setBackgroundType: (type) => {
     set((state) => ({

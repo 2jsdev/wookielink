@@ -16,14 +16,15 @@ model User {
     emailVerified DateTime?     @map("email_verified")
     image         String?
     bio           String?
-    themeId       String?
     layout        ProfileLayout @default(Classic)
     accounts      Account[]
     sessions      Session[]
     links         Link[]
     activities    Activity[]
     collections   Collection[]
-    theme         Theme?        @relation(fields: [themeId], references: [id], onDelete: SetNull)
+    // Cada usuario puede tener un tema seleccionado (global o custom)
+    theme         Theme?        @relation("UserTheme", fields: [themeId], references: [id], onDelete: SetNull)
+    themeId       String?
 
     @@map("users")
 }
@@ -155,105 +156,84 @@ enum ActivityType {
 
 model Theme {
     id            String      @id @default(cuid())
-    name          String      @unique
-    description   String?
-    previewUrl    String
-    isPremium     Boolean     @default(false)
-    backgroundId  String
-    buttonStyleId String
-    fontId        String
-    colorsId      String
-    createdAt     DateTime    @default(now())
-    updatedAt     DateTime    @updatedAt
-    background    Background  @relation(fields: [backgroundId], references: [id], onDelete: Cascade)
-    buttonStyle   ButtonStyle @relation(fields: [buttonStyleId], references: [id], onDelete: Cascade)
-    colors        ThemeColors @relation(fields: [colorsId], references: [id], onDelete: Cascade)
-    font          Font        @relation(fields: [fontId], references: [id], onDelete: Cascade)
-    users         User[]
-}
+    name          String
+    premium       Boolean
+    isCustom      Boolean     @default(false)
+    // Si isCustom es true, ownerId se establecerá para que el tema sea exclusivo de ese usuario.
+    ownerId       String?
+    backgroundId  String      @unique
+    buttonStyleId String      @unique
+    fontStyleId   String      @unique
+    background    Background  @relation(fields: [backgroundId], references: [id])
+    buttonStyle   ButtonStyle @relation(fields: [buttonStyleId], references: [id])
+    fontStyle     FontStyle   @relation(fields: [fontStyleId], references: [id])
+    User          User[]      @relation("UserTheme")
 
-enum BackgroundType {
-    FLAT
-    GRADIENT
-    IMAGE
-    VIDEO
-}
-
-enum PatternType {
-    polka
-    stripe
-    waves
-    zigzag
-}
-
-enum GradientDirection {
-    TO_TOP
-    TO_RIGHT
-    TO_BOTTOM
-    TO_LEFT
-    TO_TOP_RIGHT
-    TO_TOP_LEFT
-    TO_BOTTOM_RIGHT
-    TO_BOTTOM_LEFT
+    @@map("themes")
 }
 
 model Background {
-    id        String         @id @default(cuid())
-    type      BackgroundType
-    color     String?
-    gradient  String?
-    direction GradientDirection?
-    imageUrl  String?
-    videoUrl  String?
-    pattern   PatternType?
-    theme     Theme[]
+    id       String               @id @default(cuid())
+    type     BackgroundType
+    style    BackgroundStyleType?
+    color    String
+    imageUrl String?
+    videoUrl String?
+    themes   Theme?
 }
 
-enum ButtonShape {
-    RECTANGLE
-    ROUNDED
-    CIRCULAR
+enum BackgroundType {
+    COLOR
+    IMAGE
+    VIDEO
+    ANIMATED
 }
 
-enum ShadowStyle {
-    NONE
-    SOFT
-    HARD
-}
-
-enum SpecialEffect {
-    NONE
-    TORN
-    JIGGLY
-    FORMAL
-    FROST
-    ALTERNATING_SHAPES
+enum BackgroundStyleType {
+    FLAT
+    COLORUP
+    COLORDOWN
+    POLKA
+    STRIPE
+    WAVES
+    ZIGZAG
 }
 
 model ButtonStyle {
-    id            String         @id @default(cuid())
-    shape         ButtonShape
-    shadow        ShadowStyle?
-    specialEffect SpecialEffect?
-    buttonColor   String?
-    fontColor     String?
-    shadowColor   String?
-    theme         Theme[]
+    id              String     @id @default(cuid())
+    type            ButtonType
+    backgroundColor String
+    shadowColor     String
+    textColor       String
+    themes          Theme?
 }
 
-model Font {
-    id     String  @id @default(cuid())
-    family String
-    color  String
-    theme  Theme[]
+enum ButtonType {
+    FILL
+    FILL_ROUNDED
+    FILL_CIRCULAR
+    OUTLINE
+    OUTLINE_ROUNDED
+    OUTLINE_CIRCULAR
+    SOFTSHADOW
+    SOFTSHADOW_ROUNDED
+    SOFTSHADOW_CIRCULAR
+    HARDSHADOW
+    HARDSHADOW_ROUNDED
+    HARDSHADOW_CIRCULAR
 }
 
-model ThemeColors {
-    id         String  @id @default(cuid())
-    primary    String
-    secondary  String?
-    accent     String?
-    background String?
-    text       String?
-    theme      Theme[]
+model FontStyle {
+    id         String     @id @default(cuid())
+    color      String
+    fontFamily FontFamily
+    themes     Theme?
+}
+
+enum FontFamily {
+    inter
+    roboto
+    montserrat
+    poppins
+    overpass_mono
 }

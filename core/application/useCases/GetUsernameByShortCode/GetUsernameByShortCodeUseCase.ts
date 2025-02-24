@@ -28,7 +28,6 @@ export class GetUsernameByShortCodeUseCase {
 
       return right(Result.ok(username));
     } catch (error) {
-      console.log('GetUsernameByShortCodeUseCase error', error);
       const err = error instanceof Error ? error : new Error(String(error));
       return left(new AppError.UnexpectedError(err));
     }

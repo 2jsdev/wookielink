@@ -14,9 +14,15 @@ import { UploadUserLinkThumbnailUseCase } from '@core/application/useCases/Uploa
 import { DeleteUserLinkThumbnailUseCase } from '@core/application/useCases/DeleteUserLinkThumbnail/DeleteUserLinkThumbnailUseCase';
 import { GetUsernameByShortCodeUseCase } from '@core/application/useCases/GetUsernameByShortCode/GetUsernameByShortCodeUseCase';
 
+import { CreateDefaultThemeUseCase } from '@core/application/useCases/CreateDefaultTheme/CreateDefaultThemeUseCase';
+import { UpdateThemeUseCase } from '@core/application/useCases/UpdateTheme/UpdateThemeUseCase';
+import { GetUserThemeUseCase } from '@core/application/useCases/GetUserTheme/GetUserThemeUseCase';
+import { UpdateUserThemeSelectionUseCase } from '@core/application/useCases/UpdateUserThemeSelection/UpdateUserThemeSelectionUseCase';
+
 // Repositories
 import { UserRepository } from '@core/infrastructure/persistence/UserRepository';
 import { LinkRepository } from '@core/infrastructure/persistence/LinkRepository';
+import { ThemeRepository } from '@core/infrastructure/persistence/ThemeRepository';
 
 // Services
 import { MinioFileUploader } from '@core/infrastructure/services/MinioFileUploader';
@@ -67,10 +73,24 @@ container
 container
   .bind<GetUsernameByShortCodeUseCase>(TYPES.GetUsernameByShortCodeUseCase)
   .to(GetUsernameByShortCodeUseCase);
+container
+  .bind<UpdateThemeUseCase>(TYPES.UpdateThemeUseCase)
+  .to(UpdateThemeUseCase);
+
+container
+  .bind<CreateDefaultThemeUseCase>(TYPES.CreateDefaultThemeUseCase)
+  .to(CreateDefaultThemeUseCase);
+container
+  .bind<GetUserThemeUseCase>(TYPES.GetUserThemeUseCase)
+  .to(GetUserThemeUseCase);
+container
+  .bind<UpdateUserThemeSelectionUseCase>(TYPES.UpdateUserThemeSelectionUseCase)
+  .to(UpdateUserThemeSelectionUseCase);
 
 // Repositories
 container.bind(TYPES.UserRepository).to(UserRepository).inSingletonScope();
 container.bind(TYPES.LinkRepository).to(LinkRepository).inSingletonScope();
+container.bind(TYPES.ThemeRepository).to(ThemeRepository).inSingletonScope();
 
 // Services
 container

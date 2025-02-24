@@ -5,7 +5,7 @@ import BackgroundCard from '@/components/custom/Customizer/BackgroundCustomizer/
 import { Card } from '@/components/ui/card';
 
 export default function ThemeSelector() {
-  const { theme, setTheme } = useThemeStore();
+  const { theme } = useThemeStore();
 
   return (
     <div className="container mx-auto py-8">
@@ -14,28 +14,7 @@ export default function ThemeSelector() {
         <Card className="inline-grid w-full grid-cols-[repeat(auto-fit,_minmax(130px,_1fr))] gap-4 p-5">
           <BackgroundCard
             selected={theme?.id === 'custom'}
-            onClick={() => {
-              setTheme({
-                id: 'custom',
-                name: 'Custom',
-                premium: false,
-                background: {
-                  type: 'COLOR',
-                  style: 'FLAT',
-                  color: '#f3f4f6',
-                },
-                buttonStyle: {
-                  type: 'FILL',
-                  backgroundColor: '#f3f4f6',
-                  shadowColor: '#f3f4f6',
-                  textColor: '#000000',
-                },
-                fontStyle: {
-                  fontFamily: 'inter',
-                  color: '#000000',
-                },
-              });
-            }}
+            onClick={() => {}}
             label="Custom"
             isPro={false}
           >

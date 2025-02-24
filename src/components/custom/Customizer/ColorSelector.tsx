@@ -7,6 +7,7 @@ interface ColorSelectorProps {
   onChange: (color: string) => void;
   className?: string;
   placeholder?: string;
+  disabled?: boolean;
 }
 
 function isValidHex(value: string) {
@@ -18,6 +19,7 @@ export function ColorSelector({
   onChange,
   className,
   placeholder = '#d21414',
+  disabled = false,
 }: ColorSelectorProps) {
   const [localValue, setLocalValue] = useState(value || '');
 
@@ -48,6 +50,7 @@ export function ColorSelector({
         type="color"
         value={isError ? '#000000' : localValue}
         onChange={handleColorInput}
+        disabled={disabled}
         className={cn('h-12 w-12 p-1 cursor-pointer', {
           'border-red-500': isError,
         })}
@@ -58,6 +61,7 @@ export function ColorSelector({
         value={localValue}
         onChange={handleTextChange}
         placeholder={placeholder}
+        disabled={disabled}
         className={cn(
           'h-12 max-w-[250px]',
           isError && 'border-red-500 text-red-500 placeholder:text-red-300'
