@@ -4,10 +4,9 @@ import { getUserLinks } from '@/actions/getUserLinks';
 import { getUserProfile } from '@/actions/getUserProfile';
 import { getUserTheme } from '@/actions/getUserTheme';
 
-
 export const metadata: Metadata = {
-  title: 'Wookielink Admin'
-}
+  title: 'Wookielink Admin',
+};
 
 export default async function AuthLayout({
   children,

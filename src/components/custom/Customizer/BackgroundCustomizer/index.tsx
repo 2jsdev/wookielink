@@ -17,6 +17,7 @@ import { Image, Zap } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { updateTheme } from '@/actions/updateTheme';
+import { useDebouncedCallback } from '@/hooks/use-debounced-callback';
 
 export function BackgroundCustomizer() {
   const {
@@ -28,7 +29,6 @@ export function BackgroundCustomizer() {
     setBackgroundImageUrl,
     setCustomTheme,
   } = useThemeStore();
-  const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
 
   const handleBackgroundCardClick = async (
@@ -88,6 +88,11 @@ export function BackgroundCustomizer() {
     }
   };
 
+  const debouncedHandleBackgroundColorChange = useDebouncedCallback(
+    handleBackgroundColorChange,
+    300
+  );
+
   const handleFileUpload = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
@@ -110,11 +115,9 @@ export function BackgroundCustomizer() {
           <BackgroundCard
             selected={customTheme?.background?.style === backgroundStyles.FLAT}
             onClick={() => {
-              startTransition(() =>
-                handleBackgroundCardClick(
-                  backgroundTypes.COLOR,
-                  backgroundStyles.FLAT
-                )
+              handleBackgroundCardClick(
+                backgroundTypes.COLOR,
+                backgroundStyles.FLAT
               );
             }}
             label="Flat Colour"
@@ -129,11 +132,9 @@ export function BackgroundCustomizer() {
               customTheme?.background?.style === backgroundStyles.COLORDOWN
             }
             onClick={() => {
-              startTransition(() =>
-                handleBackgroundCardClick(
-                  backgroundTypes.COLOR,
-                  backgroundStyles.COLORUP
-                )
+              handleBackgroundCardClick(
+                backgroundTypes.COLOR,
+                backgroundStyles.COLORUP
               );
             }}
             label="Gradient"
@@ -151,9 +152,7 @@ export function BackgroundCustomizer() {
           <BackgroundCard
             selected={customTheme?.background?.type === backgroundTypes.IMAGE}
             onClick={() => {
-              startTransition(() =>
-                handleBackgroundCardClick(backgroundTypes.IMAGE)
-              );
+              handleBackgroundCardClick(backgroundTypes.IMAGE);
               removeBackgroundStyle();
             }}
             label="Image"
@@ -168,9 +167,7 @@ export function BackgroundCustomizer() {
           <BackgroundCard
             selected={customTheme?.background?.type === backgroundTypes.VIDEO}
             onClick={() => {
-              startTransition(() =>
-                handleBackgroundCardClick(backgroundTypes.VIDEO)
-              );
+              handleBackgroundCardClick(backgroundTypes.VIDEO);
               removeBackgroundStyle();
             }}
             label="Video"
@@ -185,11 +182,9 @@ export function BackgroundCustomizer() {
           <BackgroundCard
             selected={customTheme?.background?.style === backgroundStyles.POLKA}
             onClick={() => {
-              startTransition(() =>
-                handleBackgroundCardClick(
-                  backgroundTypes.ANIMATED,
-                  backgroundStyles.POLKA
-                )
+              handleBackgroundCardClick(
+                backgroundTypes.ANIMATED,
+                backgroundStyles.POLKA
               );
             }}
             label="Polka"
@@ -209,11 +204,9 @@ export function BackgroundCustomizer() {
               customTheme?.background?.style === backgroundStyles.STRIPE
             }
             onClick={() => {
-              startTransition(() =>
-                handleBackgroundCardClick(
-                  backgroundTypes.ANIMATED,
-                  backgroundStyles.STRIPE
-                )
+              handleBackgroundCardClick(
+                backgroundTypes.ANIMATED,
+                backgroundStyles.STRIPE
               );
             }}
             label="Stripe"
@@ -231,11 +224,9 @@ export function BackgroundCustomizer() {
           <BackgroundCard
             selected={customTheme?.background?.style === backgroundStyles.WAVES}
             onClick={() => {
-              startTransition(() =>
-                handleBackgroundCardClick(
-                  backgroundTypes.ANIMATED,
-                  backgroundStyles.WAVES
-                )
+              handleBackgroundCardClick(
+                backgroundTypes.ANIMATED,
+                backgroundStyles.WAVES
               );
             }}
             label="Waves"
@@ -255,11 +246,9 @@ export function BackgroundCustomizer() {
               customTheme?.background?.style === backgroundStyles.ZIGZAG
             }
             onClick={() => {
-              startTransition(() =>
-                handleBackgroundCardClick(
-                  backgroundTypes.ANIMATED,
-                  backgroundStyles.ZIGZAG
-                )
+              handleBackgroundCardClick(
+                backgroundTypes.ANIMATED,
+                backgroundStyles.ZIGZAG
               );
             }}
             label="Zig Zag"
@@ -283,11 +272,9 @@ export function BackgroundCustomizer() {
                 <RadioGroup
                   value={customTheme?.background?.style}
                   onValueChange={(value) =>
-                    startTransition(() =>
-                      handleBackgroundCardClick(
-                        backgroundTypes.COLOR,
-                        value as BackgroundStyleType
-                      )
+                    handleBackgroundCardClick(
+                      backgroundTypes.COLOR,
+                      value as BackgroundStyleType
                     )
                   }
                   className="grid grid-cols-2 md:grid-cols-4 gap-4"
@@ -309,7 +296,7 @@ export function BackgroundCustomizer() {
               <ColorSelector
                 value={customTheme?.background?.color || '#d21414'}
                 onChange={(newColor) => {
-                  startTransition(() => handleBackgroundColorChange(newColor));
+                  debouncedHandleBackgroundColorChange(newColor);
                 }}
                 placeholder="#d21414"
               />

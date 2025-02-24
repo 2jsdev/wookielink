@@ -14,11 +14,10 @@ import { FontFamily, fonts } from '@/interfaces/theme';
 import { ColorSelector } from '../ColorSelector';
 import { useToast } from '@/hooks/use-toast';
 import { updateTheme } from '@/actions/updateTheme';
-import { Loader } from '@/components/ui/loader';
+import { useDebouncedCallback } from '@/hooks/use-debounced-callback';
 
 export function FontSelector() {
   const { customTheme, setFontFamily, setFontColor } = useThemeStore();
-  const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
 
   const handleFontFamilyChange = async (value: FontFamily) => {
@@ -65,21 +64,18 @@ export function FontSelector() {
     }
   };
 
+  const debouncedHandleFontColorChange = useDebouncedCallback(
+    handleFontColorChange,
+    300
+  );
+
   return (
     <div className="w-full space-y-6">
-      {isPending && (
-        <div className="flex justify-center">
-          <Loader className="h-5 w-5" />
-        </div>
-      )}
       <div className="flex flex-col gap-4">
         <Label>Font Family</Label>
         <Select
           value={customTheme?.fontStyle?.fontFamily}
-          onValueChange={(value: FontFamily) => {
-            startTransition(() => handleFontFamilyChange(value));
-          }}
-          disabled={isPending}
+          onValueChange={(value: FontFamily) => handleFontFamilyChange(value)}
         >
           <SelectTrigger className="col-span-3">
             <SelectValue placeholder="Select font family" />
@@ -100,11 +96,8 @@ export function FontSelector() {
         <Label>Color</Label>
         <ColorSelector
           value={customTheme?.fontStyle?.color || '#000000'}
-          onChange={(newColor) => {
-            startTransition(() => handleFontColorChange(newColor));
-          }}
+          onChange={(newColor) => debouncedHandleFontColorChange(newColor)}
           placeholder="#000000"
-          disabled={isPending}
         />
       </div>
     </div>

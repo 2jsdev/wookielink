@@ -39,7 +39,8 @@ const overpass_mono = Overpass_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Link in bio tool: Everything you are, in one simple link | Wookielink',
+  title:
+    'Link in bio tool: Everything you are, in one simple link | Wookielink',
 };
 
 export default function RootLayout({
