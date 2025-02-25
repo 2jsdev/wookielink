@@ -105,7 +105,7 @@ export default function PublicProfileContent({
         'min-h-screen w-full flex flex-col items-center',
         backgroundClass
       )}
-      style={{ ...backgroundStyle, fontFamily, color: fontColor }}
+      style={{ fontFamily, color: fontColor, ...backgroundStyle }}
     >
       <Content user={user} isOwner={isOwner} />
     </main>
@@ -144,9 +144,9 @@ function Content({ user, isOwner }: { user: User; isOwner: boolean }) {
         <div className="w-full min-h-[300px] space-y-6 mt-14 relative z-20 flex flex-col items-center justify-center">
           {user.links?.map((link) =>
             link.layout === 'Classic' ? (
-              <ClassicLinkItem key={link.id} link={link} />
+              <ClassicLinkItem key={link.id} link={link} theme={user.theme!} />
             ) : (
-              <FeaturedLinkItem key={link.id} link={link} />
+              <FeaturedLinkItem key={link.id} link={link} theme={user.theme!}/>
             )
           )}
         </div>

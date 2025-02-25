@@ -47,7 +47,7 @@ export default function Sidebar() {
                   asChild
                   tooltip={item.title}
                   isActive={pathname === item.href}
-                  className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="flex items-center gap-3 p-2 rounded-md"
                 >
                   <Link href={item.href}>
                     {item.icon && <Icon name={item.icon} className="w-6 h-6" />}
@@ -60,7 +60,7 @@ export default function Sidebar() {
         </ScrollArea>
       </SidebarContent>
 
-      <SidebarFooter className="p-4 border-t border-gray-200 dark:border-gray-700">
+      <SidebarFooter className="p-4 border-t border-muted-foreground">
         <div className="flex items-center space-x-3 group-data-[collapsible=icon]:justify-center">
           <Avatar className="w-8 h-8 shrink-0 group-data-[collapsible=icon]:w-6 group-data-[collapsible=icon]:h-6">
             <AvatarImage src={user?.image || undefined} alt="User avatar" />

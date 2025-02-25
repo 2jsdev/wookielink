@@ -2,25 +2,28 @@
 
 import { useState } from 'react';
 import { Link } from '@/interfaces/Link';
+import { Theme } from '@/interfaces/Theme';
 import { MoreVertical } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import ShareLinkModal from '@/components/custom/ShareLinkModal';
 import { Button } from '@/components/ui/button';
 import useUiStore from '@/store/uiStore';
-import useThemeStore from '@/store/theme-store';
 import {
   getButtonStyleProps,
   getClassicLinkPreviewClass,
 } from '@/lib/buttonUtils';
 
-export default function ClassicLinkItem({ link }: { link: Link }) {
+interface Props {
+  link: Link;
+  theme: Theme
+}
+
+export default function ClassicLinkItem({ link, theme }: Props) {
   const { isBlurred, highlightedLink } = useUiStore();
   const isHighlighted = highlightedLink === link.shortCode;
   const [isOpen, setIsOpen] = useState(false);
   const [hovered, setHovered] = useState(false);
-
-  const { customTheme } = useThemeStore();
 
   const {
     isOutline,
@@ -30,10 +33,10 @@ export default function ClassicLinkItem({ link }: { link: Link }) {
     selectedColor,
     shadowColor,
     textColor,
-  } = getButtonStyleProps(customTheme);
+  } = getButtonStyleProps(theme);
 
   const buttonStyleClass = getClassicLinkPreviewClass(
-    customTheme?.buttonStyle?.type
+    theme?.buttonStyle?.type
   );
 
   let dynamicStyle: React.CSSProperties = {};
@@ -77,7 +80,7 @@ export default function ClassicLinkItem({ link }: { link: Link }) {
       rel="noopener noreferrer"
       className={cn(
         'flex items-center h-15 w-full p-2 pr-3 text-center rounded-lg transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg cursor-pointer',
-        customTheme?.buttonStyle,
+        theme?.buttonStyle,
         buttonStyleClass,
         { 'highlighted-content': isHighlighted },
         { 'blurred-content': isBlurred }
