@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
-import LoginContent from './ui/LoginContent';
+import LoginContent from './ui/login-content';
 
 export const metadata: Metadata = {
   title: 'Log in or Sign Up | Wookielink',

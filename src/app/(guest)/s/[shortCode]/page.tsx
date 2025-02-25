@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { getUsernameByShortCode } from '@/actions/getUsernameByShortCode';
+import { getUsernameByShortCode } from '@/actions/get-username-by-short-code';
 
 interface Props {
   params: Promise<{ shortCode: string }>;

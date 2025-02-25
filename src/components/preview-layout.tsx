@@ -1,8 +1,8 @@
 'use client';
 import NextTopLoader from 'nextjs-toploader';
 import ThemeCustomizer from './theme-customizer';
-import useThemeSettingsStore from '@/store/themeSettingsStore';
-import MobilePreview from '@/components/admin/preview/MobilePreview';
+import useThemeSettingsStore from '@/store/theme-settings-store';
+import MobilePreview from '@/components/admin/preview/mobile-preview';
 import { cn } from '@/lib/utils';
 
 export default function PreviewLayout({

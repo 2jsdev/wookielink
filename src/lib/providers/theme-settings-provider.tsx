@@ -1,7 +1,9 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import useThemeSettingsStore, { themeColors } from '@/store/themeSettingsStore';
+import useThemeSettingsStore, {
+  themeColors,
+} from '@/store/theme-settings-store';
 
 export default function ThemeSettingsProvider({
   children,

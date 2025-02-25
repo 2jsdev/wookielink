@@ -1,10 +1,10 @@
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
-import { homeSections } from '@/config/homeSections';
-import { Hero } from '@/components/Hero';
-import { Features } from '@/components/Features';
-import { Pricing } from '@/components/Pricing';
-import { FAQ } from '@/components/FAQ';
+import { Header } from '@/components/header';
+import { Footer } from '@/components/footer';
+import { homeSections } from '@/config/home-sections';
+import { Hero } from '@/components/hero';
+import { Features } from '@/components/features';
+import { Pricing } from '@/components/pricing';
+import { FAQ } from '@/components/faq';
 
 const sectionComponents = {
   Hero,

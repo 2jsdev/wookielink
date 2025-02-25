@@ -1,13 +1,13 @@
 // import ThemeSelector from '@/components/custom/Customizer/ThemeSelector';
-import CustomAppearance from '@/components/custom/CustomAppearance';
-import ButtonAppearance from '@/components/custom/ButtonAppearance';
-import FontAppearance from '@/components/custom/FontAppearance';
+import BackgroundAppearance from '@/components/admin/appearance/background/background-appearance';
+import ButtonAppearance from '@/components/admin/appearance/button/button-appearance';
+import FontAppearance from '@/components/admin/appearance/font/font-appearance';
 
 export default function AppearancePage() {
   return (
     <>
       {/* <ThemeSelector /> */}
-      <CustomAppearance />
+      <BackgroundAppearance />
       <ButtonAppearance />
       <FontAppearance />
     </>

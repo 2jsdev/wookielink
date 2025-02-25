@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { User } from '@/interfaces/User';
-import { Link } from '@/interfaces/Link';
-import { Theme } from '@/interfaces/Theme';
-import useUserStore from '@/store/userStore';
-import useLinkStore from '@/store/linkStore';
+import { User } from '@/interfaces/user';
+import { Link } from '@/interfaces/link';
+import { Theme } from '@/interfaces/theme';
+import useUserStore from '@/store/user-store';
+import useLinkStore from '@/store/link-store';
 import useThemeStore from '@/store/theme-store';
 
 interface UserProviderProps {

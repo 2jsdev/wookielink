@@ -17,7 +17,7 @@ import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { usePathname } from 'next/navigation';
 import { page_routes } from '@/lib/routes-config';
-import useUserStore from '@/store/userStore';
+import useUserStore from '@/store/user-store';
 
 export default function Sidebar() {
   const pathname = usePathname();

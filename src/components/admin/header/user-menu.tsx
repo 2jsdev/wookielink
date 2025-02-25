@@ -10,9 +10,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { BadgeCheck, CreditCard, Sparkles, UserRound } from 'lucide-react';
-import { SignOutButton } from '@/components/custom/SignOutButton';
+import { SignOutButton } from '@/components/custom/sign-out-button';
 import { generateAvatarFallback } from '@/lib/utils';
-import useUserStore from '@/store/userStore';
+import useUserStore from '@/store/user-store';
 
 export default function UserMenu() {
   const { user } = useUserStore();

@@ -7,7 +7,7 @@ import type {
   ButtonType,
   FontFamily,
   Theme,
-} from '@/interfaces/Theme';
+} from '@/interfaces/theme';
 
 interface ThemeStore {
   theme?: Theme;

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import { getPublicProfile } from '@/actions/getPublicProfile';
+import { getPublicProfile } from '@/actions/get-public-profile';
 import { notFound } from 'next/navigation';
-import PublicProfileContent from './ui/PublicProfileContent';
+import PublicProfileContent from './ui/public-profile-content';
 import { auth } from '@core/shared/infrastructure/services/auth';
 
 interface Props {

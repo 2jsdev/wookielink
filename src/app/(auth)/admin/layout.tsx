@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 import UserProvider from '@/lib/providers/user-provider';
-import { getUserLinks } from '@/actions/getUserLinks';
-import { getUserProfile } from '@/actions/getUserProfile';
-import { getUserTheme } from '@/actions/getUserTheme';
+import { getUserLinks } from '@/actions/get-user-links';
+import { getUserProfile } from '@/actions/get-user-profile';
+import { getUserTheme } from '@/actions/get-user-theme';
 
 export const metadata: Metadata = {
   title: 'Wookielink Admin',

@@ -25,7 +25,7 @@ import useSettingsStore, {
   themeColors,
   themeSettings,
   ContentLayout,
-} from '@/store/themeSettingsStore';
+} from '@/store/theme-settings-store';
 import { Label } from './ui/label';
 
 function ThemeCustomizer() {

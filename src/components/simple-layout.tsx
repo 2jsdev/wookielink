@@ -2,7 +2,7 @@
 
 import NextTopLoader from 'nextjs-toploader';
 import ThemeCustomizer from './theme-customizer';
-import useThemeSettingsStore from '@/store/themeSettingsStore';
+import useThemeSettingsStore from '@/store/theme-settings-store';
 import { cn } from '@/lib/utils';
 
 export default function SimpleLayout({
