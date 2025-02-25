@@ -60,7 +60,7 @@ export default function Sidebar() {
         </ScrollArea>
       </SidebarContent>
 
-      <SidebarFooter className="p-4 border-t border-muted-foreground">
+      <SidebarFooter className="p-4 border-t">
         <div className="flex items-center space-x-3 group-data-[collapsible=icon]:justify-center">
           <Avatar className="w-8 h-8 shrink-0 group-data-[collapsible=icon]:w-6 group-data-[collapsible=icon]:h-6">
             <AvatarImage src={user?.image || undefined} alt="User avatar" />
