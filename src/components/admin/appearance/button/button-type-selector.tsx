@@ -144,12 +144,12 @@ export function ButtonTypeSelector() {
       case buttonTypes.OUTLINE_CIRCULAR:
         return 'border-2 border-black dark:border-white rounded-full';
 
-      case buttonTypes.SOFTSHADOW:
-        return 'bg-white dark:bg-black border border-gray-200 dark:border-gray-800 shadow-lg';
-      case buttonTypes.SOFTSHADOW_ROUNDED:
-        return 'bg-white dark:bg-black border border-gray-200 dark:border-gray-800 shadow-lg rounded-md';
-      case buttonTypes.SOFTSHADOW_CIRCULAR:
-        return 'bg-white dark:bg-black border border-gray-200 dark:border-gray-800 shadow-lg rounded-full';
+        case "SOFTSHADOW":
+          return "bg-white dark:bg-black shadow-lg dark:shadow-[0_4px_12px_rgba(255,255,255,1)] border border-gray-200 dark:border-gray-700"
+        case "SOFTSHADOW_ROUNDED":
+          return "bg-white dark:bg-black shadow-lg dark:shadow-[0_4px_12px_rgba(255,255,255,1)] border border-gray-200 dark:border-gray-700 rounded-md"
+        case "SOFTSHADOW_CIRCULAR":
+          return "bg-white dark:bg-black shadow-lg dark:shadow-[0_4px_12px_rgba(255,255,255,1)] border border-gray-200 dark:border-gray-700 rounded-full"
 
       case buttonTypes.HARDSHADOW:
         return 'border-2 border-black dark:border-white translate-y-[-2px] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]';
@@ -202,14 +202,20 @@ export function ButtonTypeSelector() {
                 key={type}
                 onClick={() => handleSelect(type)}
                 className={cn(
-                  'relative h-12 w-full cursor-pointer rounded-lg p-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
+                  "group relative h-16 w-full cursor-pointer rounded-lg p-2 focus:outline-none",
                   customTheme?.buttonStyle?.type === type
-                    ? 'ring-2 ring-primary'
+                    ? 'ring-2 ring-primary ring-offset-2'
                     : 'ring-1 ring-transparent'
                 )}
               >
                 <div
-                  className={cn('h-full w-full', renderButtonPreview(type))}
+                  className={cn(
+                    'h-full w-full transition-transform',
+                    customTheme?.buttonStyle?.type === type
+                      ? 'scale-90'
+                      : 'group-hover:scale-95',
+                    renderButtonPreview(type)
+                  )}
                 />
               </button>
             ))}
