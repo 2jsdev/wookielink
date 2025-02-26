@@ -144,12 +144,12 @@ export function ButtonTypeSelector() {
       case buttonTypes.OUTLINE_CIRCULAR:
         return 'border-2 border-black dark:border-white rounded-full';
 
-        case "SOFTSHADOW":
-          return "bg-white dark:bg-black shadow-lg dark:shadow-[0_4px_12px_rgba(255,255,255,1)] border border-gray-200 dark:border-gray-700"
-        case "SOFTSHADOW_ROUNDED":
-          return "bg-white dark:bg-black shadow-lg dark:shadow-[0_4px_12px_rgba(255,255,255,1)] border border-gray-200 dark:border-gray-700 rounded-md"
-        case "SOFTSHADOW_CIRCULAR":
-          return "bg-white dark:bg-black shadow-lg dark:shadow-[0_4px_12px_rgba(255,255,255,1)] border border-gray-200 dark:border-gray-700 rounded-full"
+      case 'SOFTSHADOW':
+        return 'bg-white dark:bg-black shadow-lg dark:shadow-[0_4px_12px_rgba(255,255,255,1)] border border-gray-200 dark:border-gray-700';
+      case 'SOFTSHADOW_ROUNDED':
+        return 'bg-white dark:bg-black shadow-lg dark:shadow-[0_4px_12px_rgba(255,255,255,1)] border border-gray-200 dark:border-gray-700 rounded-md';
+      case 'SOFTSHADOW_CIRCULAR':
+        return 'bg-white dark:bg-black shadow-lg dark:shadow-[0_4px_12px_rgba(255,255,255,1)] border border-gray-200 dark:border-gray-700 rounded-full';
 
       case buttonTypes.HARDSHADOW:
         return 'border-2 border-black dark:border-white translate-y-[-2px] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]';
@@ -202,7 +202,7 @@ export function ButtonTypeSelector() {
                 key={type}
                 onClick={() => handleSelect(type)}
                 className={cn(
-                  "group relative h-16 w-full cursor-pointer rounded-lg p-2 focus:outline-none",
+                  'group relative h-16 w-full cursor-pointer rounded-lg p-2 focus:outline-none',
                   customTheme?.buttonStyle?.type === type
                     ? 'ring-2 ring-primary ring-offset-2'
                     : 'ring-1 ring-transparent'
