@@ -10,7 +10,7 @@ import useUserStore from '@/store/user-store';
 import useLinkStore from '@/store/link-store';
 import { Link } from '@/interfaces/link';
 import useThemeStore from '@/store/theme-store';
-import { backgroundStyles } from '@/interfaces/theme';
+import { backgroundStyles, backgroundTypes } from '@/interfaces/theme';
 import { generateLighterColor, generateLighterHexColor } from '@/lib/utils';
 import { PolkaSVG } from '@/components/admin/appearance/background/polka-svg';
 import { WaveSVG } from '@/components/admin/appearance/background/wave-svg';
@@ -25,6 +25,34 @@ export default function MobilePreview() {
 
   let backgroundClass = '';
   let backgroundStyle: CSSProperties = {};
+
+  if (activeTheme?.background?.type === backgroundTypes.IMAGE) {
+    const imageUrl = activeTheme.background.imageUrl;
+
+    const backgroundStyle: CSSProperties = {
+      backgroundImage: `url(${imageUrl})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+    };
+
+    return (
+      <aside className="bg-background">
+        <PhoneMockup>
+          <div
+            className="relative h-full w-full flex flex-col items-center"
+            style={{
+              fontFamily,
+              color: fontColor,
+              ...backgroundStyle,
+            }}
+          >
+            <Content />
+          </div>
+        </PhoneMockup>
+      </aside>
+    );
+  }
 
   if (activeTheme?.background?.style === backgroundStyles.POLKA) {
     const lighterHexColor = generateLighterHexColor(

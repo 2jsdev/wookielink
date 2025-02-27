@@ -10,7 +10,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn, generateLighterColor, generateLighterHexColor } from '@/lib/utils';
 import useUiStore from '@/store/ui-store';
-import { backgroundStyles } from '@/interfaces/theme';
+import { backgroundStyles, backgroundTypes } from '@/interfaces/theme';
 import { PolkaSVG } from '@/components/admin/appearance/background/polka-svg';
 import { WaveSVG } from '@/components/admin/appearance/background/wave-svg';
 
@@ -39,6 +39,24 @@ export default function PublicProfileContent({
 
   let backgroundClass = '';
   let backgroundStyle: CSSProperties = {};
+
+  if (theme?.background?.type === backgroundTypes.IMAGE && theme?.background?.imageUrl) {
+    backgroundStyle = {
+      backgroundImage: `url(${theme.background.imageUrl})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+    };
+
+    return (
+      <main
+        className="relative min-h-screen w-full flex flex-col items-center"
+        style={{ fontFamily, color: fontColor, ...backgroundStyle }}
+      >
+        <Content user={user} isOwner={isOwner} />
+      </main>
+    );
+  }
 
   if (theme?.background?.style === backgroundStyles.POLKA) {
     const lighterHexColor = generateLighterHexColor(theme.background.color!);
