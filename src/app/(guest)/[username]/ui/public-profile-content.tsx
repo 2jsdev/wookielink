@@ -40,7 +40,10 @@ export default function PublicProfileContent({
   let backgroundClass = '';
   let backgroundStyle: CSSProperties = {};
 
-  if (theme?.background?.type === backgroundTypes.IMAGE && theme?.background?.imageUrl) {
+  if (
+    theme?.background?.type === backgroundTypes.IMAGE &&
+    theme?.background?.imageUrl
+  ) {
     backgroundStyle = {
       backgroundImage: `url(${theme.background.imageUrl})`,
       backgroundSize: 'cover',

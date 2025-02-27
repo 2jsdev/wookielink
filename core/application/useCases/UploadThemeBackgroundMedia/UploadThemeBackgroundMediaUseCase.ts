@@ -58,7 +58,9 @@ export class UploadThemeBackgroundMediaUseCase {
           existingTheme.background.imageUrl &&
           existingTheme.background.imageUrl.startsWith(minioUrl)
         ) {
-          await this.fileUploaderService.delete(existingTheme.background.imageUrl);
+          await this.fileUploaderService.delete(
+            existingTheme.background.imageUrl
+          );
         }
       } catch (error) {
         console.error('Failed to delete existing background media:', error);
@@ -82,7 +84,8 @@ export class UploadThemeBackgroundMediaUseCase {
       existingTheme.background.props.imageUrl = newMediaUrl;
       existingTheme.background.props.videoUrl = undefined;
 
-      const updatedTheme = await this.themeRepository.updateTheme(existingTheme);
+      const updatedTheme =
+        await this.themeRepository.updateTheme(existingTheme);
 
       return right(Result.ok<Theme>(updatedTheme));
     } catch (error) {

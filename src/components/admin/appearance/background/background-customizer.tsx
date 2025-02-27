@@ -255,7 +255,7 @@ export function BackgroundCustomizer() {
 
         <div className="gap-4 p-5">
           {customTheme?.background?.style === backgroundStyles.COLORUP ||
-            customTheme?.background?.style === backgroundStyles.COLORDOWN ? (
+          customTheme?.background?.style === backgroundStyles.COLORDOWN ? (
             <div className="space-y-2">
               <Label>Direction</Label>
               <RadioGroup
@@ -280,17 +280,17 @@ export function BackgroundCustomizer() {
 
           {(customTheme?.background?.type === backgroundTypes.COLOR ||
             customTheme?.background?.type === backgroundTypes.ANIMATED) && (
-              <div className="space-y-2">
-                <Label>Color</Label>
-                <ColorSelector
-                  value={customTheme?.background?.color || '#d21414'}
-                  onChange={(newColor) => {
-                    debouncedHandleBackgroundColorChange(newColor);
-                  }}
-                  placeholder="#d21414"
-                />
-              </div>
-            )}
+            <div className="space-y-2">
+              <Label>Color</Label>
+              <ColorSelector
+                value={customTheme?.background?.color || '#d21414'}
+                onChange={(newColor) => {
+                  debouncedHandleBackgroundColorChange(newColor);
+                }}
+                placeholder="#d21414"
+              />
+            </div>
+          )}
         </div>
       </Card>
 
