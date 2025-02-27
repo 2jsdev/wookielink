@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useState } from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import useThemeStore from '@/store/theme-store';
@@ -18,6 +18,8 @@ import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { updateTheme } from '@/actions/update-theme';
 import { useDebouncedCallback } from '@/hooks/use-debounced-callback';
+import { MediaUploader } from '@/components/custom/media-uploader';
+import { uploadThemeBackgroundMedia } from '@/actions/upload-theme-background-media';
 
 export function BackgroundCustomizer() {
   const {
@@ -26,10 +28,10 @@ export function BackgroundCustomizer() {
     setBackgroundStyle,
     removeBackgroundStyle,
     setBackgroundColor,
-    setBackgroundImageUrl,
     setCustomTheme,
   } = useThemeStore();
   const { toast } = useToast();
+  const [openMediaUploader, setOpenMediaUploader] = useState(false);
 
   const handleBackgroundCardClick = async (
     type: BackgroundType,
@@ -37,7 +39,7 @@ export function BackgroundCustomizer() {
   ) => {
     if (!customTheme) return;
     const previousType = customTheme.background?.type;
-    const previousStyle = customTheme.background?.style!;
+    const previousStyle = customTheme.background?.style;
     try {
       setBackgroundType(type);
       if (style) {
@@ -56,7 +58,7 @@ export function BackgroundCustomizer() {
       setCustomTheme(updatedTheme);
     } catch (error) {
       setBackgroundType(previousType);
-      setBackgroundStyle(previousStyle);
+      setBackgroundStyle(previousStyle!);
       toast({
         variant: 'destructive',
         title: 'Error',
@@ -65,48 +67,56 @@ export function BackgroundCustomizer() {
     }
   };
 
-  const handleBackgroundColorChange = async (newColor: string) => {
+  const debouncedHandleBackgroundColorChange = useDebouncedCallback(
+    async (newColor: string) => {
+      if (!customTheme) return;
+      const previousColor = customTheme.background?.color;
+      try {
+        setBackgroundColor(newColor);
+        const updatedTheme = await updateTheme({
+          id: customTheme.id,
+          background: {
+            ...customTheme.background,
+            color: newColor,
+          },
+        });
+        setCustomTheme(updatedTheme);
+      } catch (error) {
+        setBackgroundColor(previousColor);
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: 'Failed to update background color',
+        });
+      }
+    },
+    300
+  );
+
+  async function handleUploadMedia(file: File) {
     if (!customTheme) return;
-    const previousColor = customTheme.background?.color;
     try {
-      setBackgroundColor(newColor);
-      const updatedTheme = await updateTheme({
-        id: customTheme.id,
-        background: {
-          ...customTheme.background,
-          color: newColor,
+      const arrayBuffer = await file.arrayBuffer();
+      const updatedTheme = await uploadThemeBackgroundMedia({
+        themeId: customTheme.id,
+        backgroundMedia: {
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          extension: file.name.split('.').pop() ?? '',
+          content: arrayBuffer,
         },
       });
       setCustomTheme(updatedTheme);
     } catch (error) {
-      setBackgroundColor(previousColor);
+      console.error(error);
       toast({
         variant: 'destructive',
         title: 'Error',
-        description: 'Failed to update background color',
+        description: 'Failed to upload file.',
       });
     }
-  };
-
-  const debouncedHandleBackgroundColorChange = useDebouncedCallback(
-    handleBackgroundColorChange,
-    300
-  );
-
-  const handleFileUpload = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (!file) return;
-
-      try {
-        const objectUrl = URL.createObjectURL(file);
-        setBackgroundImageUrl(objectUrl);
-      } catch (error) {
-        console.error('Error uploading file:', error);
-      }
-    },
-    [setBackgroundImageUrl]
-  );
+  }
 
   return (
     <div className="w-full space-y-8">
@@ -152,22 +162,9 @@ export function BackgroundCustomizer() {
             onClick={() => {
               handleBackgroundCardClick(backgroundTypes.IMAGE);
               removeBackgroundStyle();
+              setOpenMediaUploader(true);
             }}
             label="Image"
-            badgeContent={<Zap className="h-[10px] w-[10px] text-white" />}
-          >
-            <div className="flex h-full w-full items-center justify-center rounded-sm border border-dashed border-pebble before:flex before:pt-[150%]">
-              <Image className="h-10 w-10 text-gray-300" />
-            </div>
-          </BackgroundCard>
-
-          <BackgroundCard
-            selected={customTheme?.background?.type === backgroundTypes.VIDEO}
-            onClick={() => {
-              handleBackgroundCardClick(backgroundTypes.VIDEO);
-              removeBackgroundStyle();
-            }}
-            label="Video"
             badgeContent={<Zap className="h-[10px] w-[10px] text-white" />}
           >
             <div className="flex h-full w-full items-center justify-center rounded-sm border border-dashed border-pebble before:flex before:pt-[150%]">
@@ -258,44 +255,51 @@ export function BackgroundCustomizer() {
 
         <div className="gap-4 p-5">
           {customTheme?.background?.style === backgroundStyles.COLORUP ||
-            (customTheme?.background?.style === backgroundStyles.COLORDOWN && (
-              <div className="space-y-2">
-                <Label>Direction</Label>
-                <RadioGroup
-                  value={customTheme?.background?.style}
-                  onValueChange={(value) =>
-                    handleBackgroundCardClick(
-                      backgroundTypes.COLOR,
-                      value as BackgroundStyleType
-                    )
-                  }
-                  className="grid grid-cols-2 md:grid-cols-4 gap-4"
-                >
-                  {Object.entries(gradientDirections).map(([key, label]) => (
-                    <div key={key} className="flex items-center space-x-2">
-                      <RadioGroupItem value={key} id={key} />
-                      <Label htmlFor={key}>{label}</Label>
-                    </div>
-                  ))}
-                </RadioGroup>
-              </div>
-            ))}
+            customTheme?.background?.style === backgroundStyles.COLORDOWN ? (
+            <div className="space-y-2">
+              <Label>Direction</Label>
+              <RadioGroup
+                value={customTheme?.background?.style}
+                onValueChange={(value) =>
+                  handleBackgroundCardClick(
+                    backgroundTypes.COLOR,
+                    value as BackgroundStyleType
+                  )
+                }
+                className="grid grid-cols-2 md:grid-cols-4 gap-4"
+              >
+                {Object.entries(gradientDirections).map(([key, label]) => (
+                  <div key={key} className="flex items-center space-x-2">
+                    <RadioGroupItem value={key} id={key} />
+                    <Label htmlFor={key}>{label}</Label>
+                  </div>
+                ))}
+              </RadioGroup>
+            </div>
+          ) : null}
 
           {(customTheme?.background?.type === backgroundTypes.COLOR ||
             customTheme?.background?.type === backgroundTypes.ANIMATED) && (
-            <div className="space-y-2">
-              <Label>Color</Label>
-              <ColorSelector
-                value={customTheme?.background?.color || '#d21414'}
-                onChange={(newColor) => {
-                  debouncedHandleBackgroundColorChange(newColor);
-                }}
-                placeholder="#d21414"
-              />
-            </div>
-          )}
+              <div className="space-y-2">
+                <Label>Color</Label>
+                <ColorSelector
+                  value={customTheme?.background?.color || '#d21414'}
+                  onChange={(newColor) => {
+                    debouncedHandleBackgroundColorChange(newColor);
+                  }}
+                  placeholder="#d21414"
+                />
+              </div>
+            )}
         </div>
       </Card>
+
+      <MediaUploader
+        open={openMediaUploader}
+        setOpen={setOpenMediaUploader}
+        dialogTitle="Upload Image"
+        onUpload={handleUploadMedia}
+      />
     </div>
   );
 }
