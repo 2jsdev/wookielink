@@ -3,6 +3,7 @@
 import { auth } from '@core/shared/infrastructure/services/auth';
 import { container } from '@core/infrastructure/ioc/container';
 import { UploadThemeBackgroundMediaUseCase } from '@core/application/useCases/UploadThemeBackgroundMedia/UploadThemeBackgroundMediaUseCase';
+import { Theme } from '@/interfaces/theme';
 
 interface Props {
   themeId: string;
@@ -18,7 +19,7 @@ interface Props {
 export async function uploadThemeBackgroundMedia({
   themeId,
   backgroundMedia,
-}: Props): Promise<void> {
+}: Props): Promise<Theme> {
   try {
     const session = await auth();
     if (!session) {
@@ -37,6 +38,9 @@ export async function uploadThemeBackgroundMedia({
     if (result.isLeft()) {
       throw new Error(result.value.getErrorValue().message);
     }
+
+    const theme = result.value.getValue();
+    return theme.toJSON();
   } catch (error) {
     throw error;
   }
