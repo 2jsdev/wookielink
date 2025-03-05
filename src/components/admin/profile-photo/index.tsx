@@ -15,14 +15,14 @@ import { RemoveModal } from './remove-modal';
 interface ProfilePhotoProps {
   imageUrl?: string | null;
   size?: number;
-  onSave?: (image: string) => void;
+  onUpload?: (file: File) => void;
   onRemove?: () => void;
 }
 
 export default function ProfilePhoto({
   imageUrl,
   size = 96,
-  onSave,
+  onUpload,
   onRemove,
 }: ProfilePhotoProps) {
   const [photo, setPhoto] = useState(imageUrl);
@@ -32,6 +32,7 @@ export default function ProfilePhoto({
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
   const [cropImage, setCropImage] = useState<string | null>(null);
   const [isCropModalOpen, setIsCropModalOpen] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -62,6 +63,8 @@ export default function ProfilePhoto({
         return;
       }
 
+      setSelectedFile(file);
+
       const reader = new FileReader();
       reader.onload = () => {
         setCropImage(reader.result as string);
@@ -89,12 +92,23 @@ export default function ProfilePhoto({
     }
   };
 
-  const handleCropComplete = (croppedImage: string) => {
+  const handleCropComplete = async (croppedImage: string) => {
     setPhoto(croppedImage);
-    if (onSave && typeof onSave === 'function') {
-      onSave(croppedImage);
+
+    if (onUpload && typeof onUpload === 'function' && selectedFile) {
+      try {
+        const response = await fetch(croppedImage);
+        const blob = await response.blob();
+        const file = new File([blob], selectedFile.name, { type: blob.type });
+
+        onUpload(file);
+      } catch (error) {
+        console.error('Error converting cropped image to File:', error);
+      }
     }
+
     setCropImage(null);
+    setSelectedFile(null);
   };
 
   return (

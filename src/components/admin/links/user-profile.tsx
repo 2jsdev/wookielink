@@ -54,16 +54,18 @@ export default function UserProfile() {
     }
   };
 
-  const handleSaveProfilePhoto = async (image: string) => {
+  const handleUpload = async (file: File) => {
     try {
-      const blob = await fetch(image).then((res) => res.blob());
-      const formData = new FormData();
-      formData.append(
-        'photo',
-        blob,
-        `${Date.now()}-${user?.id}.${blob.type.split('/')[1]}`
-      );
-      const userUpdated = await uploadUserProfilePhoto(formData);
+      const arrayBuffer = await file.arrayBuffer();
+      const photo = {
+        name: `${Date.now()}-${file.name}`,
+        size: file.size,
+        type: file.type,
+        extension: file.name.split('.').pop() ?? '',
+        content: arrayBuffer,
+      };
+
+      const userUpdated = await uploadUserProfilePhoto({ photo });
       setUser(userUpdated);
     } catch (error) {
       console.error('Error saving profile photo:', error);
@@ -104,7 +106,7 @@ export default function UserProfile() {
         <ProfilePhoto
           imageUrl={user?.image}
           size={80}
-          onSave={handleSaveProfilePhoto}
+          onUpload={handleUpload}
           onRemove={handleRemoveProfilePhoto}
         />
         <div className="flex flex-col">
