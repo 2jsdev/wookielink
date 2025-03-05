@@ -28,7 +28,7 @@ jobs:
 
       # Cache dependencies for faster subsequent builds
       - name: Cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.npm
