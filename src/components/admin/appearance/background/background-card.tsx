@@ -1,8 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 
-interface BackgroundCardProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface BackgroundCardProps {
   selected: boolean;
   onClick: () => void;
   label: string;
@@ -18,34 +17,31 @@ const BackgroundCard = ({
   children,
   isPro = false,
   badgeContent,
-  ...props
 }: BackgroundCardProps) => {
   return (
-    <button
-      className="upgrade-lock-tooltip group relative flex w-full flex-col items-center focus:outline-none"
+    <div
+      className="upgrade-lock-tooltip group relative flex w-full flex-col items-center cursor-pointer focus:outline-none"
       data-testid="ThemeItem"
       data-selected={selected ? 'true' : 'false'}
       aria-label={label}
-      type="button"
       onClick={onClick}
-      {...props}
     >
-      <span
+      <div
         className={cn(
           'relative flex w-full flex-shrink-0 rounded-sm border-2 pt-[150%] ring-black ring-offset-2 transition-all ease-out group-focus-visible:ring-2',
           selected ? 'border-pebble' : 'border-transparent'
         )}
       >
-        <span
+        <div
           className={cn(
             'absolute left-0 top-0 flex h-full w-full rounded-sm border-transparent transition-all ease-out',
             selected ? 'border-8 scale-100' : 'border'
           )}
         >
-          <span className="relative w-full overflow-hidden rounded-sm border border-sand">
+          <div className="relative w-full overflow-hidden rounded-sm border border-sand">
             {children}
-          </span>
-        </span>
+          </div>
+        </div>
         {isPro && (
           <div
             data-testid="ProBadge"
@@ -57,9 +53,9 @@ const BackgroundCard = ({
             {badgeContent}
           </div>
         )}
-      </span>
-      <p className=" text-sm align-self-end mt-1 text-center">{label}</p>
-    </button>
+      </div>
+      <p className="text-sm align-self-end mt-1 text-center">{label}</p>
+    </div>
   );
 };
 

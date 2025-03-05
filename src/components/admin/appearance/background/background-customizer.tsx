@@ -158,21 +158,6 @@ export function BackgroundCustomizer() {
           </BackgroundCard>
 
           <BackgroundCard
-            selected={customTheme?.background?.type === backgroundTypes.IMAGE}
-            onClick={() => {
-              handleBackgroundCardClick(backgroundTypes.IMAGE);
-              removeBackgroundStyle();
-              setOpenMediaUploader(true);
-            }}
-            label="Image"
-            badgeContent={<Zap className="h-[10px] w-[10px] text-white" />}
-          >
-            <div className="flex h-full w-full items-center justify-center rounded-sm border border-dashed border-pebble before:flex before:pt-[150%]">
-              <Image className="h-10 w-10 text-gray-300" />
-            </div>
-          </BackgroundCard>
-
-          <BackgroundCard
             selected={customTheme?.background?.style === backgroundStyles.POLKA}
             onClick={() => {
               handleBackgroundCardClick(
@@ -250,6 +235,21 @@ export function BackgroundCustomizer() {
               alt="Preview image for Zig Zag"
               loading="lazy"
             />
+          </BackgroundCard>
+
+          <BackgroundCard
+            selected={customTheme?.background?.type === backgroundTypes.IMAGE}
+            onClick={() => {
+              handleBackgroundCardClick(backgroundTypes.IMAGE);
+              removeBackgroundStyle();
+              setOpenMediaUploader(true);
+            }}
+            label="Image"
+            badgeContent={<Zap className="h-[10px] w-[10px] text-white" />}
+          >
+            <div className="flex h-full w-full items-center justify-center rounded-sm border border-dashed border-pebble before:flex before:pt-[150%]">
+              <Image className="h-10 w-10 text-gray-300" />
+            </div>
           </BackgroundCard>
         </div>
 

@@ -1,6 +1,5 @@
 import { create, type StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { themes } from '@/data/themes';
 import type {
   BackgroundStyleType,
   BackgroundType,
@@ -13,7 +12,7 @@ interface ThemeStore {
   theme?: Theme;
   setTheme: (theme: Theme) => void;
 
-  customTheme: Theme;
+  customTheme?: Theme;
   setCustomTheme: (theme: Theme) => void;
   customThemeLoading: boolean;
   setCustomThemeLoading: (value: boolean) => void;
@@ -41,7 +40,7 @@ const themeStore: StateCreator<ThemeStore> = (set) => ({
   theme: undefined,
   setTheme: (theme) => set({ theme }),
 
-  customTheme: themes[0],
+  customTheme: undefined,
   setCustomTheme: (theme) => set({ customTheme: theme }),
   customThemeLoading: true,
   setCustomThemeLoading: (value) => set({ customThemeLoading: value }),
@@ -49,9 +48,9 @@ const themeStore: StateCreator<ThemeStore> = (set) => ({
   setBackgroundType: (type) => {
     set((state) => ({
       customTheme: {
-        ...state.customTheme,
+        ...state.customTheme!,
         background: {
-          ...state.customTheme?.background,
+          ...state.customTheme!.background,
           type,
         },
       },
@@ -60,9 +59,9 @@ const themeStore: StateCreator<ThemeStore> = (set) => ({
   setBackgroundStyle: (style) => {
     set((state) => ({
       customTheme: {
-        ...state.customTheme,
+        ...state.customTheme!,
         background: {
-          ...state.customTheme?.background,
+          ...state.customTheme!.background,
           style,
         },
       },
@@ -71,9 +70,9 @@ const themeStore: StateCreator<ThemeStore> = (set) => ({
   removeBackgroundStyle: () => {
     set((state) => ({
       customTheme: {
-        ...state.customTheme,
+        ...state.customTheme!,
         background: {
-          ...state.customTheme?.background,
+          ...state.customTheme!.background,
           style: undefined,
         },
       },
@@ -82,9 +81,9 @@ const themeStore: StateCreator<ThemeStore> = (set) => ({
   setBackgroundColor: (color) => {
     set((state) => ({
       customTheme: {
-        ...state.customTheme,
+        ...state.customTheme!,
         background: {
-          ...state.customTheme?.background,
+          ...state.customTheme!.background,
           color,
         },
       },
@@ -93,9 +92,9 @@ const themeStore: StateCreator<ThemeStore> = (set) => ({
   setBackgroundImageUrl: (imageUrl) => {
     set((state) => ({
       customTheme: {
-        ...state.customTheme,
+        ...state.customTheme!,
         background: {
-          ...state.customTheme?.background,
+          ...state.customTheme!.background,
           imageUrl,
         },
       },
@@ -104,9 +103,9 @@ const themeStore: StateCreator<ThemeStore> = (set) => ({
   setBackgroundVideoUrl: (videoUrl) => {
     set((state) => ({
       customTheme: {
-        ...state.customTheme,
+        ...state.customTheme!,
         background: {
-          ...state.customTheme?.background,
+          ...state.customTheme!.background,
           videoUrl,
         },
       },
@@ -116,9 +115,9 @@ const themeStore: StateCreator<ThemeStore> = (set) => ({
   setButtonType: (type) => {
     set((state) => ({
       customTheme: {
-        ...state.customTheme,
+        ...state.customTheme!,
         buttonStyle: {
-          ...state.customTheme?.buttonStyle,
+          ...state.customTheme!.buttonStyle,
           type,
         },
       },
@@ -127,9 +126,9 @@ const themeStore: StateCreator<ThemeStore> = (set) => ({
   setButtonColor: (backgroundColor) => {
     set((state) => ({
       customTheme: {
-        ...state.customTheme,
+        ...state.customTheme!,
         buttonStyle: {
-          ...state.customTheme?.buttonStyle,
+          ...state.customTheme!.buttonStyle,
           backgroundColor,
         },
       },
@@ -138,9 +137,9 @@ const themeStore: StateCreator<ThemeStore> = (set) => ({
   setButtonTextColor: (textColor) => {
     set((state) => ({
       customTheme: {
-        ...state.customTheme,
+        ...state.customTheme!,
         buttonStyle: {
-          ...state.customTheme?.buttonStyle,
+          ...state.customTheme!.buttonStyle,
           textColor,
         },
       },
@@ -149,9 +148,9 @@ const themeStore: StateCreator<ThemeStore> = (set) => ({
   setButtonShadowColor: (shadowColor) => {
     set((state) => ({
       customTheme: {
-        ...state.customTheme,
+        ...state.customTheme!,
         buttonStyle: {
-          ...state.customTheme?.buttonStyle,
+          ...state.customTheme!.buttonStyle,
           shadowColor,
         },
       },
@@ -161,9 +160,9 @@ const themeStore: StateCreator<ThemeStore> = (set) => ({
   setFontFamily: (fontFamily) => {
     set((state) => ({
       customTheme: {
-        ...state.customTheme,
+        ...state.customTheme!,
         fontStyle: {
-          ...state.customTheme?.fontStyle,
+          ...state.customTheme!.fontStyle,
           fontFamily,
         },
       },
@@ -172,9 +171,9 @@ const themeStore: StateCreator<ThemeStore> = (set) => ({
   setFontColor: (color) => {
     set((state) => ({
       customTheme: {
-        ...state.customTheme,
+        ...state.customTheme!,
         fontStyle: {
-          ...state.customTheme?.fontStyle,
+          ...state.customTheme!.fontStyle,
           color,
         },
       },

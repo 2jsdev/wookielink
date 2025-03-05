@@ -1,8 +1,8 @@
 export const backgroundTypes = {
-  COLOR: 'COLOR',
+  COLOR: 'COLOR', // FLAT, COLORUP, COLORDOWN
   IMAGE: 'IMAGE',
   VIDEO: 'VIDEO',
-  ANIMATED: 'ANIMATED',
+  ANIMATED: 'ANIMATED', // POLKA, STRIPE, WAVES, ZIGZAG
 } as const;
 
 export type BackgroundType = keyof typeof backgroundTypes;
@@ -23,8 +23,6 @@ export const gradientDirections = {
   COLORUP: 'COLORUP',
   COLORDOWN: 'COLORDOWN',
 } as const;
-
-export type GradientDirection = keyof typeof gradientDirections;
 
 export interface Background {
   id: string;
