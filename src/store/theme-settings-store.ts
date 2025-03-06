@@ -72,7 +72,7 @@ interface SettingsState {
 
 const themeSettingsStore: StateCreator<SettingsState> = (set) => ({
   fontFamily: 'inter',
-  themeColor: 'default',
+  themeColor: 'purple',
   layout: 'vertical',
   contentLayout: 'full',
   direction: 'ltr',

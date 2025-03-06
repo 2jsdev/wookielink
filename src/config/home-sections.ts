@@ -13,18 +13,18 @@ export const homeSections = [
     showInPage: true,
     showInNav: true,
   },
-  {
-    id: 'pricing',
-    label: 'Pricing',
-    component: 'Pricing',
-    showInPage: true,
-    showInNav: true,
-  },
-  {
-    id: 'faq',
-    label: 'FAQ',
-    component: 'FAQ',
-    showInPage: true,
-    showInNav: true,
-  },
+  // {
+  //   id: 'pricing',
+  //   label: 'Pricing',
+  //   component: 'Pricing',
+  //   showInPage: true,
+  //   showInNav: true,
+  // },
+  // {
+  //   id: 'faq',
+  //   label: 'FAQ',
+  //   component: 'FAQ',
+  //   showInPage: true,
+  //   showInNav: true,
+  // },
 ];
