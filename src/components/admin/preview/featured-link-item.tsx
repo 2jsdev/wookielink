@@ -94,13 +94,13 @@ export default function FeaturedLinkItem({ link }: { link: Link }) {
       <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/35 to-transparent" />
 
       <p
-        className="absolute bottom-4 left-6 text-sm font-medium"
+        className="absolute bottom-2 left-4 text-sm font-medium"
         style={{ color: textColor }}
       >
         {link.title}
       </p>
 
-      <div className="absolute bottom-3 right-2">
+      <div className="absolute bottom-3 right-3">
         <MoreVertical style={{ color: textColor }} className="w-4 h-4" />
       </div>
     </a>

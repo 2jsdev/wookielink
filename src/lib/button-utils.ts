@@ -112,3 +112,28 @@ export function getFeaturedLinkPreviewClass(type?: ButtonType): string {
       return '';
   }
 }
+
+export function getClassicImagePreviewClass(type?: ButtonType): string {
+  switch (type) {
+    case buttonTypes.FILL_CIRCULAR:
+    case buttonTypes.OUTLINE_CIRCULAR:
+    case buttonTypes.SOFTSHADOW_CIRCULAR:
+    case buttonTypes.HARDSHADOW_CIRCULAR:
+      return 'rounded-full';
+
+    case buttonTypes.FILL_ROUNDED:
+    case buttonTypes.OUTLINE_ROUNDED:
+    case buttonTypes.SOFTSHADOW_ROUNDED:
+    case buttonTypes.HARDSHADOW_ROUNDED:
+      return 'rounded-md';
+
+    case buttonTypes.FILL:
+    case buttonTypes.OUTLINE:
+    case buttonTypes.SOFTSHADOW:
+    case buttonTypes.HARDSHADOW:
+      return 'rounded-none';
+
+    default:
+      return '';
+  }
+}
