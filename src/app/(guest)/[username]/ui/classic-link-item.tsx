@@ -7,10 +7,10 @@ import { MoreVertical } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import ShareLinkModal from '@/components/custom/share-link-modal';
-import { Button } from '@/components/ui/button';
 import useUiStore from '@/store/ui-store';
 import {
   getButtonStyleProps,
+  getClassicImagePreviewClass,
   getClassicLinkPreviewClass,
 } from '@/lib/button-utils';
 
@@ -67,9 +67,6 @@ export default function ClassicLinkItem({ link, theme }: Props) {
     dynamicStyle = { backgroundColor: selectedColor };
   }
 
-  dynamicStyle.border = 'none';
-  dynamicStyle.borderColor = 'transparent';
-
   return (
     <a
       id={`link-${link.shortCode}`}
@@ -77,7 +74,7 @@ export default function ClassicLinkItem({ link, theme }: Props) {
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        'flex items-center h-15 w-full p-2 pr-3 text-center rounded-lg transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg cursor-pointer',
+        'flex items-center min-h-[56px] w-full p-2 text-center rounded-lg transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg cursor-pointer',
         theme?.buttonStyle,
         buttonStyleClass,
         { 'highlighted-content': isHighlighted },
@@ -90,33 +87,43 @@ export default function ClassicLinkItem({ link, theme }: Props) {
       <div className="flex items-center justify-between w-full">
         <div className="flex w-12 h-12 rounded-md overflow-hidden">
           {link.thumbnail && (
-            <Image
-              src={link.thumbnail}
-              alt={link.title ?? 'thumbnail'}
-              width={48}
-              height={48}
-              className="w-full h-full object-cover"
-              priority
-            />
+            <div
+              className={cn(
+                'ml-1 flex items-center justify-center w-12 h-12 overflow-hidden',
+                getClassicImagePreviewClass(theme?.buttonStyle?.type)
+              )}
+            >
+              <Image
+                src={link.thumbnail}
+                alt={link.title ?? 'thumbnail'}
+                width={48}
+                height={48}
+                className="w-full h-full object-cover"
+                priority
+              />
+            </div>
           )}
         </div>
 
-        <div className="flex-1 text-center">
+        <div className="self-center">
           <p className="text-sm font-medium" style={{ color: textColor }}>
             {link.title}
           </p>
         </div>
 
-        <Button
-          className="ml-auto flex items-center justify-center"
-          variant="ghost"
+        <div
           onClick={(e) => {
             e.preventDefault();
             setIsOpen(true);
           }}
+          className="group flex items-center justify-center w-7 h-7 rounded-full relative"
         >
-          <MoreVertical className="w-4 h-4" style={{ color: textColor }} />
-        </Button>
+          <span className="absolute inset-0 w-full h-full rounded-full bg-gray-300 opacity-0 group-hover:opacity-50 transition-opacity duration-200"></span>
+          <MoreVertical
+            className="w-4 h-4 relative z-10"
+            style={{ color: textColor }}
+          />
+        </div>
       </div>
 
       <ShareLinkModal

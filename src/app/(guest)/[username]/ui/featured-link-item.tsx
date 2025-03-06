@@ -108,30 +108,30 @@ export default function FeaturedLinkItem({ link, theme }: Props) {
               className="w-full h-full object-cover object-[0%_20%]"
             />
           ) : (
-            <div className="absolute top-3 right-3  opacity-70">
+            <div className="absolute top-2 right-2 opacity-70">
               <LinkIcon className="w-5 h-5" />
             </div>
           )}
 
           <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/35 to-transparent" />
           <p
-            className="absolute bottom-4 left-6 text-sm font-medium"
+            className="absolute bottom-4 left-4 text-sm font-medium"
             style={{ color: textColor }}
           >
             {link.title}
           </p>
         </a>
 
-        <Button
-          variant="ghost"
+        <div
           onClick={(e) => {
             e.preventDefault();
             setIsOpen(true);
           }}
-          className="absolute bottom-3 right-3 z-10"
+          className="absolute bottom-3 right-2 z-10 group flex items-center justify-center w-7 h-7 rounded-full"
         >
+          <span className="absolute inset-0 w-full h-full rounded-full bg-gray-300 opacity-0 group-hover:opacity-50 transition-opacity duration-200" />
           <MoreVertical className="w-4 h-4" style={{ color: textColor }} />
-        </Button>
+        </div>
       </div>
 
       <ShareLinkModal
