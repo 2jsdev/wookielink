@@ -8,7 +8,8 @@ import { UserRound } from 'lucide-react';
 const mockData = [
   {
     username: '@2jsdev',
-    profileImage: 'https://minio-api.2jsdev.me/wookielink/public/avatars/2jsdev.webp',
+    profileImage:
+      'https://minio-api.2jsdev.me/wookielink/public/avatars/2jsdev.webp',
     links: ['GitHub', 'LinkedIn'],
     theme: {
       id: 'minimal-dark',
@@ -22,7 +23,8 @@ const mockData = [
   },
   {
     username: '@andre',
-    profileImage: 'https://minio-api.2jsdev.me/wookielink/public/avatars/andrea.webp',
+    profileImage:
+      'https://minio-api.2jsdev.me/wookielink/public/avatars/andrea.webp',
     links: ['WhatsApp', 'Facebook'],
     theme: {
       id: 'pastel-dream',
@@ -36,7 +38,8 @@ const mockData = [
   },
   {
     username: '@sady',
-    profileImage: 'https://minio-api.2jsdev.me/wookielink/public/avatars/sady.webp',
+    profileImage:
+      'https://minio-api.2jsdev.me/wookielink/public/avatars/sady.webp',
     links: ['Portfolio', 'Twitter', 'Instagram'],
     theme: {
       id: 'ocean-blue',
@@ -50,7 +53,8 @@ const mockData = [
   },
   {
     username: '@maika',
-    profileImage: 'https://minio-api.2jsdev.me/wookielink/public/avatars/maika.webp',
+    profileImage:
+      'https://minio-api.2jsdev.me/wookielink/public/avatars/maika.webp',
     links: ['YouTube', 'Blog'],
     theme: {
       id: 'neon-nights',

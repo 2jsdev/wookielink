@@ -114,9 +114,7 @@ export default function ShareLinkModal({
                 <h3 className="text-[20px] font-extrabold text-center leading-normal text-balance">
                   {link.ogData?.ogTitle || link.title}
                 </h3>
-                <p className="text-xs text-center text-gray-500 truncate">
-                  {link.url}
-                </p>
+                <p className="text-xs text-center truncate">{link.url}</p>
               </div>
 
               {link.ogData?.ogDescription && (
@@ -135,19 +133,21 @@ export default function ShareLinkModal({
                 onClick={handleCopyLink}
                 className="flex flex-col items-center gap-1 w-16"
               >
-                <div className="w-12 h-12 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center">
+                <div
+                  className="w-12 h-12 rounded-full flex items-center justify-center 
+        bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 
+        transition-colors duration-200 shadow-md"
+                >
                   {copiedLink ? (
                     <Check className="w-5 h-5 text-green-500" />
                   ) : (
-                    <LinkIcon className="w-5 h-5" />
+                    <LinkIcon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
                   )}
                 </div>
                 <span
                   className={cn(
-                    'text-xs text-gray-600 min-w-[60px] text-center',
-                    {
-                      'text-green-500': copiedLink,
-                    }
+                    'text-xs text-gray-600 dark:text-gray-300 min-w-[60px] text-center',
+                    { 'text-green-500': copiedLink }
                   )}
                 >
                   {copiedLink ? 'Copied!' : 'Copy link'}
@@ -159,7 +159,7 @@ export default function ShareLinkModal({
               <FacebookShareButton title={link.title!} url={link.url!}>
                 <FacebookIcon className="w-12 h-12 rounded-full" />
               </FacebookShareButton>
-              <span className="text-xs text-gray-600 min-w-[60px] text-center">
+              <span className="text-xs text-gray-600 dark:text-gray-300 min-w-[60px] text-center">
                 Facebook
               </span>
             </div>
@@ -168,7 +168,7 @@ export default function ShareLinkModal({
               <TwitterShareButton title={link.title!} url={link.url!}>
                 <TwitterIcon className="w-12 h-12 rounded-full" />
               </TwitterShareButton>
-              <span className="text-xs text-gray-600 min-w-[60px] text-center">
+              <span className="text-xs text-gray-600 dark:text-gray-300 min-w-[60px] text-center">
                 Twitter
               </span>
             </div>
@@ -177,7 +177,7 @@ export default function ShareLinkModal({
               <WhatsappShareButton title={link.title!} url={link.url!}>
                 <WhatsappIcon className="w-12 h-12 rounded-full" />
               </WhatsappShareButton>
-              <span className="text-xs text-gray-600 min-w-[60px] text-center">
+              <span className="text-xs text-gray-600 dark:text-gray-300 min-w-[60px] text-center">
                 WhatsApp
               </span>
             </div>
@@ -186,7 +186,7 @@ export default function ShareLinkModal({
               <LinkedinShareButton title={link.title!} url={link.url!}>
                 <LinkedinIcon className="w-12 h-12 rounded-full" />
               </LinkedinShareButton>
-              <span className="text-xs text-gray-600 min-w-[60px] text-center">
+              <span className="text-xs text-gray-600 dark:text-gray-300 min-w-[60px] text-center">
                 LinkedIn
               </span>
             </div>
@@ -195,7 +195,7 @@ export default function ShareLinkModal({
               <TelegramShareButton title={link.title!} url={link.url!}>
                 <TelegramIcon className="w-12 h-12 rounded-full" />
               </TelegramShareButton>
-              <span className="text-xs text-gray-600 min-w-[60px] text-center">
+              <span className="text-xs text-gray-600 dark:text-gray-300 min-w-[60px] text-center">
                 Telegram
               </span>
             </div>
@@ -204,7 +204,7 @@ export default function ShareLinkModal({
               <EmailShareButton title={link.title!} url={link.url!}>
                 <EmailIcon className="w-12 h-12 rounded-full" />
               </EmailShareButton>
-              <span className="text-xs text-gray-600 min-w-[60px] text-center">
+              <span className="text-xs text-gray-600 dark:text-gray-300 min-w-[60px] text-center">
                 Email
               </span>
             </div>
@@ -215,10 +215,14 @@ export default function ShareLinkModal({
                   onClick={handleNativeShare}
                   className="flex flex-col items-center gap-1 w-16"
                 >
-                  <div className="w-12 h-12 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center">
-                    <Share className="w-5 h-5" />
+                  <div
+                    className="w-12 h-12 rounded-full flex items-center justify-center 
+          bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 
+          transition-colors duration-200 shadow-md"
+                  >
+                    <Share className="w-5 h-5 text-gray-700 dark:text-gray-300" />
                   </div>
-                  <span className="text-xs text-gray-600 min-w-[60px] text-center">
+                  <span className="text-xs text-gray-600 dark:text-gray-300 min-w-[60px] text-center">
                     More
                   </span>
                 </button>
