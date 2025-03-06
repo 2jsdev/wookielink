@@ -34,7 +34,6 @@ export function Hero() {
     }
   };
 
-  // El botón se deshabilita si no hay username o si el username no está disponible (availability !== true)
   const isButtonDisabled = !username || usernameAvailability !== true;
 
   return (

@@ -8,13 +8,11 @@ import { UserRound } from 'lucide-react';
 const mockData = [
   {
     username: '@2jsdev',
-    profileImage: '/images/avatars/2jsdev.jpeg',
+    profileImage: 'https://minio-api.2jsdev.me/wookielink/public/avatars/2jsdev.webp',
     links: ['GitHub', 'LinkedIn'],
     theme: {
       id: 'minimal-dark',
       name: 'Minimal Dark',
-      preview:
-        'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-YSxV5hqf21ScOw3kAqVQd91OHoGtNx.png',
       style: {
         background: 'bg-zinc-900',
         textColor: 'text-white',
@@ -24,13 +22,11 @@ const mockData = [
   },
   {
     username: '@andre',
-    profileImage: '/images/avatars/andrea.png',
+    profileImage: 'https://minio-api.2jsdev.me/wookielink/public/avatars/andrea.webp',
     links: ['WhatsApp', 'Facebook'],
     theme: {
       id: 'pastel-dream',
       name: 'Pastel Dream',
-      preview:
-        'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-YSxV5hqf21ScOw3kAqVQd91OHoGtNx.png',
       style: {
         background: 'bg-gradient-to-b from-pink-200 to-blue-200',
         textColor: 'text-gray-800',
@@ -40,13 +36,11 @@ const mockData = [
   },
   {
     username: '@sady',
-    profileImage: '/images/avatars/sady.png',
+    profileImage: 'https://minio-api.2jsdev.me/wookielink/public/avatars/sady.webp',
     links: ['Portfolio', 'Twitter', 'Instagram'],
     theme: {
       id: 'ocean-blue',
       name: 'Ocean Blue',
-      preview:
-        'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-YSxV5hqf21ScOw3kAqVQd91OHoGtNx.png',
       style: {
         background: 'bg-gradient-to-b from-blue-400 to-blue-600',
         textColor: 'text-white',
@@ -56,13 +50,11 @@ const mockData = [
   },
   {
     username: '@maika',
-    profileImage: '/images/avatars/maika.png',
+    profileImage: 'https://minio-api.2jsdev.me/wookielink/public/avatars/maika.webp',
     links: ['YouTube', 'Blog'],
     theme: {
       id: 'neon-nights',
       name: 'Neon Nights',
-      preview:
-        'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-YSxV5hqf21ScOw3kAqVQd91OHoGtNx.png',
       style: {
         background: 'bg-black',
         textColor: 'text-pink-500',

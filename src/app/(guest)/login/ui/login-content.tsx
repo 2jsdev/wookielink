@@ -33,7 +33,7 @@ export default function LoginContent() {
           <Image
             alt="Cover image"
             src={
-              isSignup ? '/images/signup-cover.jpg' : '/images/login-cover.jpg'
+              isSignup ? 'https://minio-api.2jsdev.me/wookielink/public/signup-cover.png' : 'https://minio-api.2jsdev.me/wookielink/public/login-cover.png'
             }
             layout="fill"
             objectFit="cover"
