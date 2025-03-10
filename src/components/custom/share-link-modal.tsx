@@ -126,7 +126,7 @@ export default function ShareLinkModal({
           </div>
         </Card>
 
-        <ScrollArea className="w-full">
+        <ScrollArea className="w-full" autoFocus={false}>
           <div className="flex space-x-2 my-4">
             <div className="flex-shrink-0">
               <button
