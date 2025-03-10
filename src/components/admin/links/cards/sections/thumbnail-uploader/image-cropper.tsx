@@ -128,6 +128,8 @@ export function ImageCropper({
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     ctx.drawImage(
       image,
       pixelCrop.x * scaleX,
@@ -140,7 +142,8 @@ export function ImageCropper({
       pixelCrop.height * scaleY
     );
 
-    return canvas.toDataURL('image/jpeg');
+    const format = image.src.includes('image/png') ? 'image/png' : 'image/jpeg';
+    return canvas.toDataURL(format);
   };
 
   const handleCrop = () => {

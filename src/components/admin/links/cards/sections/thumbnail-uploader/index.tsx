@@ -61,7 +61,13 @@ export function ThumbnailUploader({
     try {
       const response = await fetch(croppedImage);
       const blob = await response.blob();
-      const file = new File([blob], selectedFile.name, { type: blob.type });
+
+      const fileType = selectedFile.type || blob.type;
+      const fileExtension = selectedFile.name.split('.').pop();
+
+      const file = new File([blob], `${Date.now()}.${fileExtension}`, {
+        type: fileType,
+      });
 
       await onUpload(file);
 
