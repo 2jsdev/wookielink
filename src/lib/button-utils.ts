@@ -51,32 +51,29 @@ export function getButtonStyleProps(theme?: Theme): ButtonStyleProps {
 export function getClassicLinkPreviewClass(type?: ButtonType): string {
   switch (type) {
     case buttonTypes.FILL:
-      return 'dark:bg-white';
+      return 'rounded-none';
     case buttonTypes.FILL_ROUNDED:
-      return 'dark:bg-white rounded-md';
+      return 'rounded-md';
     case buttonTypes.FILL_CIRCULAR:
-      return 'dark:bg-white rounded-full';
-
+      return 'rounded-full';
     case buttonTypes.OUTLINE:
-      return 'border-2 dark:border-white';
+      return 'rounded-none';
     case buttonTypes.OUTLINE_ROUNDED:
-      return 'border-2 dark:border-white rounded-md';
+      return 'rounded-md';
     case buttonTypes.OUTLINE_CIRCULAR:
-      return 'border-2 dark:border-white rounded-full';
-
+      return 'rounded-full';
     case buttonTypes.SOFTSHADOW:
-      return 'border-2 dark:border-white rounded-none';
+      return 'rounded-none';
     case buttonTypes.SOFTSHADOW_ROUNDED:
-      return 'border-2 dark:border-white rounded-md';
+      return 'rounded-md';
     case buttonTypes.SOFTSHADOW_CIRCULAR:
-      return 'border-2 dark:border-white rounded-full';
-
+      return 'rounded-full';
     case buttonTypes.HARDSHADOW:
-      return 'border-2 dark:border-white rounded-none translate-y-[-2px]';
+      return 'rounded-none translate-y-[-2px]';
     case buttonTypes.HARDSHADOW_ROUNDED:
-      return 'border-2 dark:border-white rounded-md translate-y-[-2px]';
+      return 'rounded-md translate-y-[-2px]';
     case buttonTypes.HARDSHADOW_CIRCULAR:
-      return 'border-2 dark:border-white rounded-full translate-y-[-2px]';
+      return 'rounded-full translate-y-[-2px]';
     default:
       return '';
   }
@@ -85,29 +82,29 @@ export function getClassicLinkPreviewClass(type?: ButtonType): string {
 export function getFeaturedLinkPreviewClass(type?: ButtonType): string {
   switch (type) {
     case buttonTypes.FILL:
-      return 'dark:bg-white';
+      return 'rounded-none';
     case buttonTypes.FILL_ROUNDED:
-      return 'dark:bg-white rounded-md';
+      return 'rounded-md';
     case buttonTypes.FILL_CIRCULAR:
-      return 'dark:bg-white rounded-xl';
+      return 'rounded-xl';
     case buttonTypes.OUTLINE:
-      return 'border-2 dark:border-white';
+      return 'rounded-none';
     case buttonTypes.OUTLINE_ROUNDED:
-      return 'border-2 dark:border-white rounded-md';
+      return 'rounded-md';
     case buttonTypes.OUTLINE_CIRCULAR:
-      return 'border-2 dark:border-white rounded-xl';
+      return 'rounded-xl';
     case buttonTypes.SOFTSHADOW:
-      return 'border-2 dark:border-white rounded-none';
+      return 'rounded-none';
     case buttonTypes.SOFTSHADOW_ROUNDED:
-      return 'border-2 dark:border-white rounded-md';
+      return 'rounded-md';
     case buttonTypes.SOFTSHADOW_CIRCULAR:
-      return 'border-2 dark:border-white rounded-xl';
+      return 'rounded-xl';
     case buttonTypes.HARDSHADOW:
-      return 'border-2 dark:border-white rounded-none translate-y-[-2px]';
+      return 'rounded-none translate-y-[-2px]';
     case buttonTypes.HARDSHADOW_ROUNDED:
-      return 'border-2 dark:border-white rounded-md translate-y-[-2px]';
+      return 'rounded-md translate-y-[-2px]';
     case buttonTypes.HARDSHADOW_CIRCULAR:
-      return 'border-2 dark:border-white rounded-xl translate-y-[-2px]';
+      return 'rounded-xl translate-y-[-2px]';
     default:
       return '';
   }
