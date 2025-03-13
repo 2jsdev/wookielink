@@ -34,13 +34,16 @@ export default function MobilePreview() {
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
+      height: '100%',
+      width: '100%',
+      position: 'absolute',
     };
 
     return (
       <aside className="bg-background">
         <PhoneMockup>
           <div
-            className="relative h-full w-full flex flex-col items-center"
+            className="relative h-full w-full flex flex-col items-center overflow-y-auto"
             style={{
               fontFamily,
               color: fontColor,
@@ -55,26 +58,39 @@ export default function MobilePreview() {
   }
 
   if (activeTheme?.background?.style === backgroundStyles.POLKA) {
-    const lighterHexColor = generateLighterHexColor(
-      activeTheme.background.color!
-    );
+    const lighterHexColor = generateLighterHexColor(activeTheme.background.color!);
     backgroundStyle = { backgroundColor: activeTheme.background.color };
+
     return (
       <aside className="bg-background">
         <PhoneMockup>
-          <div
-            className="relative h-full w-full flex flex-col items-center"
-            style={{ fontFamily, color: fontColor, ...backgroundStyle }}
-          >
-            <div className="absolute w-full h-full">
-              <PolkaSVG style={{ color: lighterHexColor }} />
+          <div className="relative w-full h-full flex flex-col items-center">
+            <div className="absolute inset-0 w-full h-full overflow-hidden">
+              <PolkaSVG
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  fontFamily,
+                  color: lighterHexColor,
+                  ...backgroundStyle
+                }}
+              />
             </div>
-            <Content />
+
+            <div
+              className="relative w-full h-full flex flex-col items-center overflow-y-auto z-10"
+              style={{ fontFamily, color: lighterHexColor }}
+            >
+              <Content />
+            </div>
           </div>
         </PhoneMockup>
       </aside>
     );
   }
+
+
+
   if (activeTheme?.background?.style === backgroundStyles.WAVES) {
     const lighterHexColor = generateLighterHexColor(
       activeTheme.background.color!
@@ -101,12 +117,12 @@ export default function MobilePreview() {
     case backgroundStyles.FLAT:
       backgroundStyle.backgroundColor = activeTheme.background.color;
       break;
-    case backgroundStyles.COLORUP:
-      backgroundStyle.background = `linear-gradient(to top, ${activeTheme.background.color}, ${generateLighterColor(activeTheme.background.color!)})`;
-      break;
-    case backgroundStyles.COLORDOWN:
-      backgroundStyle.background = `linear-gradient(to bottom, ${activeTheme.background.color}, ${generateLighterColor(activeTheme.background.color!)})`;
-      break;
+      case backgroundStyles.COLORUP:
+        backgroundStyle.background = `linear-gradient(to top, ${activeTheme.background.color}, ${generateLighterColor(activeTheme.background.color!, 100)})`;
+        break;
+      case backgroundStyles.COLORDOWN:
+        backgroundStyle.background = `linear-gradient(to bottom, ${activeTheme.background.color}, ${generateLighterColor(activeTheme.background.color!, 100)})`;
+        break;    
     case backgroundStyles.STRIPE:
       backgroundClass = 'pattern-stripe';
       backgroundStyle = {
@@ -132,7 +148,7 @@ export default function MobilePreview() {
           className={`h-full w-full flex flex-col items-center ${backgroundClass}`}
           style={{ fontFamily, color: fontColor, ...backgroundStyle }}
         >
-          <div className="absolute w-full h-full">
+          <div className="absolute h-full w-full overflow-y-auto">
             <Content />
           </div>
         </div>

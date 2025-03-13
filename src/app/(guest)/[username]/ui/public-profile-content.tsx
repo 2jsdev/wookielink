@@ -49,11 +49,14 @@ export default function PublicProfileContent({
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
+      height: '100%',
+      width: '100%',
+      position: 'absolute',
     };
 
     return (
       <main
-        className="relative min-h-screen w-full flex flex-col items-center"
+        className="relative h-full w-full flex flex-col items-center overflow-y-auto"
         style={{ fontFamily, color: fontColor, ...backgroundStyle }}
       >
         <Content user={user} isOwner={isOwner} />
@@ -64,30 +67,43 @@ export default function PublicProfileContent({
   if (theme?.background?.style === backgroundStyles.POLKA) {
     const lighterHexColor = generateLighterHexColor(theme.background.color!);
     backgroundStyle = { backgroundColor: theme.background.color };
+
     return (
       <main
-        className="relative min-h-screen w-full flex flex-col items-center"
+        className="relative w-full h-full flex flex-col items-center"
         style={{ fontFamily, color: fontColor, ...backgroundStyle }}
       >
-        <div className="absolute w-full h-full">
-          <PolkaSVG style={{ color: lighterHexColor }} />
+        <div className="fixed top-0 left-0 w-full h-full z-0">
+          <PolkaSVG style={{
+            width: '100%',
+            height: '100%',
+            color: lighterHexColor,
+          }} />
         </div>
-        <Content user={user} isOwner={isOwner} />
+
+        <div className="relative w-full h-full flex flex-col items-center overflow-y-auto z-10">
+          <Content user={user} isOwner={isOwner} />
+        </div>
       </main>
     );
   }
+
   if (theme?.background?.style === backgroundStyles.WAVES) {
     const lighterHexColor = generateLighterHexColor(theme.background.color!);
     backgroundStyle = { backgroundColor: lighterHexColor };
+
     return (
       <main
         className="relative min-h-screen w-full flex flex-col items-center"
         style={{ fontFamily, color: fontColor, ...backgroundStyle }}
       >
-        <div className="absolute w-full h-full">
-          <WaveSVG style={{ color: theme.background.color }} />
+        <div className="fixed top-0 left-0 w-full h-full z-0">
+          <WaveSVG style={{ width: '100%', height: '100%', color: theme.background.color }} />
         </div>
-        <Content user={user} isOwner={isOwner} />
+
+        <div className="relative w-full h-full flex flex-col items-center overflow-y-auto z-10">
+          <Content user={user} isOwner={isOwner} />
+        </div>
       </main>
     );
   }
@@ -97,10 +113,10 @@ export default function PublicProfileContent({
       backgroundStyle.backgroundColor = theme.background.color;
       break;
     case backgroundStyles.COLORUP:
-      backgroundStyle.background = `linear-gradient(to top, ${theme.background.color}, ${generateLighterColor(theme.background.color!)})`;
+      backgroundStyle.background = `linear-gradient(to top, ${theme.background.color}, ${generateLighterColor(theme.background.color!, 100)})`;
       break;
     case backgroundStyles.COLORDOWN:
-      backgroundStyle.background = `linear-gradient(to bottom, ${theme.background.color}, ${generateLighterColor(theme.background.color!)})`;
+      backgroundStyle.background = `linear-gradient(to bottom, ${theme.background.color}, ${generateLighterColor(theme.background.color!, 100)})`;
       break;
     case backgroundStyles.STRIPE:
       backgroundClass = 'pattern-stripe';
@@ -128,7 +144,9 @@ export default function PublicProfileContent({
       )}
       style={{ fontFamily, color: fontColor, ...backgroundStyle }}
     >
-      <Content user={user} isOwner={isOwner} />
+      <div className="absolute h-full w-full overflow-y-auto">
+        <Content user={user} isOwner={isOwner} />
+      </div>
     </main>
   );
 }

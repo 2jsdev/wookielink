@@ -17,17 +17,18 @@ export function getHSLValue(hex: string): string {
   return d3.color(hex)!.formatHsl().slice(4, -1).replaceAll(',', '');
 }
 
-export function generateLighterColor(hexColor: string) {
+export function generateLighterColor(hexColor: string, intensity: number = 100) {
   if (!hexColor) return '#ffffff';
+
   let r = parseInt(hexColor.substring(1, 3), 16);
   let g = parseInt(hexColor.substring(3, 5), 16);
   let b = parseInt(hexColor.substring(5, 7), 16);
 
-  r = Math.min(255, r + 50);
-  g = Math.min(255, g + 50);
-  b = Math.min(255, b + 50);
+  r = Math.min(255, r + intensity * 0.8);
+  g = Math.min(255, g + intensity * 0.5);
+  b = Math.min(255, b + intensity * 1.2);
 
-  return `rgb(${r}, ${g}, ${b})`;
+  return `rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)})`;
 }
 
 export function generateLighterHexColor(hexColor: string): string {
