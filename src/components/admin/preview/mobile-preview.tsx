@@ -11,7 +11,7 @@ import useLinkStore from '@/store/link-store';
 import { Link } from '@/interfaces/link';
 import useThemeStore from '@/store/theme-store';
 import { backgroundStyles, backgroundTypes } from '@/interfaces/theme';
-import { generateLighterColor, generateLighterHexColor } from '@/lib/utils';
+import { cn, generateLighterColor, generateLighterHexColor } from '@/lib/utils';
 import { PolkaSVG } from '@/components/admin/appearance/background/polka-svg';
 import { WaveSVG } from '@/components/admin/appearance/background/wave-svg';
 
@@ -66,23 +66,22 @@ export default function MobilePreview() {
     return (
       <aside className="bg-background">
         <PhoneMockup>
-          <div className="relative w-full h-full flex flex-col items-center">
+          <div
+            className="relative w-full h-full flex flex-col items-center"
+            style={{ fontFamily, color: fontColor, ...backgroundStyle }}
+          >
             <div className="absolute inset-0 w-full h-full overflow-hidden">
               <PolkaSVG
                 style={{
                   width: '100%',
                   height: '100%',
-                  fontFamily,
                   color: lighterHexColor,
                   ...backgroundStyle,
                 }}
               />
             </div>
 
-            <div
-              className="relative w-full h-full flex flex-col items-center overflow-y-auto z-10"
-              style={{ fontFamily, color: lighterHexColor }}
-            >
+            <div className="relative w-full h-full flex flex-col items-center overflow-y-auto z-10">
               <Content />
             </div>
           </div>
@@ -145,7 +144,10 @@ export default function MobilePreview() {
     <aside className="bg-background">
       <PhoneMockup>
         <div
-          className={`h-full w-full flex flex-col items-center ${backgroundClass}`}
+          className={cn(
+            'h-full w-full flex flex-col items-center',
+            backgroundClass
+          )}
           style={{ fontFamily, color: fontColor, ...backgroundStyle }}
         >
           <div className="absolute h-full w-full overflow-y-auto">
