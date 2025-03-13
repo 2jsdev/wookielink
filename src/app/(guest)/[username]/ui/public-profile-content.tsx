@@ -70,10 +70,10 @@ export default function PublicProfileContent({
 
     return (
       <main
-        className="relative w-full h-full flex flex-col items-center"
+        className="relative w-full min-h-screen flex flex-col items-center overflow-hidden"
         style={{ fontFamily, color: fontColor, ...backgroundStyle }}
       >
-        <div className="fixed top-0 left-0 w-full h-full z-0">
+        <div className="absolute inset-0 w-full h-full">
           <PolkaSVG
             style={{
               width: '100%',
@@ -83,7 +83,7 @@ export default function PublicProfileContent({
           />
         </div>
 
-        <div className="relative w-full h-full flex flex-col items-center overflow-y-auto z-10">
+        <div className="relative w-full flex flex-col items-center overflow-y-auto z-10">
           <Content user={user} isOwner={isOwner} />
         </div>
       </main>
