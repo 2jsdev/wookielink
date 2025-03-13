@@ -74,11 +74,13 @@ export default function PublicProfileContent({
         style={{ fontFamily, color: fontColor, ...backgroundStyle }}
       >
         <div className="fixed top-0 left-0 w-full h-full z-0">
-          <PolkaSVG style={{
-            width: '100%',
-            height: '100%',
-            color: lighterHexColor,
-          }} />
+          <PolkaSVG
+            style={{
+              width: '100%',
+              height: '100%',
+              color: lighterHexColor,
+            }}
+          />
         </div>
 
         <div className="relative w-full h-full flex flex-col items-center overflow-y-auto z-10">
@@ -98,7 +100,13 @@ export default function PublicProfileContent({
         style={{ fontFamily, color: fontColor, ...backgroundStyle }}
       >
         <div className="fixed top-0 left-0 w-full h-full z-0">
-          <WaveSVG style={{ width: '100%', height: '100%', color: theme.background.color }} />
+          <WaveSVG
+            style={{
+              width: '100%',
+              height: '100%',
+              color: theme.background.color,
+            }}
+          />
         </div>
 
         <div className="relative w-full h-full flex flex-col items-center overflow-y-auto z-10">

@@ -255,9 +255,11 @@ export function BackgroundCustomizer() {
 
         <div className="flex flex-col gap-4 p-5">
           {customTheme?.background?.style === backgroundStyles.COLORUP ||
-            customTheme?.background?.style === backgroundStyles.COLORDOWN ? (
+          customTheme?.background?.style === backgroundStyles.COLORDOWN ? (
             <div className="space-y-3">
-              <Label className="text-sm font-medium text-gray-900 dark:text-white">Direction</Label>
+              <Label className="text-sm font-medium text-gray-900 dark:text-white">
+                Direction
+              </Label>
               <RadioGroup
                 value={customTheme?.background?.style}
                 onValueChange={(value) =>
@@ -269,17 +271,31 @@ export function BackgroundCustomizer() {
                 className="space-y-2"
               >
                 <div className="flex items-center">
-                  <RadioGroupItem value={backgroundStyles.COLORUP} id="gradient-up" className="mr-6" />
+                  <RadioGroupItem
+                    value={backgroundStyles.COLORUP}
+                    id="gradient-up"
+                    className="mr-6"
+                  />
                   <div className="mr-2 w-10 h-6 rounded border border-gray-300 dark:border-gray-600 bg-gradient-to-t from-gray-400 to-white dark:from-gray-600 dark:to-black" />
-                  <Label htmlFor="gradient-up" className="cursor-pointer text-gray-900 dark:text-white">
+                  <Label
+                    htmlFor="gradient-up"
+                    className="cursor-pointer text-gray-900 dark:text-white"
+                  >
                     Gradient Up
                   </Label>
                 </div>
 
                 <div className="flex items-center">
-                  <RadioGroupItem value={backgroundStyles.COLORDOWN} id="gradient-down" className="mr-6" />
+                  <RadioGroupItem
+                    value={backgroundStyles.COLORDOWN}
+                    id="gradient-down"
+                    className="mr-6"
+                  />
                   <div className="mr-2 w-10 h-6 rounded border border-gray-300 dark:border-gray-600 bg-gradient-to-b from-white to-gray-400 dark:from-black dark:to-gray-600" />
-                  <Label htmlFor="gradient-down" className="cursor-pointer text-gray-900 dark:text-white">
+                  <Label
+                    htmlFor="gradient-down"
+                    className="cursor-pointer text-gray-900 dark:text-white"
+                  >
                     Gradient Down
                   </Label>
                 </div>
@@ -289,17 +305,17 @@ export function BackgroundCustomizer() {
 
           {(customTheme?.background?.type === backgroundTypes.COLOR ||
             customTheme?.background?.type === backgroundTypes.ANIMATED) && (
-              <div className="space-y-3">
-                <Label className="text-sm font-medium">Color</Label>
-                <ColorSelector
-                  value={customTheme?.background?.color || '#d21414'}
-                  onChange={(newColor) => {
-                    debouncedHandleBackgroundColorChange(newColor);
-                  }}
-                  placeholder="#d21414"
-                />
-              </div>
-            )}
+            <div className="space-y-3">
+              <Label className="text-sm font-medium">Color</Label>
+              <ColorSelector
+                value={customTheme?.background?.color || '#d21414'}
+                onChange={(newColor) => {
+                  debouncedHandleBackgroundColorChange(newColor);
+                }}
+                placeholder="#d21414"
+              />
+            </div>
+          )}
         </div>
       </Card>
 

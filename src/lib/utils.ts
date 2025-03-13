@@ -17,7 +17,10 @@ export function getHSLValue(hex: string): string {
   return d3.color(hex)!.formatHsl().slice(4, -1).replaceAll(',', '');
 }
 
-export function generateLighterColor(hexColor: string, intensity: number = 100) {
+export function generateLighterColor(
+  hexColor: string,
+  intensity: number = 100
+) {
   if (!hexColor) return '#ffffff';
 
   let r = parseInt(hexColor.substring(1, 3), 16);

@@ -58,7 +58,9 @@ export default function MobilePreview() {
   }
 
   if (activeTheme?.background?.style === backgroundStyles.POLKA) {
-    const lighterHexColor = generateLighterHexColor(activeTheme.background.color!);
+    const lighterHexColor = generateLighterHexColor(
+      activeTheme.background.color!
+    );
     backgroundStyle = { backgroundColor: activeTheme.background.color };
 
     return (
@@ -72,7 +74,7 @@ export default function MobilePreview() {
                   height: '100%',
                   fontFamily,
                   color: lighterHexColor,
-                  ...backgroundStyle
+                  ...backgroundStyle,
                 }}
               />
             </div>
@@ -88,8 +90,6 @@ export default function MobilePreview() {
       </aside>
     );
   }
-
-
 
   if (activeTheme?.background?.style === backgroundStyles.WAVES) {
     const lighterHexColor = generateLighterHexColor(
@@ -117,12 +117,12 @@ export default function MobilePreview() {
     case backgroundStyles.FLAT:
       backgroundStyle.backgroundColor = activeTheme.background.color;
       break;
-      case backgroundStyles.COLORUP:
-        backgroundStyle.background = `linear-gradient(to top, ${activeTheme.background.color}, ${generateLighterColor(activeTheme.background.color!, 100)})`;
-        break;
-      case backgroundStyles.COLORDOWN:
-        backgroundStyle.background = `linear-gradient(to bottom, ${activeTheme.background.color}, ${generateLighterColor(activeTheme.background.color!, 100)})`;
-        break;    
+    case backgroundStyles.COLORUP:
+      backgroundStyle.background = `linear-gradient(to top, ${activeTheme.background.color}, ${generateLighterColor(activeTheme.background.color!, 100)})`;
+      break;
+    case backgroundStyles.COLORDOWN:
+      backgroundStyle.background = `linear-gradient(to bottom, ${activeTheme.background.color}, ${generateLighterColor(activeTheme.background.color!, 100)})`;
+      break;
     case backgroundStyles.STRIPE:
       backgroundClass = 'pattern-stripe';
       backgroundStyle = {
