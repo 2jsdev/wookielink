@@ -126,7 +126,7 @@ export default function LayoutSelector({ link, onError }: Props) {
               )}
             >
               <RadioGroupItem value={LinkLayout.Feature} />
-              <div className="flex-1 flex flex-col md:flex-row items-center gap-1 md:gap-5">
+              <div className="flex-1 flex flex-col md:flex-row items-center gap-4 md:gap-10 w-full">
                 <div className="w-full md:w-[50%] py-1 space-y-5">
                   <div className="space-y-3">
                     <h3 className="font-medium">Featured</h3>
