@@ -90,7 +90,7 @@ const themeSettingsStore: StateCreator<SettingsState> = (set) => ({
       layout: 'vertical',
       contentLayout: 'full',
       fontFamily: 'inter',
-      themeColor: 'default',
+      themeColor: 'purple',
       direction: 'ltr',
       sidebarLayout: 'default',
       roundedCorner: 0.5,
