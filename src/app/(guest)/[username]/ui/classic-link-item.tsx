@@ -73,33 +73,31 @@ export default function ClassicLinkItem({ link, theme }: Props) {
     dynamicStyle = { backgroundColor: selectedColor };
   }
 
-  const handleRegisterActivity = async (
-    type: ActivityType,
-    linkId: string,
-    userId: string
-  ) => {
+  const handleRegisterActivity = async (type: ActivityType) => {
     const deviceData = await getUserDeviceData();
     if (!deviceData) return;
 
     registerActivity({
       type,
-      linkId,
-      userId,
+      linkId: link.id,
+      userId: link.userId,
       ...deviceData,
-    });
+    }).catch((error) =>
+      console.error(`Error registering ${type} activity:`, error)
+    );
   };
 
   const handleRegisterView = async () => {
     setHovered(true);
     if (hasRegisteredView) return;
 
-    handleRegisterActivity(ActivityType.View, link.id, link.userId);
+    handleRegisterActivity(ActivityType.View);
     setHasRegisteredView(true);
   };
 
   const handleLinkClick = async () => {
     window.open(link.url, '_blank', 'noopener,noreferrer');
-    handleRegisterActivity(ActivityType.Click, link.id, link.userId);
+    handleRegisterActivity(ActivityType.Click);
   };
 
   return (

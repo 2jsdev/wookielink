@@ -93,7 +93,9 @@ export default function FeaturedLinkItem({ link, theme }: Props) {
   };
 
   const handleRegisterView = () => {
+    setHovered(true);
     if (hasRegisteredView) return;
+    
     handleRegisterActivity(ActivityType.View);
     setHasRegisteredView(true);
   };
