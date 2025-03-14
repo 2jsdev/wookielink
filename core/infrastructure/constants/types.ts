@@ -20,6 +20,8 @@ export const TYPES = {
   UploadUserLinkThumbnailUseCase: Symbol.for('UploadUserLinkThumbnailUseCase'),
   DeleteUserLinkThumbnailUseCase: Symbol.for('DeleteUserLinkThumbnailUseCase'),
   GetUsernameByShortCodeUseCase: Symbol.for('GetUsernameByShortCodeUseCase'),
+  GetUserLifetimeMetricsUseCase: Symbol.for('GetUserLifetimeMetricsUseCase'),
+  GetAudienceMetricsUseCase: Symbol.for('GetAudienceMetricsUseCase'),
 
   GetPublicProfileUseCase: Symbol.for('GetPublicProfileUseCase'),
 

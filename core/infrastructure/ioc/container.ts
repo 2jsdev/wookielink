@@ -13,6 +13,8 @@ import { ReorderUserLinksUseCase } from '@core/application/useCases/ReorderUserL
 import { UploadUserLinkThumbnailUseCase } from '@core/application/useCases/UploadUserLinkThumbnail/UploadUserLinkThumbnailUseCase';
 import { DeleteUserLinkThumbnailUseCase } from '@core/application/useCases/DeleteUserLinkThumbnail/DeleteUserLinkThumbnailUseCase';
 import { GetUsernameByShortCodeUseCase } from '@core/application/useCases/GetUsernameByShortCode/GetUsernameByShortCodeUseCase';
+import { GetUserLifetimeMetricsUseCase } from '@core/application/useCases/GetUserLifetimeMetrics/GetUserLifetimeMetricsUseCase';
+import { GetAudienceMetricsUseCase } from '@core/application/useCases/GetAudienceMetrics/GetAudienceMetricsUseCase';
 
 import { CreateDefaultThemeUseCase } from '@core/application/useCases/CreateDefaultTheme/CreateDefaultThemeUseCase';
 import { UpdateThemeUseCase } from '@core/application/useCases/UpdateTheme/UpdateThemeUseCase';
@@ -69,6 +71,12 @@ container
 container
   .bind<UploadUserLinkThumbnailUseCase>(TYPES.UploadUserLinkThumbnailUseCase)
   .to(UploadUserLinkThumbnailUseCase);
+container
+  .bind<GetUserLifetimeMetricsUseCase>(TYPES.GetUserLifetimeMetricsUseCase)
+  .to(GetUserLifetimeMetricsUseCase);
+container
+  .bind<GetAudienceMetricsUseCase>(TYPES.GetAudienceMetricsUseCase)
+  .to(GetAudienceMetricsUseCase);
 
 container
   .bind<DeleteUserLinkThumbnailUseCase>(TYPES.DeleteUserLinkThumbnailUseCase)

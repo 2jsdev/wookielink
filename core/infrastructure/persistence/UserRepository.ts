@@ -68,4 +68,27 @@ export class UserRepository implements IUserRepository {
       throw error;
     }
   }
+
+  async getLifetimeMetrics(
+    userId: string
+  ): Promise<{ views: number; clicks: number; clickRate: number }> {
+    try {
+      const metrics = await prisma.userMetrics.findUnique({
+        where: { userId },
+      });
+
+      if (!metrics) {
+        return { views: 0, clicks: 0, clickRate: 0 };
+      }
+
+      return {
+        views: metrics.views,
+        clicks: metrics.clicks,
+        clickRate: metrics.clickRate ?? 0,
+      };
+    } catch (error) {
+      console.error(error);
+      return { views: 0, clicks: 0, clickRate: 0 };
+    }
+  }
 }

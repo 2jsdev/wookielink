@@ -42,4 +42,55 @@ export class ActivityRepository implements IActivityRepository {
 
     return recentActivity ? ActivityMapper.toDomain(recentActivity) : null;
   }
+
+  async getMetricsByLocation(userId: string): Promise<
+    {
+      country: string;
+      city: string;
+      views: number;
+      clicks: number;
+    }[]
+  > {
+    try {
+      return prisma.$queryRaw`
+        SELECT 
+          country, 
+          city,
+          COUNT(*) FILTER (WHERE type = 'View') AS views,
+          COUNT(*) FILTER (WHERE type = 'Click') AS clicks
+        FROM activities
+        WHERE user_id = ${userId}
+        GROUP BY country, city
+      `;
+    } catch (error) {
+      console.error(
+        `Error in getMetricsByLocation (userId: ${userId}):`,
+        error
+      );
+      throw error;
+    }
+  }
+
+  async getMetricsByDevice(userId: string): Promise<
+    {
+      device: string;
+      views: number;
+      clicks: number;
+    }[]
+  > {
+    try {
+      return prisma.$queryRaw`
+        SELECT 
+          os AS device,
+          COUNT(*) FILTER (WHERE type = 'View') AS views,
+          COUNT(*) FILTER (WHERE type = 'Click') AS clicks
+        FROM activities
+        WHERE user_id = ${userId}
+        GROUP BY os
+      `;
+    } catch (error) {
+      console.error(`Error in getMetricsByDevice (userId: ${userId}):`, error);
+      throw error;
+    }
+  }
 }

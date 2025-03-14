@@ -125,6 +125,18 @@ enum LinkLayout {
     Feature
 }
 
+view UserMetrics {
+  userId    String @map("user_id")
+  views     Int
+  clicks    Int
+  clickRate Float @map("click_rate")
+
+  @@unique([userId])
+
+  @@map("user_metrics")
+}
+
+
 model Activity {
     id        String       @id @default(cuid())
     type      ActivityType @default(View)
@@ -134,7 +146,7 @@ model Activity {
     city      String?
     region    String?
     country   String?
-    userAgent String
+    userAgent String?      @map("user_agent")
     os        String?
     browser   String?
     screen    String?
