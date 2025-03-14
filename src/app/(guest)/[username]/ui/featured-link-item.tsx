@@ -5,13 +5,15 @@ import { Link } from '@/interfaces/link';
 import { Theme } from '@/interfaces/theme';
 import { MoreVertical, Link as LinkIcon } from 'lucide-react';
 import Image from 'next/image';
-import { cn } from '@/lib/utils';
+import { cn, getUserDeviceData } from '@/lib/utils';
 import ShareLinkModal from '@/components/custom/share-link-modal';
 import useUiStore from '@/store/ui-store';
 import {
   getButtonStyleProps,
   getFeaturedLinkPreviewClass,
 } from '@/lib/button-utils';
+import { registerActivity } from '@/actions/register-activity';
+import { ActivityType } from '@/interfaces/activity';
 
 interface Props {
   link: Link;
@@ -23,6 +25,7 @@ export default function FeaturedLinkItem({ link, theme }: Props) {
   const isHighlighted = highlightedLink === link.shortCode;
   const [isOpen, setIsOpen] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const [hasRegisteredView, setHasRegisteredView] = useState(false);
 
   const {
     isOutline,
@@ -75,6 +78,31 @@ export default function FeaturedLinkItem({ link, theme }: Props) {
     dynamicStyle = { backgroundColor: selectedColor };
   }
 
+  const handleRegisterActivity = async (type: ActivityType) => {
+    const deviceData = await getUserDeviceData();
+    if (!deviceData) return;
+
+    registerActivity({
+      type,
+      linkId: link.id,
+      userId: link.userId,
+      ...deviceData,
+    }).catch((error) =>
+      console.error(`Error registering ${type} activity:`, error)
+    );
+  };
+
+  const handleRegisterView = () => {
+    if (hasRegisteredView) return;
+    handleRegisterActivity(ActivityType.View);
+    setHasRegisteredView(true);
+  };
+
+  const handleLinkClick = () => {
+    window.open(link.url, '_blank', 'noopener,noreferrer');
+    handleRegisterActivity(ActivityType.Click);
+  };
+
   return (
     <>
       <div className="relative w-full">
@@ -91,8 +119,14 @@ export default function FeaturedLinkItem({ link, theme }: Props) {
         )}
         <div
           id={`link-${link.shortCode}`}
+          role="button"
+          tabIndex={0}
+          onClick={handleLinkClick}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') handleLinkClick();
+          }}
           className={cn(
-            'relative block w-full h-80 overflow-hidden transition-all duration-300 ease-in-out',
+            'relative block w-full h-80 overflow-hidden transition-all duration-300 ease-in-out cursor-pointer',
             isHardShadow ? '' : 'hover:scale-105 hover:shadow-lg',
             theme?.buttonStyle,
             buttonStyleClass,
@@ -100,44 +134,37 @@ export default function FeaturedLinkItem({ link, theme }: Props) {
             { 'blurred-content': isBlurred }
           )}
           style={dynamicStyle}
-          onMouseEnter={() => setHovered(true)}
+          onMouseEnter={handleRegisterView}
           onMouseLeave={() => setHovered(false)}
         >
-          <a
-            href={link.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="absolute inset-0"
-          >
-            {link.thumbnail ? (
-              <Image
-                src={link.thumbnail}
-                alt={link.title ?? 'thumbnail'}
-                fill
-                sizes="100vw"
-                className="w-full h-full object-cover object-[0%_20%]"
-              />
-            ) : (
-              <div
-                className="absolute top-2 right-2 opacity-70"
-                style={{ color: dynamicTextColor }}
-              >
-                <LinkIcon className="w-5 h-5" />
-              </div>
-            )}
-
-            <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/35 to-transparent" />
-            <p
-              className="absolute bottom-4 left-4 text-sm font-medium"
+          {link.thumbnail ? (
+            <Image
+              src={link.thumbnail}
+              alt={link.title ?? 'thumbnail'}
+              fill
+              sizes="100vw"
+              className="w-full h-full object-cover object-[0%_20%]"
+            />
+          ) : (
+            <div
+              className="absolute top-2 right-2 opacity-70"
               style={{ color: dynamicTextColor }}
             >
-              {link.title}
-            </p>
-          </a>
+              <LinkIcon className="w-5 h-5" />
+            </div>
+          )}
+
+          <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/35 to-transparent" />
+          <p
+            className="absolute bottom-4 left-4 text-sm font-medium"
+            style={{ color: dynamicTextColor }}
+          >
+            {link.title}
+          </p>
 
           <div
             onClick={(e) => {
-              e.preventDefault();
+              e.stopPropagation();
               setIsOpen(true);
             }}
             className="absolute bottom-3 right-2 z-10 group flex items-center justify-center w-7 h-7 rounded-full"

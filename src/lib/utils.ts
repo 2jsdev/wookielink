@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import * as d3 from 'd3-color';
+import { UAParser } from 'ua-parser-js';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -47,3 +48,26 @@ export function generateLighterHexColor(hexColor: string): string {
 
   return `#${((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1).toUpperCase()}`;
 }
+
+export const getUserDeviceData = async () => {
+  try {
+    const ipResponse = await fetch('https://api.ipify.org?format=json').then(
+      (res) => res.json()
+    );
+
+    const parser = new UAParser(navigator.userAgent);
+    const browserInfo = parser.getBrowser();
+    const osInfo = parser.getOS();
+
+    return {
+      ip: ipResponse.ip,
+      userAgent: navigator.userAgent,
+      os: osInfo.name || 'Unknown',
+      browser: browserInfo.name || 'Unknown',
+      screen: `${window.innerWidth}x${window.innerHeight}`,
+    };
+  } catch (error) {
+    console.error('Error fetching user device data:', error);
+    return null;
+  }
+};

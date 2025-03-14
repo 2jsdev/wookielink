@@ -5,7 +5,7 @@ import { Link } from '@/interfaces/link';
 import { Theme } from '@/interfaces/theme';
 import { MoreVertical } from 'lucide-react';
 import Image from 'next/image';
-import { cn } from '@/lib/utils';
+import { cn, getUserDeviceData } from '@/lib/utils';
 import ShareLinkModal from '@/components/custom/share-link-modal';
 import useUiStore from '@/store/ui-store';
 import {
@@ -13,6 +13,8 @@ import {
   getClassicImagePreviewClass,
   getClassicLinkPreviewClass,
 } from '@/lib/button-utils';
+import { registerActivity } from '@/actions/register-activity';
+import { ActivityType } from '@/interfaces/activity';
 
 interface Props {
   link: Link;
@@ -24,6 +26,7 @@ export default function ClassicLinkItem({ link, theme }: Props) {
   const isHighlighted = highlightedLink === link.shortCode;
   const [isOpen, setIsOpen] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const [hasRegisteredView, setHasRegisteredView] = useState(false);
 
   const {
     isOutline,
@@ -70,6 +73,35 @@ export default function ClassicLinkItem({ link, theme }: Props) {
     dynamicStyle = { backgroundColor: selectedColor };
   }
 
+  const handleRegisterActivity = async (
+    type: ActivityType,
+    linkId: string,
+    userId: string
+  ) => {
+    const deviceData = await getUserDeviceData();
+    if (!deviceData) return;
+
+    registerActivity({
+      type,
+      linkId,
+      userId,
+      ...deviceData,
+    });
+  };
+
+  const handleRegisterView = async () => {
+    setHovered(true);
+    if (hasRegisteredView) return;
+
+    handleRegisterActivity(ActivityType.View, link.id, link.userId);
+    setHasRegisteredView(true);
+  };
+
+  const handleLinkClick = async () => {
+    window.open(link.url, '_blank', 'noopener,noreferrer');
+    handleRegisterActivity(ActivityType.Click, link.id, link.userId);
+  };
+
   return (
     <div className="relative w-full">
       {isHardShadow && (
@@ -83,11 +115,14 @@ export default function ClassicLinkItem({ link, theme }: Props) {
           }}
         />
       )}
-      <a
-        id={`link-${link.shortCode}`}
-        href={link.url}
-        target="_blank"
-        rel="noopener noreferrer"
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={handleLinkClick}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') handleLinkClick();
+        }}
+        onContextMenu={(e) => e.preventDefault()}
         className={cn(
           'flex items-center min-h-[56px] w-full p-2 text-center rounded-lg transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg cursor-pointer',
           theme?.buttonStyle,
@@ -96,7 +131,7 @@ export default function ClassicLinkItem({ link, theme }: Props) {
           { 'blurred-content': isBlurred }
         )}
         style={dynamicStyle}
-        onMouseEnter={() => setHovered(true)}
+        onMouseEnter={handleRegisterView}
         onMouseLeave={() => setHovered(false)}
       >
         <div className="flex items-center w-full">
@@ -129,7 +164,7 @@ export default function ClassicLinkItem({ link, theme }: Props) {
 
           <div
             onClick={(e) => {
-              e.preventDefault();
+              e.stopPropagation();
               setIsOpen(true);
             }}
             className="group flex items-center justify-center w-7 h-7 rounded-full relative flex-shrink-0"
@@ -147,7 +182,7 @@ export default function ClassicLinkItem({ link, theme }: Props) {
           open={isOpen}
           onClose={() => setIsOpen(false)}
         />
-      </a>
+      </div>
     </div>
   );
 }
