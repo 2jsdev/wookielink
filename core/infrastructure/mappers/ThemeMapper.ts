@@ -23,10 +23,6 @@ export class ThemeMapper {
       new UniqueEntityID(raw.id)
     );
 
-    if (themeOrError.isFailure) {
-      console.error('Error al mapear Theme:', themeOrError.getErrorValue());
-    }
-
     return themeOrError.getValue();
   }
 

@@ -25,10 +25,6 @@ export class UserMapper {
       new UniqueEntityID(plain.id)
     );
 
-    if (userOrError.isFailure) {
-      console.error(userOrError.getErrorValue());
-    }
-
     return userOrError.getValue();
   }
 

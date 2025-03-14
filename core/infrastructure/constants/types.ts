@@ -3,6 +3,7 @@ export const TYPES = {
   UserRepository: Symbol.for('UserRepository'),
   LinkRepository: Symbol.for('LinkRepository'),
   ThemeRepository: Symbol.for('ThemeRepository'),
+  ActivityRepository: Symbol.for('ActivityRepository'),
 
   // Use cases
   CheckUsernameAvailabilityUseCase: Symbol.for(
@@ -28,6 +29,8 @@ export const TYPES = {
   UpdateUserThemeSelectionUseCase: Symbol.for(
     'UpdateUserThemeSelectionUseCase'
   ),
+
+  RegisterActivityUseCase: Symbol.for('RegisterActivityUseCase'),
 
   // Services
   FileUploaderService: Symbol.for('FileUploaderService'),

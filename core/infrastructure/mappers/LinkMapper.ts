@@ -29,10 +29,6 @@ export class LinkMapper {
       new UniqueEntityID(plain.id)
     );
 
-    if (linkOrError.isFailure) {
-      console.error('Error al mapear a dominio:', linkOrError.getErrorValue());
-    }
-
     return linkOrError.getValue();
   }
 

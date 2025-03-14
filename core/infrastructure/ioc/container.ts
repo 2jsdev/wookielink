@@ -19,10 +19,13 @@ import { UpdateThemeUseCase } from '@core/application/useCases/UpdateTheme/Updat
 import { GetUserThemeUseCase } from '@core/application/useCases/GetUserTheme/GetUserThemeUseCase';
 import { UpdateUserThemeSelectionUseCase } from '@core/application/useCases/UpdateUserThemeSelection/UpdateUserThemeSelectionUseCase';
 
+import { RegisterActivityUseCase } from '@core/application/useCases/RegisterActivity/RegisterActivityUseCase';
+
 // Repositories
 import { UserRepository } from '@core/infrastructure/persistence/UserRepository';
 import { LinkRepository } from '@core/infrastructure/persistence/LinkRepository';
 import { ThemeRepository } from '@core/infrastructure/persistence/ThemeRepository';
+import { ActivityRepository } from '@core/infrastructure/persistence/ActivityRepository';
 
 // Services
 import { MinioFileUploader } from '@core/infrastructure/services/MinioFileUploader';
@@ -87,10 +90,18 @@ container
   .bind<UpdateUserThemeSelectionUseCase>(TYPES.UpdateUserThemeSelectionUseCase)
   .to(UpdateUserThemeSelectionUseCase);
 
+container
+  .bind<RegisterActivityUseCase>(TYPES.RegisterActivityUseCase)
+  .to(RegisterActivityUseCase);
+
 // Repositories
 container.bind(TYPES.UserRepository).to(UserRepository).inSingletonScope();
 container.bind(TYPES.LinkRepository).to(LinkRepository).inSingletonScope();
 container.bind(TYPES.ThemeRepository).to(ThemeRepository).inSingletonScope();
+container
+  .bind(TYPES.ActivityRepository)
+  .to(ActivityRepository)
+  .inSingletonScope();
 
 // Services
 container
