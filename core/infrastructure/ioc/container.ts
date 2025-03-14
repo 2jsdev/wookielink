@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { Container } from 'inversify';
 // Use cases
 import { CheckUsernameAvailabilityUseCase } from '@core/application/useCases/CheckUsernameAvailability/CheckUsernameAvailabilityUseCase';
