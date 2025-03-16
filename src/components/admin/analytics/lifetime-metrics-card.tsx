@@ -26,7 +26,7 @@ export default async function LifetimeMetricsCard() {
     },
     {
       icon: <Percent className="w-4 h-4" />,
-      value: metrics.clickRate ? `${metrics.clickRate * 100}%` : '-',
+      value: metrics.clickRate ? `${(metrics.clickRate * 100).toFixed(2)}%` : '-',
       label: 'Click rate',
       tooltip: 'Percentage of views that resulted in clicks',
     },
