@@ -105,6 +105,14 @@ export default function FeaturedLinkItem({ link, theme }: Props) {
     handleRegisterActivity(ActivityType.Click);
   };
 
+  const handleTouchStart = () => {
+    handleRegisterView();
+  };
+
+  const handleTouchEnd = () => {
+    handleLinkClick();
+  };
+
   return (
     <>
       <div className="relative w-full">
@@ -124,6 +132,8 @@ export default function FeaturedLinkItem({ link, theme }: Props) {
           role="button"
           tabIndex={0}
           onClick={handleLinkClick}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
           onKeyDown={(e) => {
             if (e.key === 'Enter') handleLinkClick();
           }}
