@@ -26,7 +26,9 @@ export default async function LifetimeMetricsCard() {
     },
     {
       icon: <Percent className="w-4 h-4" />,
-      value: metrics.clickRate ? `${(metrics.clickRate * 100).toFixed(2)}%` : '-',
+      value: metrics.clickRate
+        ? `${(metrics.clickRate * 100).toFixed(2)}%`
+        : '-',
       label: 'Click rate',
       tooltip: 'Percentage of views that resulted in clicks',
     },
@@ -34,44 +36,23 @@ export default async function LifetimeMetricsCard() {
 
   return (
     <Card className="w-full">
-      <CardContent className="p-6">
-        <div className="space-y-6">
+      <CardContent className="p-4 sm:p-6">
+        <div className="space-y-4 sm:space-y-6">
           <div className="flex items-center gap-2">
             <h2 className="text-lg font-semibold">Lifetime</h2>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger className="cursor-help">
-                  <div className="rounded-full border w-4 h-4 flex items-center justify-center text-xs">
-                    ?
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Lifetime statistics for your content</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
           </div>
 
-          <div
-            className="grid gap-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3"
-            style={{ gridAutoFlow: 'row dense' }}
-          >
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
             {stats.map((stat, index) => (
               <TooltipProvider key={index}>
                 <Tooltip>
                   <TooltipTrigger className="cursor-help">
-                    <div
-                      className={`flex items-center gap-4 p-3 rounded-lg bg-muted/50 ${
-                        stats.length % 2 !== 0 && index === stats.length - 1
-                          ? 'sm:col-span-2 lg:col-span-3'
-                          : ''
-                      }`}
-                    >
+                    <div className="flex items-center gap-4 p-3 rounded-lg bg-muted/50">
                       <div className="bg-background rounded-md p-2 shadow-sm">
                         {stat.icon}
                       </div>
                       <div className="text-left">
-                        <div className="text-2xl font-semibold tabular-nums">
+                        <div className="text-lg sm:text-2xl font-semibold">
                           {stat.value}
                         </div>
                         <div className="text-sm text-muted-foreground">

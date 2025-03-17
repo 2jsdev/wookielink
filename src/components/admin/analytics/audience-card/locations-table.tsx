@@ -57,54 +57,54 @@ export function LocationsTable({ locations }: LocationsTableProps) {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>
+          <TableHead className="w-[25%]">
             <Button
               variant="ghost"
               onClick={() => handleSort('country')}
-              className="flex items-center gap-1 font-medium"
+              className="flex items-center gap-1 font-medium text-xs sm:text-sm"
             >
               Country
-              <ArrowUpDown className="h-4 w-4" />
+              <ArrowUpDown className="h-3 w-3 sm:h-4 sm:w-4" />
             </Button>
           </TableHead>
-          <TableHead>
+          <TableHead className="w-[25%]">
             <Button
               variant="ghost"
               onClick={() => handleSort('city')}
-              className="flex items-center gap-1 font-medium"
+              className="flex items-center gap-1 font-medium text-xs sm:text-sm"
             >
               City
-              <ArrowUpDown className="h-4 w-4" />
+              <ArrowUpDown className="h-3 w-3 sm:h-4 sm:w-4" />
             </Button>
           </TableHead>
           <TableHead className="text-right">
             <Button
               variant="ghost"
               onClick={() => handleSort('views')}
-              className="flex items-center gap-1 font-medium ml-auto"
+              className="flex items-center gap-1 font-medium ml-auto text-xs sm:text-sm"
             >
               Views
-              <ArrowUpDown className="h-4 w-4" />
+              <ArrowUpDown className="h-3 w-3 sm:h-4 sm:w-4" />
             </Button>
           </TableHead>
           <TableHead className="text-right">
             <Button
               variant="ghost"
               onClick={() => handleSort('clicks')}
-              className="flex items-center gap-1 font-medium ml-auto"
+              className="flex items-center gap-1 font-medium ml-auto text-xs sm:text-sm"
             >
               Clicks
-              <ArrowUpDown className="h-4 w-4" />
+              <ArrowUpDown className="h-3 w-3 sm:h-4 sm:w-4" />
             </Button>
           </TableHead>
           <TableHead className="text-right">
             <Button
               variant="ghost"
               onClick={() => handleSort('clickRate')}
-              className="flex items-center gap-1 font-medium ml-auto"
+              className="flex items-center gap-1 font-medium ml-auto text-xs sm:text-sm"
             >
               Click Rate
-              <ArrowUpDown className="h-4 w-4" />
+              <ArrowUpDown className="h-3 w-3 sm:h-4 sm:w-4" />
             </Button>
           </TableHead>
         </TableRow>
@@ -112,18 +112,20 @@ export function LocationsTable({ locations }: LocationsTableProps) {
       <TableBody>
         {sortedLocations.map((location, index) => (
           <TableRow key={index}>
-            <TableCell className="font-medium">{location.country}</TableCell>
-            <TableCell className="flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-muted-foreground" />
+            <TableCell className="font-medium text-xs sm:text-sm">
+              {location.country}
+            </TableCell>
+            <TableCell className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+              <MapPin className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
               {location.city}
             </TableCell>
-            <TableCell className="text-right">
+            <TableCell className="text-right text-xs sm:text-sm">
               {location.views.toLocaleString()}
             </TableCell>
-            <TableCell className="text-right">
+            <TableCell className="text-right text-xs sm:text-sm">
               {location.clicks.toLocaleString()}
             </TableCell>
-            <TableCell className="text-right">
+            <TableCell className="text-right text-xs sm:text-sm">
               {location.clickRate.toFixed(1)}%
             </TableCell>
           </TableRow>

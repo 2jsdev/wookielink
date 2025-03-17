@@ -20,31 +20,30 @@ export default function AudienceCard({ metrics }: AudienceCardProps) {
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle className="text-3xl">Audience Metrics</CardTitle>
+        <CardTitle className="text-2xl sm:text-3xl">Audience Metrics</CardTitle>
         <CardDescription>
           Comprehensive overview of your audience engagement and performance
           metrics
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-8">
+      <CardContent className="space-y-6 sm:space-y-8">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle>Locations</CardTitle>
+            <CardTitle className="text-lg sm:text-xl">Locations</CardTitle>
             <CardDescription>
               View performance metrics by geographic location
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-8">
-            <div>
-              <h3 className="text-lg font-medium mb-4">
+          <CardContent className="space-y-6 sm:space-y-8">
+            <div className="overflow-x-auto">
+              <h3 className="text-md sm:text-lg font-medium mb-4">
                 Geographic Distribution
               </h3>
-
               <LocationsMap locations={metrics?.locations || []} />
             </div>
 
-            <div>
-              <h3 className="text-lg font-medium mb-4">
+            <div className="overflow-x-auto">
+              <h3 className="text-md sm:text-lg font-medium mb-4">
                 Detailed Location Data
               </h3>
               <LocationsTable locations={metrics?.locations || []} />
@@ -53,13 +52,13 @@ export default function AudienceCard({ metrics }: AudienceCardProps) {
         </Card>
 
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle>Devices</CardTitle>
-            <CardDescription>
+          <CardHeader className="pb-2 px-4 sm:px-6">
+            <CardTitle className="text-xl sm:text-2xl">Devices</CardTitle>
+            <CardDescription className="text-sm">
               View performance metrics by device type
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-4 sm:px-6">
             <DevicesChart devices={metrics?.devices || []} />
           </CardContent>
         </Card>

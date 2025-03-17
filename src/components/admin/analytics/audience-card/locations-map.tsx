@@ -52,78 +52,80 @@ export function LocationsMap({ locations }: LocationsMapProps) {
   return (
     <div className="flex flex-col items-center justify-center py-8">
       <TooltipProvider>
-        <ComposableMap
-          projection="geoEqualEarth"
-          width={1000}
-          height={500}
-          className="w-full max-w-4xl h-auto"
-        >
-          <Geographies geography="/data/world.geojson">
-            {({ geographies }) =>
-              geographies.map((geo) => {
-                const countryStat = countries.find(
-                  (c) => c.code === geo.properties.code
-                );
+        <div className="w-full overflow-hidden">
+          <ComposableMap
+            projection="geoEqualEarth"
+            projectionConfig={{ scale: 160 }}
+            viewBox="0 0 1000 500"
+            className="w-full h-auto"
+          >
+            <Geographies geography="/data/world.geojson">
+              {({ geographies }) =>
+                geographies.map((geo) => {
+                  const countryStat = countries.find(
+                    (c) => c.code === geo.properties.code
+                  );
 
-                return (
-                  <Tooltip key={geo.rsmKey}>
-                    <TooltipTrigger asChild>
-                      <Geography
-                        geography={geo}
-                        stroke="#D6D6DA"
-                        strokeWidth={0.5}
-                        fill="hsl(var(--primary))"
-                        fillOpacity={
-                          countryStat
-                            ? Math.min(
-                                0.2 + (countryStat.totalViews / 1000) * 0.8,
-                                1
-                              )
-                            : 0.1
-                        }
-                        style={{
-                          default: {
-                            outline: 'none',
-                            transition:
-                              'fill-opacity 0.3s ease, fill 0.3s ease',
-                          },
-                          hover: {
-                            fill: countryStat && 'hsl(var(--primary))',
-                            fillOpacity: 1,
-                            outline: 'none',
-                          },
-                          pressed: { outline: 'none' },
-                        }}
-                      />
-                    </TooltipTrigger>
-                    {countryStat && (
-                      <TooltipContent>
-                        <div className="p-2">
-                          <h3 className="font-bold">{countryStat.country}</h3>
-                          <p>
-                            Views: {countryStat.totalViews.toLocaleString()}
-                          </p>
-                          <p>
-                            Clicks: {countryStat.totalClicks.toLocaleString()}
-                          </p>
-                          <p>
-                            Click Rate:{' '}
-                            {(
-                              (countryStat.totalClicks /
-                                countryStat.totalViews) *
-                              100
-                            ).toFixed(1)}
-                            %
-                          </p>
-                        </div>
-                      </TooltipContent>
-                    )}
-                  </Tooltip>
-                );
-              })
-            }
-          </Geographies>
-        </ComposableMap>
+                  return (
+                    <Tooltip key={geo.rsmKey}>
+                      <TooltipTrigger asChild>
+                        <Geography
+                          geography={geo}
+                          stroke="#D6D6DA"
+                          strokeWidth={0.5}
+                          fill="hsl(var(--primary))"
+                          fillOpacity={
+                            countryStat
+                              ? Math.min(
+                                  0.2 + (countryStat.totalViews / 1000) * 0.8,
+                                  1
+                                )
+                              : 0.1
+                          }
+                          style={{
+                            default: {
+                              outline: 'none',
+                              transition:
+                                'fill-opacity 0.3s ease, fill 0.3s ease',
+                            },
+                            hover: {
+                              fill: countryStat && 'hsl(var(--primary))',
+                              fillOpacity: 1,
+                              outline: 'none',
+                            },
+                            pressed: { outline: 'none' },
+                          }}
+                        />
+                      </TooltipTrigger>
+                      {countryStat && (
+                        <TooltipContent>
+                          <div className="p-2">
+                            <h3 className="font-bold">{countryStat.country}</h3>
+                            <p>
+                              Views: {countryStat.totalViews.toLocaleString()}
+                            </p>
+                            <p>
+                              Clicks: {countryStat.totalClicks.toLocaleString()}
+                            </p>
+                            <p>
+                              Click Rate:{' '}
+                              {(
+                                (countryStat.totalClicks /
+                                  countryStat.totalViews) *
+                                100
+                              ).toFixed(1)}
+                              %
+                            </p>
+                          </div>
+                        </TooltipContent>
+                      )}
+                    </Tooltip>
+                  );
+                })
+              }
+            </Geographies>
+          </ComposableMap>
+        </div>
       </TooltipProvider>
 
       <div className="mt-4 flex items-center gap-2">
