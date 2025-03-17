@@ -48,15 +48,15 @@ export function LocationsMap({ locations }: LocationsMapProps) {
   );
 
   const countries = Object.values(countryData);
+  const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 5, 150) : 120;
 
   return (
     <div className="flex flex-col items-center justify-center py-8">
       <TooltipProvider>
-        <div className="w-full overflow-hidden">
+        <div className="w-full max-w-3xl mx-auto overflow-hidden">
           <ComposableMap
             projection="geoEqualEarth"
-            projectionConfig={{ scale: 160 }}
-            viewBox="0 0 1000 500"
+            projectionConfig={{ scale }}
             className="w-full h-auto"
           >
             <Geographies geography="/data/world.geojson">
@@ -77,9 +77,9 @@ export function LocationsMap({ locations }: LocationsMapProps) {
                           fillOpacity={
                             countryStat
                               ? Math.min(
-                                  0.2 + (countryStat.totalViews / 1000) * 0.8,
-                                  1
-                                )
+                                0.2 + (countryStat.totalViews / 1000) * 0.8,
+                                1
+                              )
                               : 0.1
                           }
                           style={{
