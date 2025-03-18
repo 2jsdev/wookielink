@@ -9,7 +9,7 @@ import { Eye } from 'lucide-react';
 
 export default function Header() {
   const { openPreview } = useMobilePreviewStore();
-  const isHidden = useMobilePreviewVisibility();
+  const shouldShowButton = useMobilePreviewVisibility();
 
   return (
     <div className="sticky top-0 z-10 flex flex-col">
@@ -17,7 +17,7 @@ export default function Header() {
         <SidebarTrigger className="*:size-5" />
         <div className="flex-1" />
 
-        {isHidden && (
+        {shouldShowButton && (
           <Button
             variant="outline"
             size="sm"

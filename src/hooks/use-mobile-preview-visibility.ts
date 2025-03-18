@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 export function useMobilePreviewVisibility() {
   const [isHidden, setIsHidden] = useState(false);
+  const pathname = usePathname();
+
+  const excludedRoutes = ['/admin/analytics'];
 
   useEffect(() => {
     const updateVisibility = () => {
@@ -28,5 +32,7 @@ export function useMobilePreviewVisibility() {
     return () => observer.disconnect();
   }, []);
 
-  return isHidden;
+  const isExcludedRoute = excludedRoutes.includes(pathname);
+
+  return isHidden && !isExcludedRoute;
 }
