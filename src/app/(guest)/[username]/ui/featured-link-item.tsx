@@ -93,14 +93,16 @@ export default function FeaturedLinkItem({ link, theme }: Props) {
   };
 
   const handleRegisterView = () => {
+    if (isOpen) return;
     setHovered(true);
     if (hasRegisteredView) return;
-    
+
     handleRegisterActivity(ActivityType.View);
     setHasRegisteredView(true);
   };
 
   const handleLinkClick = () => {
+    if (isOpen) return;
     window.open(link.url, '_blank', 'noopener,noreferrer');
     handleRegisterActivity(ActivityType.Click);
   };
@@ -115,7 +117,9 @@ export default function FeaturedLinkItem({ link, theme }: Props) {
 
   return (
     <>
-      <div className="relative w-full">
+      <div className={cn("relative w-full", {
+        'pointer-events-none': isOpen,
+      })}>
         {isHardShadow && (
           <div
             className="absolute w-full h-full"
@@ -177,6 +181,7 @@ export default function FeaturedLinkItem({ link, theme }: Props) {
           <div
             onClick={(e) => {
               e.stopPropagation();
+              setHovered(false);
               setIsOpen(true);
             }}
             className="absolute bottom-3 right-2 z-10 group flex items-center justify-center w-7 h-7 rounded-full"

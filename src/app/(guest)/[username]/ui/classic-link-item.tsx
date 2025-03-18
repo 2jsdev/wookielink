@@ -88,6 +88,7 @@ export default function ClassicLinkItem({ link, theme }: Props) {
   };
 
   const handleRegisterView = async () => {
+    if (isOpen) return;
     setHovered(true);
     if (hasRegisteredView) return;
 
@@ -96,6 +97,7 @@ export default function ClassicLinkItem({ link, theme }: Props) {
   };
 
   const handleLinkClick = async () => {
+    if (isOpen) return;
     window.open(link.url, '_blank', 'noopener,noreferrer');
     handleRegisterActivity(ActivityType.Click);
   };
@@ -109,7 +111,9 @@ export default function ClassicLinkItem({ link, theme }: Props) {
   };
 
   return (
-    <div className="relative w-full">
+    <div className={cn("relative w-full", {
+      "pointer-events-none": isOpen,
+    })}>
       {isHardShadow && (
         <div
           className={cn('absolute w-full h-full', buttonStyleClass)}
@@ -122,6 +126,7 @@ export default function ClassicLinkItem({ link, theme }: Props) {
         />
       )}
       <div
+        id={`link-${link.shortCode}`}
         role="button"
         tabIndex={0}
         onClick={handleLinkClick}
@@ -173,6 +178,7 @@ export default function ClassicLinkItem({ link, theme }: Props) {
           <div
             onClick={(e) => {
               e.stopPropagation();
+              setHovered(false);
               setIsOpen(true);
             }}
             className="group flex items-center justify-center w-7 h-7 rounded-full relative flex-shrink-0"

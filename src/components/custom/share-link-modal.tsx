@@ -1,13 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
 import {
   FacebookShareButton,
   FacebookIcon,
@@ -22,12 +17,12 @@ import {
   EmailShareButton,
   EmailIcon,
 } from 'react-share';
-import { Card } from '@/components/ui/card';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { Check, Link as LinkIcon, Share } from 'lucide-react';
+import { Check, Link as LinkIcon, Share, X } from 'lucide-react';
 import { Link as LinkType } from '@/interfaces/link';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+
 
 interface ShareLinkModalProps {
   link: LinkType;
@@ -35,16 +30,12 @@ interface ShareLinkModalProps {
   onClose: () => void;
 }
 
-export default function ShareLinkModal({
-  link,
-  open,
-  onClose,
-}: ShareLinkModalProps) {
-  const [isClient, setIsClient] = useState(false);
+export default function ShareLinkModal({ link, open, onClose }: ShareLinkModalProps) {
+  const [isMounted, setIsMounted] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
+    setIsMounted(true);
   }, []);
 
   useEffect(() => {
@@ -54,7 +45,8 @@ export default function ShareLinkModal({
     }
   }, [copiedLink]);
 
-  const handleCopyLink = async () => {
+  const handleCopyLink = async (event: React.MouseEvent) => {
+    event.stopPropagation();
     try {
       await navigator.clipboard.writeText(link.fullShortUrl!);
       setCopiedLink(true);
@@ -63,7 +55,8 @@ export default function ShareLinkModal({
     }
   };
 
-  const handleNativeShare = async () => {
+  const handleNativeShare = async (event: React.MouseEvent) => {
+    event.stopPropagation();
     if (navigator.share) {
       try {
         await navigator.share({
@@ -78,55 +71,64 @@ export default function ShareLinkModal({
     }
   };
 
-  return (
-    <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="border-none max-w-lg">
-        <DialogHeader>
-          <DialogTitle className="text-center">Share link</DialogTitle>
-        </DialogHeader>
-        <Card
-          className="shadow-none border-none flex items-center justify-center text-white cursor-pointer"
+  if (!open || !isMounted) return null;
+
+  return createPortal(
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-lg"
+      onClick={onClose}
+    >
+      <div
+        className="relative bg-white dark:bg-gray-900 rounded-lg p-6 max-w-lg w-full shadow-2xl border border-gray-300 dark:border-gray-700 flex flex-col items-center"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
+          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center  rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+        >
+          <X className="w-4 h-4" />
+        </button>
+
+        <h2 className="text-2xl font-semibold text-center mb-4">
+          Share link
+        </h2>
+
+        <div
+          className={cn(
+            'w-full md:w-[327px] rounded-lg p-6 shadow-low-elevation-light hover:scale-[1.01] hover:shadow-max-elevation-light text-center transition-all duration-300 ease-in-out',
+            {
+              'bg-primary text-white': link.ogData?.ogTitle,
+              'bg-gray-100 text-black': !link.ogData?.ogTitle,
+            }
+          )}
           onClick={() => window.open(link.url!, '_blank')}
         >
-          <div
-            className={cn(
-              'w-full md:w-[327px] rounded-lg p-6 shadow-low-elevation-light hover:scale-[1.01] hover:shadow-max-elevation-light',
-              {
-                'bg-primary text-white': link.ogData?.ogTitle,
-                'bg-gray-100 text-black': !link.ogData?.ogTitle,
-              }
-            )}
-          >
-            <div className="flex flex-col items-center justify-center gap-4">
-              {link.ogData?.ogImage?.[0]?.url && (
-                <div className="h-[120px] w-[120px] flex items-center justify-center">
-                  <Image
-                    src={link.ogData?.ogImage?.[0]?.url}
-                    alt={link.ogData?.ogTitle || 'Thumbnail'}
-                    width={80}
-                    height={80}
-                    className="h-full w-full rounded-sm object-cover"
-                  />
-                </div>
-              )}
-
-              <div className="flex flex-col items-center justify-center gap-2">
-                <h3 className="text-[20px] font-extrabold text-center leading-normal text-balance">
-                  {link.ogData?.ogTitle || link.title}
-                </h3>
-                <p className="text-xs text-center truncate">{link.url}</p>
-              </div>
-
-              {link.ogData?.ogDescription && (
-                <p className="text-xs text-center break-words text-balance line-clamp-3">
-                  {link.ogData?.ogDescription}
-                </p>
-              )}
+          {link.ogData?.ogImage?.[0]?.url && (
+            <div className="flex justify-center ">
+              <Image
+                src={link.ogData.ogImage[0].url}
+                alt={link.ogData?.ogTitle || 'Thumbnail'}
+                width={100}
+                height={100}
+                className="rounded-md object-cover"
+              />
             </div>
-          </div>
-        </Card>
+          )}
+          <h3 className="mt-3 text-xl font-bold">
+            {link.ogData?.ogTitle || link.title}
+          </h3>
+          <p className="text-sm">{link.url}</p>
+          {link.ogData?.ogDescription && (
+            <p className="mt-2 text-sm">
+              {link.ogData.ogDescription}
+            </p>
+          )}
+        </div>
 
-        <ScrollArea className="w-full" autoFocus={false}>
+        <ScrollArea className="w-full mt-4" autoFocus={false}>
           <div className="flex space-x-2 my-4">
             <div className="flex-shrink-0">
               <button
@@ -141,12 +143,12 @@ export default function ShareLinkModal({
                   {copiedLink ? (
                     <Check className="w-5 h-5 text-green-500" />
                   ) : (
-                    <LinkIcon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+                    <LinkIcon className="w-5 h-5" />
                   )}
                 </div>
                 <span
                   className={cn(
-                    'text-xs text-gray-600 dark:text-gray-300 min-w-[60px] text-center',
+                    'text-xs min-w-[60px] text-center',
                     { 'text-green-500': copiedLink }
                   )}
                 >
@@ -159,7 +161,7 @@ export default function ShareLinkModal({
               <FacebookShareButton title={link.title!} url={link.url!}>
                 <FacebookIcon className="w-12 h-12 rounded-full" />
               </FacebookShareButton>
-              <span className="text-xs text-gray-600 dark:text-gray-300 min-w-[60px] text-center">
+              <span className="text-xs min-w-[60px] text-center">
                 Facebook
               </span>
             </div>
@@ -168,7 +170,7 @@ export default function ShareLinkModal({
               <TwitterShareButton title={link.title!} url={link.url!}>
                 <TwitterIcon className="w-12 h-12 rounded-full" />
               </TwitterShareButton>
-              <span className="text-xs text-gray-600 dark:text-gray-300 min-w-[60px] text-center">
+              <span className="text-xs min-w-[60px] text-center">
                 Twitter
               </span>
             </div>
@@ -177,7 +179,7 @@ export default function ShareLinkModal({
               <WhatsappShareButton title={link.title!} url={link.url!}>
                 <WhatsappIcon className="w-12 h-12 rounded-full" />
               </WhatsappShareButton>
-              <span className="text-xs text-gray-600 dark:text-gray-300 min-w-[60px] text-center">
+              <span className="text-xs min-w-[60px] text-center">
                 WhatsApp
               </span>
             </div>
@@ -186,7 +188,7 @@ export default function ShareLinkModal({
               <LinkedinShareButton title={link.title!} url={link.url!}>
                 <LinkedinIcon className="w-12 h-12 rounded-full" />
               </LinkedinShareButton>
-              <span className="text-xs text-gray-600 dark:text-gray-300 min-w-[60px] text-center">
+              <span className="text-xs min-w-[60px] text-center">
                 LinkedIn
               </span>
             </div>
@@ -195,7 +197,7 @@ export default function ShareLinkModal({
               <TelegramShareButton title={link.title!} url={link.url!}>
                 <TelegramIcon className="w-12 h-12 rounded-full" />
               </TelegramShareButton>
-              <span className="text-xs text-gray-600 dark:text-gray-300 min-w-[60px] text-center">
+              <span className="text-xs min-w-[60px] text-center">
                 Telegram
               </span>
             </div>
@@ -204,12 +206,11 @@ export default function ShareLinkModal({
               <EmailShareButton title={link.title!} url={link.url!}>
                 <EmailIcon className="w-12 h-12 rounded-full" />
               </EmailShareButton>
-              <span className="text-xs text-gray-600 dark:text-gray-300 min-w-[60px] text-center">
+              <span className="text-xs min-w-[60px] text-center">
                 Email
               </span>
             </div>
 
-            {isClient && (
               <div className="flex-shrink-0">
                 <button
                   onClick={handleNativeShare}
@@ -220,32 +221,31 @@ export default function ShareLinkModal({
           bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 
           transition-colors duration-200 shadow-md"
                   >
-                    <Share className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+                    <Share className="w-5 h-5" />
                   </div>
-                  <span className="text-xs text-gray-600 dark:text-gray-300 min-w-[60px] text-center">
+                  <span className="text-xs min-w-[60px] text-center">
                     More
                   </span>
                 </button>
               </div>
-            )}
           </div>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
 
-        <div className="mt-6 text-center space-y-4">
+        <div className="mt-8 text-center">
           <h3 className="font-semibold">Join on Wookielink</h3>
-          <p className="text-sm text-gray-500">
-            Get your own free Wookielink. The only link in bio trusted by 50M+
-            people.
+          <p className="text-sm">
+            Get your own free Wookielink. The only link in bio trusted by 50M+ people.
           </p>
           <Link
             href="/"
-            className="flex items-center justify-center w-auto px-6 py-2 bg-primary text-primary-foreground dark:bg-primary-foreground dark:text-primary border-none rounded-full shadow-lg space-x-2 hover:bg-primary-foreground hover:text-primary dark:hover:bg-primary dark:hover:text-primary-foreground transition-all duration-300"
+            className="inline-block w-full mt-6 px-6 py-3 bg-primary text-white rounded-full shadow-lg hover:bg-primary/50 transition"
           >
-            <span className="text-sm font-semibold">Sign up free</span>
+            Sign up free
           </Link>
         </div>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </div>,
+    document.body
   );
 }
