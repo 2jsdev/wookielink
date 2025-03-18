@@ -36,6 +36,7 @@ export default function ShareLinkModal({
 }: ShareLinkModalProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -90,7 +91,7 @@ export default function ShareLinkModal({
             e.stopPropagation();
             onClose();
           }}
-          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center  rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 transition"
         >
           <X className="w-4 h-4" />
         </button>
@@ -108,7 +109,7 @@ export default function ShareLinkModal({
           onClick={() => window.open(link.url!, '_blank')}
         >
           {link.ogData?.ogImage?.[0]?.url && (
-            <div className="flex justify-center ">
+            <div className="flex justify-center mb-3">
               <Image
                 src={link.ogData.ogImage[0].url}
                 alt={link.ogData?.ogTitle || 'Thumbnail'}
@@ -118,12 +119,35 @@ export default function ShareLinkModal({
               />
             </div>
           )}
-          <h3 className="mt-3 text-xl font-bold">
+          <h3 className="mt-3 text-2xl font-bold">
             {link.ogData?.ogTitle || link.title}
           </h3>
-          <p className="text-sm">{link.url}</p>
+          <div className="flex justify-center w-full">
+            <p className="text-sm mt-2 truncate max-w-[200px] text-ellipsis overflow-hidden whitespace-nowrap text-center">
+              {link.url}
+            </p>
+          </div>
           {link.ogData?.ogDescription && (
-            <p className="mt-2 text-sm">{link.ogData.ogDescription}</p>
+            <div className="flex flex-col items-center justify-center mt-4 text-sm gap-3">
+              <p
+                className={`${expanded || link.ogData.ogDescription.length <= 100 ? 'line-clamp-none' : 'line-clamp-3'
+                  } break-words`}
+              >
+                {link.ogData.ogDescription}
+              </p>
+
+              {link.ogData.ogDescription.length > 100 && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setExpanded(!expanded);
+                  }}
+                  className="px-3 py-1 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200"
+                >
+                  <span className="text-gray-800 dark:text-gray-100">{expanded ? 'Less' : 'More'}</span>
+                </button>
+              )}
+            </div>
           )}
         </div>
 
