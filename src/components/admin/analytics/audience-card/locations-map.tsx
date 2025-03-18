@@ -48,7 +48,8 @@ export function LocationsMap({ locations }: LocationsMapProps) {
   );
 
   const countries = Object.values(countryData);
-  const scale = typeof window !== 'undefined' ? Math.min(window.innerWidth / 5, 150) : 120;
+  const scale =
+    typeof window !== 'undefined' ? Math.min(window.innerWidth / 5, 150) : 120;
 
   return (
     <div className="flex flex-col items-center justify-center py-8">
@@ -77,9 +78,9 @@ export function LocationsMap({ locations }: LocationsMapProps) {
                           fillOpacity={
                             countryStat
                               ? Math.min(
-                                0.2 + (countryStat.totalViews / 1000) * 0.8,
-                                1
-                              )
+                                  0.2 + (countryStat.totalViews / 1000) * 0.8,
+                                  1
+                                )
                               : 0.1
                           }
                           style={{

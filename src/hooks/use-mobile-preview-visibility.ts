@@ -5,8 +5,13 @@ export function useMobilePreviewVisibility() {
 
   useEffect(() => {
     const updateVisibility = () => {
-      const previewElement = document.getElementById('mobile-preview-container');
-      if (!previewElement || getComputedStyle(previewElement).display === 'none') {
+      const previewElement = document.getElementById(
+        'mobile-preview-container'
+      );
+      if (
+        !previewElement ||
+        getComputedStyle(previewElement).display === 'none'
+      ) {
         setIsHidden(true);
       } else {
         setIsHidden(false);

@@ -7,19 +7,29 @@ import { cn } from '@/lib/utils';
 import MobilePreviewDrawer from '@/components/admin/preview/mobile-preview-drawer';
 import useMobilePreviewStore from '@/store/mobile-preview-store';
 
-export default function PreviewLayout({ children }: { children: React.ReactNode }) {
+export default function PreviewLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const themeSettings = useThemeSettingsStore();
   const { isOpen } = useMobilePreviewStore();
 
   return (
     <>
-      <NextTopLoader color="hsl(var(--primary))" showSpinner={false} height={2} shadow="none" />
+      <NextTopLoader
+        color="hsl(var(--primary))"
+        showSpinner={false}
+        height={2}
+        shadow="none"
+      />
       <div className="flex flex-1 overflow-y-auto scrollbar-hidden">
         <main className="flex-1 p-4 min-w-0">
           <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto">
             <div
               className={cn('min-h-full mx-auto p-4 w-full', {
-                'lg:container lg:pt-10': themeSettings.contentLayout === 'centered',
+                'lg:container lg:pt-10':
+                  themeSettings.contentLayout === 'centered',
               })}
             >
               {children}

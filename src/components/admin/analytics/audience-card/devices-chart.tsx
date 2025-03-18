@@ -41,7 +41,6 @@ export function DevicesChart({ devices }: DevicesChartProps) {
     return () => window.removeEventListener('resize', updateSize);
   }, []);
 
-
   const chartData = devices.map((device) => ({
     name: device.deviceType,
     value: device.views,
@@ -50,7 +49,6 @@ export function DevicesChart({ devices }: DevicesChartProps) {
       100
     ).toFixed(1),
   }));
-
 
   const COLORS = [
     'hsl(var(--chart-1))',

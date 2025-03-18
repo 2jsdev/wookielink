@@ -23,14 +23,17 @@ import { Link as LinkType } from '@/interfaces/link';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
-
 interface ShareLinkModalProps {
   link: LinkType;
   open: boolean;
   onClose: () => void;
 }
 
-export default function ShareLinkModal({ link, open, onClose }: ShareLinkModalProps) {
+export default function ShareLinkModal({
+  link,
+  open,
+  onClose,
+}: ShareLinkModalProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
 
@@ -92,9 +95,7 @@ export default function ShareLinkModal({ link, open, onClose }: ShareLinkModalPr
           <X className="w-4 h-4" />
         </button>
 
-        <h2 className="text-2xl font-semibold text-center mb-4">
-          Share link
-        </h2>
+        <h2 className="text-2xl font-semibold text-center mb-4">Share link</h2>
 
         <div
           className={cn(
@@ -122,9 +123,7 @@ export default function ShareLinkModal({ link, open, onClose }: ShareLinkModalPr
           </h3>
           <p className="text-sm">{link.url}</p>
           {link.ogData?.ogDescription && (
-            <p className="mt-2 text-sm">
-              {link.ogData.ogDescription}
-            </p>
+            <p className="mt-2 text-sm">{link.ogData.ogDescription}</p>
           )}
         </div>
 
@@ -147,10 +146,9 @@ export default function ShareLinkModal({ link, open, onClose }: ShareLinkModalPr
                   )}
                 </div>
                 <span
-                  className={cn(
-                    'text-xs min-w-[60px] text-center',
-                    { 'text-green-500': copiedLink }
-                  )}
+                  className={cn('text-xs min-w-[60px] text-center', {
+                    'text-green-500': copiedLink,
+                  })}
                 >
                   {copiedLink ? 'Copied!' : 'Copy link'}
                 </span>
@@ -161,73 +159,59 @@ export default function ShareLinkModal({ link, open, onClose }: ShareLinkModalPr
               <FacebookShareButton title={link.title!} url={link.url!}>
                 <FacebookIcon className="w-12 h-12 rounded-full" />
               </FacebookShareButton>
-              <span className="text-xs min-w-[60px] text-center">
-                Facebook
-              </span>
+              <span className="text-xs min-w-[60px] text-center">Facebook</span>
             </div>
 
             <div className="flex flex-col items-center gap-1 w-16">
               <TwitterShareButton title={link.title!} url={link.url!}>
                 <TwitterIcon className="w-12 h-12 rounded-full" />
               </TwitterShareButton>
-              <span className="text-xs min-w-[60px] text-center">
-                Twitter
-              </span>
+              <span className="text-xs min-w-[60px] text-center">Twitter</span>
             </div>
 
             <div className="flex flex-col items-center gap-1 w-16">
               <WhatsappShareButton title={link.title!} url={link.url!}>
                 <WhatsappIcon className="w-12 h-12 rounded-full" />
               </WhatsappShareButton>
-              <span className="text-xs min-w-[60px] text-center">
-                WhatsApp
-              </span>
+              <span className="text-xs min-w-[60px] text-center">WhatsApp</span>
             </div>
 
             <div className="flex flex-col items-center gap-1 w-16">
               <LinkedinShareButton title={link.title!} url={link.url!}>
                 <LinkedinIcon className="w-12 h-12 rounded-full" />
               </LinkedinShareButton>
-              <span className="text-xs min-w-[60px] text-center">
-                LinkedIn
-              </span>
+              <span className="text-xs min-w-[60px] text-center">LinkedIn</span>
             </div>
 
             <div className="flex flex-col items-center gap-1 w-16">
               <TelegramShareButton title={link.title!} url={link.url!}>
                 <TelegramIcon className="w-12 h-12 rounded-full" />
               </TelegramShareButton>
-              <span className="text-xs min-w-[60px] text-center">
-                Telegram
-              </span>
+              <span className="text-xs min-w-[60px] text-center">Telegram</span>
             </div>
 
             <div className="flex flex-col items-center gap-1 w-16">
               <EmailShareButton title={link.title!} url={link.url!}>
                 <EmailIcon className="w-12 h-12 rounded-full" />
               </EmailShareButton>
-              <span className="text-xs min-w-[60px] text-center">
-                Email
-              </span>
+              <span className="text-xs min-w-[60px] text-center">Email</span>
             </div>
 
-              <div className="flex-shrink-0">
-                <button
-                  onClick={handleNativeShare}
-                  className="flex flex-col items-center gap-1 w-16"
-                >
-                  <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center 
+            <div className="flex-shrink-0">
+              <button
+                onClick={handleNativeShare}
+                className="flex flex-col items-center gap-1 w-16"
+              >
+                <div
+                  className="w-12 h-12 rounded-full flex items-center justify-center 
           bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 
           transition-colors duration-200 shadow-md"
-                  >
-                    <Share className="w-5 h-5" />
-                  </div>
-                  <span className="text-xs min-w-[60px] text-center">
-                    More
-                  </span>
-                </button>
-              </div>
+                >
+                  <Share className="w-5 h-5" />
+                </div>
+                <span className="text-xs min-w-[60px] text-center">More</span>
+              </button>
+            </div>
           </div>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
@@ -235,7 +219,8 @@ export default function ShareLinkModal({ link, open, onClose }: ShareLinkModalPr
         <div className="mt-8 text-center">
           <h3 className="font-semibold">Join on Wookielink</h3>
           <p className="text-sm">
-            Get your own free Wookielink. The only link in bio trusted by 50M+ people.
+            Get your own free Wookielink. The only link in bio trusted by 50M+
+            people.
           </p>
           <Link
             href="/"

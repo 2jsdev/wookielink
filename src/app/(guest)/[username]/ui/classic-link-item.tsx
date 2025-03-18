@@ -111,9 +111,11 @@ export default function ClassicLinkItem({ link, theme }: Props) {
   };
 
   return (
-    <div className={cn("relative w-full", {
-      "pointer-events-none": isOpen,
-    })}>
+    <div
+      className={cn('relative w-full', {
+        'pointer-events-none': isOpen,
+      })}
+    >
       {isHardShadow && (
         <div
           className={cn('absolute w-full h-full', buttonStyleClass)}

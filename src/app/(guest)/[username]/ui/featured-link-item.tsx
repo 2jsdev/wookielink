@@ -117,9 +117,11 @@ export default function FeaturedLinkItem({ link, theme }: Props) {
 
   return (
     <>
-      <div className={cn("relative w-full", {
-        'pointer-events-none': isOpen,
-      })}>
+      <div
+        className={cn('relative w-full', {
+          'pointer-events-none': isOpen,
+        })}
+      >
         {isHardShadow && (
           <div
             className="absolute w-full h-full"

@@ -1,5 +1,10 @@
 'use client';
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/ui/drawer';
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+} from '@/components/ui/drawer';
 import useMobilePreviewStore from '@/store/mobile-preview-store';
 import MobilePreview from './mobile-preview';
 import { cn } from '@/lib/utils';
