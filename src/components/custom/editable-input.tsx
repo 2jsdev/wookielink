@@ -61,6 +61,11 @@ const EditableInput: React.FC<EditableInputProps> = ({
     }
   };
 
+  const handlePencilClick = () => {
+    setCaretPosition(value.length);
+    setIsEditing(true);
+  };
+
   return (
     <div className="relative flex items-center">
       {isEditing ? (
@@ -85,7 +90,7 @@ const EditableInput: React.FC<EditableInputProps> = ({
             </span>
             <Pencil
               className="h-4 w-4 cursor-pointer shrink-0 ml-1"
-              onClick={() => setIsEditing(true)}
+              onClick={handlePencilClick}
             />
           </div>
         </div>
