@@ -11,7 +11,10 @@ interface EditableUsernameInputProps {
   maxWidth?: number;
 }
 
-const getCaretIndexFromClick = (e: MouseEvent, element: HTMLElement): number | undefined => {
+const getCaretIndexFromClick = (
+  e: MouseEvent,
+  element: HTMLElement
+): number | undefined => {
   if (document.caretPositionFromPoint) {
     const pos = document.caretPositionFromPoint(e.clientX, e.clientY);
     return pos?.offset;
@@ -22,7 +25,11 @@ const getCaretIndexFromClick = (e: MouseEvent, element: HTMLElement): number | u
   return 0;
 };
 
-export default function EditableUsernameInput({ initialValue, onSave, maxWidth = 250 }: EditableUsernameInputProps) {
+export default function EditableUsernameInput({
+  initialValue,
+  onSave,
+  maxWidth = 250,
+}: EditableUsernameInputProps) {
   const [value, setValue] = useState(initialValue);
   const [debouncedValue, setDebouncedValue] = useState(initialValue);
   const [availability, setAvailability] = useState<boolean | null>(null);
@@ -43,7 +50,11 @@ export default function EditableUsernameInput({ initialValue, onSave, maxWidth =
   }, [value, isEditing]);
 
   useEffect(() => {
-    if (!isEditing || debouncedValue === initialValue || debouncedValue.length <= 2) {
+    if (
+      !isEditing ||
+      debouncedValue === initialValue ||
+      debouncedValue.length <= 2
+    ) {
       setAvailability(null);
       return;
     }
@@ -95,8 +106,11 @@ export default function EditableUsernameInput({ initialValue, onSave, maxWidth =
 
   return (
     <div className="relative flex items-center">
-      <span ref={spanRef} className="absolute invisible whitespace-pre text-sm md:text-base lg:text-lg">
-        {value || "placeholder"}
+      <span
+        ref={spanRef}
+        className="absolute invisible whitespace-pre text-sm md:text-base lg:text-lg"
+      >
+        {value || 'placeholder'}
       </span>
 
       {isEditing ? (
@@ -108,7 +122,7 @@ export default function EditableUsernameInput({ initialValue, onSave, maxWidth =
             onChange={(e) => setValue(e.target.value)}
             onBlur={handleSave}
             autoFocus
-            style={{ minWidth: "50px" }}
+            style={{ minWidth: '50px' }}
           />
           <div className="ml-[-10px]">
             {isLoading ? (
@@ -124,13 +138,21 @@ export default function EditableUsernameInput({ initialValue, onSave, maxWidth =
         </div>
       ) : (
         <div className="flex items-center">
-          <span className="truncate text-sm md:text-base lg:text-lg cursor-text" onClick={handleSpanClick}>
+          <span
+            className="truncate text-sm md:text-base lg:text-lg cursor-text"
+            onClick={handleSpanClick}
+          >
             {value}
           </span>
-          <Pencil className="h-4 w-4 cursor-pointer ml-1" onClick={handlePencilClick} />
+          <Pencil
+            className="h-4 w-4 cursor-pointer ml-1"
+            onClick={handlePencilClick}
+          />
         </div>
       )}
-      {error && <p className="absolute top-full mt-1 text-sm text-red-400">{error}</p>}
+      {error && (
+        <p className="absolute top-full mt-1 text-sm text-red-400">{error}</p>
+      )}
     </div>
   );
 }

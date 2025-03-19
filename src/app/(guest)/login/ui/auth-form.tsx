@@ -11,7 +11,9 @@ interface AuthFormProps {
 
 export default function AuthForm({ isSignup }: AuthFormProps) {
   const [username, setUsername] = useState('');
-  const [usernameAvailability, setUsernameAvailability] = useState<boolean | null>(null);
+  const [usernameAvailability, setUsernameAvailability] = useState<
+    boolean | null
+  >(null);
 
   useEffect(() => {
     if (isSignup) {
@@ -28,7 +30,8 @@ export default function AuthForm({ isSignup }: AuthFormProps) {
     document.cookie = `username=${username}; path=/`;
   };
 
-  const isButtonDisabled = isSignup && (!username || usernameAvailability !== true);
+  const isButtonDisabled =
+    isSignup && (!username || usernameAvailability !== true);
 
   return (
     <div className="w-full max-w-md mx-auto space-y-8">
