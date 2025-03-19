@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Clipboard, Check, ExternalLink } from 'lucide-react';
 import EditableInput from '@/components/custom/editable-input';
+import EditableUsernameInput from '@/components/custom/editable-username-input';
 import ProfilePhoto from '@/components/admin/profile-photo';
 import { uploadUserProfilePhoto } from '@/actions/upload-user-profile-photo';
 import { updateUserProfile } from '@/actions/update-user-profile';
@@ -110,7 +111,7 @@ export default function UserProfile() {
           onRemove={handleRemoveProfilePhoto}
         />
         <div className="flex flex-col">
-          <EditableInput
+          <EditableUsernameInput
             initialValue={user?.username || ''}
             onSave={handleSaveUsername}
           />

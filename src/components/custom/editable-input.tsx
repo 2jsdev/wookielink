@@ -30,8 +30,8 @@ const EditableInput: React.FC<EditableInputProps> = ({
   const [isEditing, setIsEditing] = useState(false);
   const [caretPosition, setCaretPosition] = useState<number>(0);
 
-  const spanRef = useRef<HTMLSpanElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const spanRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     setValue(initialValue);
