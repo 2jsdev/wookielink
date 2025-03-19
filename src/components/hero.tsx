@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { DynamicMockPhone } from '@/components/custom/dynamic-mock-phone';
-import { UsernameInput } from './custom/username-input';
+import { UsernameInput } from '@/components/custom/username-input';
 
 export function Hero() {
   const router = useRouter();

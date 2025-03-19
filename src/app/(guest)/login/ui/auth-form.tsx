@@ -1,13 +1,35 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { GoogleSignInButton } from '@/components/custom/google-signIn-button';
+import { UsernameInput } from '@/components/custom/username-input';
 
 interface AuthFormProps {
   isSignup: boolean;
 }
 
 export default function AuthForm({ isSignup }: AuthFormProps) {
+  const [username, setUsername] = useState('');
+  const [usernameAvailability, setUsernameAvailability] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    if (isSignup) {
+      const cookies = document.cookie.split('; ');
+      const usernameCookie = cookies.find((row) => row.startsWith('username='));
+      if (usernameCookie) {
+        setUsername(usernameCookie.split('=')[1]);
+      }
+    }
+  }, [isSignup]);
+
+  const handleSignUp = () => {
+    if (!username || usernameAvailability !== true) return;
+    document.cookie = `username=${username}; path=/`;
+  };
+
+  const isButtonDisabled = isSignup && (!username || usernameAvailability !== true);
+
   return (
     <div className="w-full max-w-md mx-auto space-y-8">
       <div className="text-center">
@@ -21,7 +43,15 @@ export default function AuthForm({ isSignup }: AuthFormProps) {
         </p>
       </div>
 
-      <GoogleSignInButton>
+      {isSignup && (
+        <UsernameInput
+          value={username}
+          onChange={setUsername}
+          onAvailabilityChange={setUsernameAvailability}
+        />
+      )}
+
+      <GoogleSignInButton disabled={isButtonDisabled} onClick={handleSignUp}>
         {isSignup ? 'Sign up with Google' : 'Log in with Google'}
       </GoogleSignInButton>
 
