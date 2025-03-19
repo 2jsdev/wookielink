@@ -47,7 +47,7 @@ export class CreateDefaultThemeUseCase {
         background: Background.create({
           type: 'COLOR',
           style: 'FLAT',
-          color: '#ffffff',
+          color: '#808080',
         }),
         buttonStyle: ButtonStyle.create({
           type: 'FILL',
