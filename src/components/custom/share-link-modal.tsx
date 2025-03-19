@@ -123,15 +123,18 @@ export default function ShareLinkModal({
             {link.ogData?.ogTitle || link.title}
           </h3>
           <div className="flex justify-center w-full">
-            <p className="text-sm mt-2 truncate max-w-[200px] text-ellipsis overflow-hidden whitespace-nowrap text-center">
+            <p className="text-sm mt-2 truncate max-w-[230px] text-ellipsis overflow-hidden whitespace-nowrap text-center">
               {link.url}
             </p>
           </div>
           {link.ogData?.ogDescription && (
             <div className="flex flex-col items-center justify-center mt-4 text-sm gap-3">
               <p
-                className={`${expanded || link.ogData.ogDescription.length <= 100 ? 'line-clamp-none' : 'line-clamp-3'
-                  } break-words`}
+                className={`${
+                  expanded || link.ogData.ogDescription.length <= 100
+                    ? 'line-clamp-none'
+                    : 'line-clamp-3'
+                } break-words`}
               >
                 {link.ogData.ogDescription}
               </p>
@@ -144,7 +147,9 @@ export default function ShareLinkModal({
                   }}
                   className="px-3 py-1 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200"
                 >
-                  <span className="text-gray-800 dark:text-gray-100">{expanded ? 'Less' : 'More'}</span>
+                  <span className="text-gray-800 dark:text-gray-100">
+                    {expanded ? 'Less' : 'More'}
+                  </span>
                 </button>
               )}
             </div>

@@ -3,7 +3,6 @@ import { TYPES } from '@core/infrastructure/constants/types';
 import { left, Result, right } from '@core/shared/core/Result';
 import { IActivityRepository } from '@core/domain/repositories/IActivityRepository';
 import { GetAudienceMetricsResponse } from './GetAudienceMetricsResponse';
-import { GetAudienceMetricsErrors } from './GetAudienceMetricsErrors';
 import { AppError } from '@core/shared/core/AppError';
 
 @injectable()
@@ -18,10 +17,6 @@ export class GetAudienceMetricsUseCase {
       const locations =
         await this.activityRepository.getMetricsByLocation(userId);
       const devices = await this.activityRepository.getMetricsByDevice(userId);
-
-      if (!locations.length && !devices.length) {
-        return left(new GetAudienceMetricsErrors.MetricsNotFoundError());
-      }
 
       const metrics = {
         locations: locations.map((location) => ({
