@@ -168,7 +168,7 @@ export default function UserProfile() {
             className="flex flex-1 cursor-pointer"
             onClick={() => openDialog('bio')}
           >
-            <p className="text-sm text-gray-500 max-w-xs truncate text-wrap hover:underline">
+            <p className="text-sm max-w-md truncate text-wrap hover:underline">
               {user?.bio || 'Add bio'}
             </p>
           </div>
