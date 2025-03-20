@@ -171,7 +171,7 @@ function Content() {
   }, [links]);
 
   return (
-    <div className="flex flex-col items-center justify-center space-y-4 w-full py-11 px-4 z-10">
+    <div className="flex flex-col items-center justify-center w-full py-11 px-4 z-10">
       {!user || !links ? (
         <>
           <Skeleton className="w-20 h-20 rounded-full" />
@@ -190,8 +190,11 @@ function Content() {
               <UserRound className="w-2/3 h-2/3 text-muted-foreground" />
             </AvatarFallback>
           </Avatar>
-          <h2 className="text-lg font-semibold">@{user?.username}</h2>
-          <div className="w-full space-y-2 mb-48">
+          <h1 className="text-lg font-bold mt-2">@{user?.username}</h1>
+          {user?.bio && (
+            <h2 className="text-sm font-semibold text-center mt-1">{user?.bio}</h2>
+          )}
+          <div className="w-full mt-6 space-y-2 mb-48">
             <LinkList links={visibleLinks || []} />
           </div>
         </>

@@ -182,7 +182,10 @@ function Content({ user, isOwner }: { user: User; isOwner: boolean }) {
             <UserRound className="w-2/3 h-2/3 text-muted-foreground" />
           </AvatarFallback>
         </Avatar>
-        <h2 className="mt-5 text-lg font-semibold">@{user?.username}</h2>
+        <h1 className="text-lg font-bold mt-4">@{user?.username}</h1>
+        {user?.bio && (
+          <h2 className="text-center font-semibold text-balance mt-1">{user?.bio}</h2>
+        )}
 
         {isBlurred && (
           <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-10 transition-opacity duration-500" />
