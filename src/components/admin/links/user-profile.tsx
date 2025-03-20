@@ -12,7 +12,12 @@ import { deleteUserProfilePhoto } from '@/actions/delete-user-profile-photo';
 import useUiStore from '@/store/ui-store';
 import useUserStore from '@/store/user-store';
 import { cn } from '@/lib/utils';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
@@ -26,6 +31,8 @@ export default function UserProfile() {
   const bioRef = useRef<HTMLTextAreaElement>(null);
   const focusedFieldRef = useRef<'username' | 'bio' | null>(null);
 
+  const MAX_BIO_LENGTH = 80;
+
   const { viewArchived, isAnyCardOpen } = useUiStore();
   const { userLoading, setUser, user } = useUserStore();
 
@@ -34,10 +41,16 @@ export default function UserProfile() {
       setTimeout(() => {
         if (focusedFieldRef.current === 'username' && usernameRef.current) {
           usernameRef.current.focus();
-          usernameRef.current.setSelectionRange(usernameRef.current.value.length, usernameRef.current.value.length);
+          usernameRef.current.setSelectionRange(
+            usernameRef.current.value.length,
+            usernameRef.current.value.length
+          );
         } else if (focusedFieldRef.current === 'bio' && bioRef.current) {
           bioRef.current.focus();
-          bioRef.current.setSelectionRange(bioRef.current.value.length, bioRef.current.value.length);
+          bioRef.current.setSelectionRange(
+            bioRef.current.value.length,
+            bioRef.current.value.length
+          );
         }
       }, 100);
     }
@@ -52,7 +65,7 @@ export default function UserProfile() {
 
   const handleBioChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newBio = e.target.value;
-    if (newBio.length > 80) {
+    if (newBio.length > MAX_BIO_LENGTH) {
       setBioError('Bio cannot be longer than 80 characters');
     } else {
       setBioError('');
@@ -61,7 +74,7 @@ export default function UserProfile() {
   };
 
   const handleSave = async () => {
-    if (bio.length <= 80) {
+    if (bio.length <= MAX_BIO_LENGTH) {
       const updatedUser = await updateUserProfile({ username, bio });
       setUser(updatedUser);
       setIsDialogOpen(false);
@@ -136,18 +149,28 @@ export default function UserProfile() {
       })}
     >
       <div className="flex flex-wrap items-center gap-6 w-full sm:justify-center md:w-auto">
-      <ProfilePhoto
+        <ProfilePhoto
           imageUrl={user?.image}
           size={80}
           onUpload={handleUpload}
           onRemove={handleRemoveProfilePhoto}
         />
         <div className="flex flex-col">
-          <div className="min-w-0 overflow-hidden flex items-center gap-1 cursor-pointer" onClick={() => openDialog('username')}>
-            <span className="text-lg font-semibold hover:underline">{user?.username || 'Set username'}</span>
+          <div
+            className="min-w-0 overflow-hidden flex items-center gap-1 cursor-pointer"
+            onClick={() => openDialog('username')}
+          >
+            <span className="text-lg font-semibold hover:underline">
+              {user?.username || 'Set username'}
+            </span>
           </div>
-          <div className="flex flex-1 cursor-pointer" onClick={() => openDialog('bio')}>
-            <p className="text-sm text-gray-500 max-w-xs truncate text-wrap hover:underline">{user?.bio || 'Add bio'}</p>
+          <div
+            className="flex flex-1 cursor-pointer"
+            onClick={() => openDialog('bio')}
+          >
+            <p className="text-sm text-gray-500 max-w-xs truncate text-wrap hover:underline">
+              {user?.bio || 'Add bio'}
+            </p>
           </div>
           <Link
             href={`/${user?.username}`}
@@ -193,20 +216,34 @@ export default function UserProfile() {
             placeholder="Username"
             className="mb-4"
           />
-          <Textarea
-            ref={bioRef}
-            value={bio}
-            onChange={handleBioChange}
-            placeholder="Bio"
-            maxLength={80}
-            className={bioError ? 'border-red-500' : ''}
-          />
-          {bioError && <p className="text-red-500 text-sm mt-1">{bioError}</p>}
+
+          <div>
+            <Textarea
+              ref={bioRef}
+              value={bio}
+              onChange={handleBioChange}
+              placeholder="Bio"
+              className={bioError ? 'border-red-500' : ''}
+            />
+
+            <div className="flex justify-between items-center mt-1">
+              <p className="text-xs text-red-500">{bioError}</p>
+
+              <p
+                className={cn('text-xs text-gray-500', {
+                  'text-red-500': bio.length > MAX_BIO_LENGTH,
+                })}
+              >
+                {bio.length} / {MAX_BIO_LENGTH}
+              </p>
+            </div>
+          </div>
+
           <div className="mt-4 flex justify-end gap-2">
             <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={handleSave} disabled={bio.length > 80}>
+            <Button onClick={handleSave} disabled={bio.length > MAX_BIO_LENGTH}>
               Save
             </Button>
           </div>
