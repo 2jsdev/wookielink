@@ -208,18 +208,14 @@ export default function LinkCard({ link, isDragging, listeners }: Props) {
           <div className="flex flex-col w-full p-2 sm:p-3 md:p-4 overflow-hidden">
             <div className="flex w-full min-w-0 items-center gap-2 flex-nowrap overflow-hidden">
               <div className="flex flex-col flex-1 min-w-0 gap-2 overflow-hidden">
-                <div className="min-w-0 overflow-hidden truncate">
-                  <EditableInput
-                    initialValue={link.title ?? ''}
-                    onSave={handleSaveTitle}
-                  />
-                </div>
-                <div className="min-w-0 overflow-hidden truncate">
-                  <EditableInput
-                    initialValue={link.url ?? ''}
-                    onSave={handleSaveUrl}
-                  />
-                </div>
+                <EditableInput
+                  initialValue={link.title ?? ''}
+                  onSave={handleSaveTitle}
+                />
+                <EditableInput
+                  initialValue={link.url ?? ''}
+                  onSave={handleSaveUrl}
+                />
               </div>
               <div className="shrink-0 flex items-center">
                 <Switch checked={link.active} onCheckedChange={handleToggle} />

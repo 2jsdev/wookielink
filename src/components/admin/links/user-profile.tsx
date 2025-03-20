@@ -1,12 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Clipboard, Check, ExternalLink } from 'lucide-react';
-import EditableInput from '@/components/custom/editable-input';
-import EditableUsernameInput from '@/components/custom/editable-username-input';
 import ProfilePhoto from '@/components/admin/profile-photo';
 import { uploadUserProfilePhoto } from '@/actions/upload-user-profile-photo';
 import { updateUserProfile } from '@/actions/update-user-profile';
@@ -14,31 +12,61 @@ import { deleteUserProfilePhoto } from '@/actions/delete-user-profile-photo';
 import useUiStore from '@/store/ui-store';
 import useUserStore from '@/store/user-store';
 import { cn } from '@/lib/utils';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 
 export default function UserProfile() {
   const [copied, setCopied] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [username, setUsername] = useState('');
+  const [bio, setBio] = useState('');
+  const [bioError, setBioError] = useState('');
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const bioRef = useRef<HTMLTextAreaElement>(null);
+  const focusedFieldRef = useRef<'username' | 'bio' | null>(null);
 
   const { viewArchived, isAnyCardOpen } = useUiStore();
   const { userLoading, setUser, user } = useUserStore();
 
-  if (userLoading) {
-    return (
-      <header className="mb-6 flex flex-wrap items-center justify-between gap-4">
-        <div className="flex flex-wrap items-center gap-6 w-full sm:justify-center md:w-auto">
-          <Skeleton className="w-20 h-20 rounded-full" />
-          <div className="flex flex-col sm:items-center gap-2">
-            <Skeleton className="h-6 w-32" />
-            <Skeleton className="h-6 w-40" />
-            <Skeleton className="h-5 w-48" />
-          </div>
-        </div>
+  useEffect(() => {
+    if (isDialogOpen) {
+      setTimeout(() => {
+        if (focusedFieldRef.current === 'username' && usernameRef.current) {
+          usernameRef.current.focus();
+          usernameRef.current.setSelectionRange(usernameRef.current.value.length, usernameRef.current.value.length);
+        } else if (focusedFieldRef.current === 'bio' && bioRef.current) {
+          bioRef.current.focus();
+          bioRef.current.setSelectionRange(bioRef.current.value.length, bioRef.current.value.length);
+        }
+      }, 100);
+    }
+  }, [isDialogOpen]);
 
-        <div className="w-full sm:flex sm:justify-center md:w-auto">
-          <Skeleton className="h-8 w-24" />
-        </div>
-      </header>
-    );
-  }
+  const openDialog = (field: 'username' | 'bio') => {
+    setUsername(user?.username || '');
+    setBio(user?.bio || '');
+    focusedFieldRef.current = field;
+    setIsDialogOpen(true);
+  };
+
+  const handleBioChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newBio = e.target.value;
+    if (newBio.length > 80) {
+      setBioError('Bio cannot be longer than 80 characters');
+    } else {
+      setBioError('');
+    }
+    setBio(newBio);
+  };
+
+  const handleSave = async () => {
+    if (bio.length <= 80) {
+      const updatedUser = await updateUserProfile({ username, bio });
+      setUser(updatedUser);
+      setIsDialogOpen(false);
+    }
+  };
 
   const copyToClipboard = () => {
     if (user?.username) {
@@ -73,20 +101,6 @@ export default function UserProfile() {
     }
   };
 
-  const handleSaveBio = async (bio: string) => {
-    if (bio !== user?.bio) {
-      const user = await updateUserProfile({ bio });
-      setUser(user);
-    }
-  };
-
-  const handleSaveUsername = async (username: string) => {
-    if (username !== user?.username) {
-      const user = await updateUserProfile({ username });
-      setUser(user);
-    }
-  };
-
   const handleRemoveProfilePhoto = async () => {
     try {
       await deleteUserProfilePhoto();
@@ -96,6 +110,24 @@ export default function UserProfile() {
     }
   };
 
+  if (userLoading) {
+    return (
+      <header className="mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center gap-6 w-full sm:justify-center md:w-auto">
+          <Skeleton className="w-20 h-20 rounded-full" />
+          <div className="flex flex-col sm:items-center gap-2">
+            <Skeleton className="h-6 w-32" />
+            <Skeleton className="h-6 w-40" />
+            <Skeleton className="h-5 w-48" />
+          </div>
+        </div>
+        <div className="w-full sm:flex sm:justify-center md:w-auto">
+          <Skeleton className="h-8 w-24" />
+        </div>
+      </header>
+    );
+  }
+
   return (
     <header
       className={cn('mb-6 flex flex-wrap items-center justify-between gap-4', {
@@ -104,27 +136,24 @@ export default function UserProfile() {
       })}
     >
       <div className="flex flex-wrap items-center gap-6 w-full sm:justify-center md:w-auto">
-        <ProfilePhoto
+      <ProfilePhoto
           imageUrl={user?.image}
           size={80}
           onUpload={handleUpload}
           onRemove={handleRemoveProfilePhoto}
         />
         <div className="flex flex-col">
-          <EditableUsernameInput
-            initialValue={user?.username || ''}
-            onSave={handleSaveUsername}
-          />
-          <EditableInput
-            initialValue={user?.bio || ''}
-            onSave={handleSaveBio}
-            placeholder="Add bio"
-          />
+          <div className="min-w-0 overflow-hidden flex items-center gap-1 cursor-pointer" onClick={() => openDialog('username')}>
+            <span className="text-lg font-semibold hover:underline">{user?.username || 'Set username'}</span>
+          </div>
+          <div className="flex flex-1 cursor-pointer" onClick={() => openDialog('bio')}>
+            <p className="text-sm text-gray-500 max-w-xs truncate text-wrap hover:underline">{user?.bio || 'Add bio'}</p>
+          </div>
           <Link
             href={`/${user?.username}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1 text-xs sm:text-sm md:text-base text-primary hover:underline"
+            className="inline-flex items-center gap-1 text-xs sm:text-sm md:text-base text-primary hover:underline max-w-fit overflow-hidden whitespace-nowrap"
           >
             wookiel.ink/{user?.username}
             <ExternalLink className="h-4 w-4" />
@@ -151,6 +180,38 @@ export default function UserProfile() {
           )}
         </Button>
       </div>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Profile</DialogTitle>
+          </DialogHeader>
+          <Input
+            ref={usernameRef}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
+            className="mb-4"
+          />
+          <Textarea
+            ref={bioRef}
+            value={bio}
+            onChange={handleBioChange}
+            placeholder="Bio"
+            maxLength={80}
+            className={bioError ? 'border-red-500' : ''}
+          />
+          {bioError && <p className="text-red-500 text-sm mt-1">{bioError}</p>}
+          <div className="mt-4 flex justify-end gap-2">
+            <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleSave} disabled={bio.length > 80}>
+              Save
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </header>
   );
 }
