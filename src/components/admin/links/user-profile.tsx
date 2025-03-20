@@ -73,9 +73,9 @@ export default function UserProfile() {
     }
   };
 
-  const handleSaveName = async (name: string) => {
-    if (name !== user?.name) {
-      const user = await updateUserProfile({ name });
+  const handleSaveBio = async (bio: string) => {
+    if (bio !== user?.bio) {
+      const user = await updateUserProfile({ bio });
       setUser(user);
     }
   };
@@ -116,8 +116,9 @@ export default function UserProfile() {
             onSave={handleSaveUsername}
           />
           <EditableInput
-            initialValue={user?.name || ''}
-            onSave={handleSaveName}
+            initialValue={user?.bio || ''}
+            onSave={handleSaveBio}
+            placeholder="Add bio"
           />
           <Link
             href={`/${user?.username}`}

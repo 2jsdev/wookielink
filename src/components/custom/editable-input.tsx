@@ -6,6 +6,7 @@ import { Pencil } from 'lucide-react';
 interface EditableInputProps {
   initialValue: string;
   onSave: (value: string) => void;
+  placeholder?: string;
 }
 
 const getCaretIndexFromClick = (
@@ -25,6 +26,7 @@ const getCaretIndexFromClick = (
 const EditableInput: React.FC<EditableInputProps> = ({
   initialValue,
   onSave,
+  placeholder = 'Click to edit...',
 }) => {
   const [value, setValue] = useState(initialValue);
   const [isEditing, setIsEditing] = useState(false);
@@ -83,10 +85,10 @@ const EditableInput: React.FC<EditableInputProps> = ({
           <div className="min-w-0 flex-1 flex items-center">
             <span
               ref={spanRef}
-              className="truncate text-sm md:text-base lg:text-lg cursor-text"
+              className={`truncate text-sm md:text-base lg:text-lg cursor-text ${!value ? 'text-gray-400' : ''}`}
               onClick={handleSpanClick}
             >
-              {value}
+              {value || placeholder}
             </span>
             <Pencil
               className="h-4 w-4 cursor-pointer shrink-0 ml-1"
