@@ -194,7 +194,7 @@ function Content() {
           {user?.bio && (
             <h2 className="text-sm font-semibold text-center mt-1">{user?.bio}</h2>
           )}
-          <div className="w-full mt-6 space-y-2 mb-48">
+          <div className="w-full mt-6 space-y-2">
             <LinkList links={visibleLinks || []} />
           </div>
         </>
