@@ -12,6 +12,9 @@ export const TYPES = {
   GetUserProfileUseCase: Symbol.for('GetUserProfileUseCase'),
   UpdateUserProfileUseCase: Symbol.for('UpdateUserProfileUseCase'),
   UploadUserProfilePhotoUseCase: Symbol.for('UploadUserProfilePhotoUseCase'),
+  UpdateUserImagePreviewWithColorUseCase: Symbol.for(
+    'UpdateUserImagePreviewWithColorUseCase'
+  ),
 
   AddUserLinkUseCase: Symbol.for('AddUserLinkUseCase'),
   UpdateUserLinkUseCase: Symbol.for('UpdateUserLinkUseCase'),

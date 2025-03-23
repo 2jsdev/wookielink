@@ -7,6 +7,7 @@ import { GetPublicProfileUseCase } from '@core/application/useCases/GetPublicPro
 import { GetUserProfileUseCase } from '@core/application/useCases/GetUserProfile/GetUserProfileUseCase';
 import { UpdateUserProfileUseCase } from '@core/application/useCases/UpdateUserProfile/UpdateUserProfileUseCase';
 import { UploadUserProfilePhotoUseCase } from '@core/application/useCases/UploadUserProfilePhoto/UploadUserProfilePhotoUseCase';
+import { UpdateUserImagePreviewWithColorUseCase } from '@core/application/useCases/UpdateUserImagePreviewWithColor/UpdateUserImagePreviewWithColorUseCase';
 
 import { AddUserLinkUseCase } from '@core/application/useCases/AddUserLink/AddUserLinkUseCase';
 import { UpdateUserLinkUseCase } from '@core/application/useCases/UpdateUserLink/UpdateUserLinkUseCase';
@@ -58,6 +59,12 @@ container
 container
   .bind<UploadUserProfilePhotoUseCase>(TYPES.UploadUserProfilePhotoUseCase)
   .to(UploadUserProfilePhotoUseCase);
+container
+  .bind<UpdateUserImagePreviewWithColorUseCase>(
+    TYPES.UpdateUserImagePreviewWithColorUseCase
+  )
+  .to(UpdateUserImagePreviewWithColorUseCase);
+
 container
   .bind<AddUserLinkUseCase>(TYPES.AddUserLinkUseCase)
   .to(AddUserLinkUseCase);
