@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${username} | Wookielink`,
       description: 'Wookielink. Make your link do more.',
-      images: user?.image ? [user.image] : [],
+      images: user?.imagePreview ? [user.imagePreview] : [],
     },
   };
 }

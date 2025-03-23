@@ -46,7 +46,7 @@ export default function SharingPreview() {
       <h1 className="text-3xl font-bold mb-6">Sharing Preview</h1>
       <p className="mb-6">
         Your sharing preview is the image that&apos;s displayed when you share
-        your Linktree.
+        your Wookielink.
       </p>
 
       <Card>
