@@ -10,4 +10,10 @@ pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .next
+.next/cache
 .git
+.gitignore
+.vscode
+Dockerfile
+README.md
+
