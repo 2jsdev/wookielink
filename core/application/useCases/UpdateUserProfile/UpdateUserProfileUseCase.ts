@@ -41,6 +41,8 @@ export class UpdateUserProfileUseCase {
         email: email ?? existingUser.props.email,
         username: username ?? existingUser.props.username,
         image: image ?? existingUser.props.image,
+        imagePreview: existingUser.props.imagePreview,
+        imagePreviewBgColor: existingUser.props.imagePreviewBgColor,
         bio: bio ?? existingUser.props.bio,
         links: existingUser.props.links,
       };
