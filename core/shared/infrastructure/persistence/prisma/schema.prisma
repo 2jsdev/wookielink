@@ -9,22 +9,24 @@ generator client {
 }
 
 model User {
-    id            String        @id @default(cuid())
-    name          String?
-    email         String?       @unique
-    username      String?       @unique
-    emailVerified DateTime?     @map("email_verified")
-    image         String?
-    bio           String?
-    layout        ProfileLayout @default(Classic)
-    accounts      Account[]
-    sessions      Session[]
-    links         Link[]
-    activities    Activity[]
-    collections   Collection[]
+    id                  String        @id @default(cuid())
+    name                String?
+    email               String?       @unique
+    username            String?       @unique
+    emailVerified       DateTime?     @map("email_verified")
+    image               String?
+    imagePreview        String?       @map("image_preview")
+    imagePreviewBgColor String?       @map("image_preview_bg_color")
+    bio                 String?
+    layout              ProfileLayout @default(Classic)
+    accounts            Account[]
+    sessions            Session[]
+    links               Link[]
+    activities          Activity[]
+    collections         Collection[]
     // Cada usuario puede tener un tema seleccionado (global o custom)
-    theme         Theme?        @relation("UserTheme", fields: [themeId], references: [id], onDelete: SetNull)
-    themeId       String?
+    theme               Theme?        @relation("UserTheme", fields: [themeId], references: [id], onDelete: SetNull)
+    themeId             String?
 
     @@map("users")
 }
@@ -126,16 +128,14 @@ enum LinkLayout {
 }
 
 view UserMetrics {
-  userId    String @map("user_id")
-  views     Int
-  clicks    Int
-  clickRate Float @map("click_rate")
+    userId    String @map("user_id")
+    views     Int
+    clicks    Int
+    clickRate Float  @map("click_rate")
 
-  @@unique([userId])
-
-  @@map("user_metrics")
+    @@unique([userId])
+    @@map("user_metrics")
 }
-
 
 model Activity {
     id        String       @id @default(cuid())

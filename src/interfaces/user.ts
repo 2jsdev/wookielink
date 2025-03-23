@@ -12,6 +12,8 @@ export interface User {
   email: string;
   username?: string;
   image?: string | null;
+  imagePreview?: string | null;
+  imagePreviewBgColor?: string | null;
   bio?: string;
   layout?: ProfileLayout;
   themeId?: string;

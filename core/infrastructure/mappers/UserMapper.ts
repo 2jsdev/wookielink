@@ -17,6 +17,10 @@ export class UserMapper {
         username: plain.username,
         layout: plain.layout,
         ...(plain.image && { image: plain.image }),
+        ...(plain.imagePreview && { imagePreview: plain.imagePreview }),
+        ...(plain.imagePreviewBgColor && {
+          imagePreviewBgColor: plain.imagePreviewBgColor,
+        }),
         ...(plain.bio && { bio: plain.bio }),
         ...(plain.themeId && { themeId: plain.themeId }),
         ...(theme && { theme }),
@@ -36,6 +40,8 @@ export class UserMapper {
       username: user.username,
       layout: user.layout,
       image: user.image ?? null,
+      imagePreview: user.imagePreview ?? null,
+      imagePreviewBgColor: user.imagePreviewBgColor ?? null,
       bio: user.bio ?? null,
       themeId: user.themeId ?? null,
     };

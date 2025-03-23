@@ -15,6 +15,8 @@ export interface UserProps {
   email: string;
   username?: string;
   image?: string | null;
+  imagePreview?: string | null;
+  imagePreviewBgColor?: string | null;
   bio?: string;
   layout?: ProfileLayout;
   themeId?: string;
@@ -77,6 +79,14 @@ export class User extends AggregateRoot<UserProps> {
     return this.props.image;
   }
 
+  public get imagePreview() {
+    return this.props.imagePreview;
+  }
+
+  public get imagePreviewBgColor() {
+    return this.props.imagePreviewBgColor;
+  }
+
   public get bio() {
     return this.props.bio;
   }
@@ -116,6 +126,22 @@ export class User extends AggregateRoot<UserProps> {
     this.props.image = null;
   }
 
+  public updateImagePreview(newImagePreview: string) {
+    this.props.imagePreview = newImagePreview;
+  }
+
+  public deleteImagePreview() {
+    this.props.imagePreview = null;
+  }
+
+  public updateImagePreviewBgColor(newImagePreviewBgColor: string) {
+    this.props.imagePreviewBgColor = newImagePreviewBgColor;
+  }
+
+  public deleteImagePreviewBgColor() {
+    this.props.imagePreviewBgColor = null;
+  }
+
   public updateBio(newBio: string) {
     this.props.bio = newBio;
   }
@@ -139,6 +165,8 @@ export class User extends AggregateRoot<UserProps> {
       email: this.props.email,
       username: this.props.username,
       image: this.props.image,
+      imagePreview: this.props.imagePreview,
+      imagePreviewBgColor: this.props.imagePreviewBgColor,
       bio: this.props.bio,
       layout: this.props.layout,
       themeId: this.props.themeId,
