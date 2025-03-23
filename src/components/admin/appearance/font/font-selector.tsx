@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { FontFamily, fonts } from '@/interfaces/theme';
-import { ColorSelector } from '../../../custom/color-selector';
+import { ColorSelector } from '@/components/custom/color-selector';
 import { useToast } from '@/hooks/use-toast';
 import { updateTheme } from '@/actions/update-theme';
 import { useDebouncedCallback } from '@/hooks/use-debounced-callback';

@@ -11,7 +11,6 @@ import {
   BackgroundStyleType,
   BackgroundType,
   backgroundTypes,
-  gradientDirections,
 } from '@/interfaces/theme';
 import { Image, Zap } from 'lucide-react';
 import { Card } from '@/components/ui/card';

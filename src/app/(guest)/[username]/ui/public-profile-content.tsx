@@ -184,7 +184,9 @@ function Content({ user, isOwner }: { user: User; isOwner: boolean }) {
         </Avatar>
         <h1 className="text-lg font-bold mt-4">@{user?.username}</h1>
         {user?.bio && (
-          <h2 className="text-center font-semibold text-balance mt-1">{user?.bio}</h2>
+          <h2 className="text-center font-semibold text-balance mt-1">
+            {user?.bio}
+          </h2>
         )}
 
         {isBlurred && (

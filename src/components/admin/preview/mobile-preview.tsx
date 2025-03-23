@@ -192,7 +192,9 @@ function Content() {
           </Avatar>
           <h1 className="text-lg font-bold mt-2">@{user?.username}</h1>
           {user?.bio && (
-            <h2 className="text-sm font-semibold text-center mt-1">{user?.bio}</h2>
+            <h2 className="text-sm font-semibold text-center mt-1">
+              {user?.bio}
+            </h2>
           )}
           <div className="w-full mt-6 space-y-2">
             <LinkList links={visibleLinks || []} />
