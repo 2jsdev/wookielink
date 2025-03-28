@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint --dir src",
     "format": "prettier --write .",
-    "prepare": "if [ \"$NODE_ENV\" != \"production\" ]; then husky install; fi",
+    "prepare": "husky",
     "prisma:generate": "prisma generate"
   },
   "dependencies": {
@@ -43,7 +43,7 @@
     "lucide-react": "^0.474.0",
     "minio": "^8.0.4",
     "nanoid": "^5.1.0",
-    "next": "15.1.6",
+    "next": "^15.2.4",
     "next-auth": "^5.0.0-beta.25",
     "next-themes": "^0.4.4",
     "nextjs-toploader": "^3.7.15",
@@ -80,7 +80,7 @@
     "eslint-plugin-readable-tailwind": "^1.9.0",
     "eslint-plugin-tailwindcss": "^3.18.0",
     "husky": "^9.1.7",
-    "lint-staged": "^15.4.3",
+    "lint-staged": "^15.5.0",
     "postcss": "^8",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.11",
@@ -90,10 +90,12 @@
     "typescript": "^5.7.3"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx,json,css,scss,md}": [
+    "*.{ts,tsx,js,jsx}": [
       "prettier --write",
-      "next lint --fix --dir src",
-      "git add"
+      "next lint --fix --dir src"
+    ],
+    "*.{json,css,scss,md}": [
+      "prettier --write"
     ]
   },
   "prisma": {
